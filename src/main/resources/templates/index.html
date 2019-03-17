@@ -30,6 +30,7 @@ table, td, th {
 		<th style="width: 100px;">Source</th>
 		<!-- <th style="width: 100px;">URL</th> -->
 		<th style="width: 300px;">Directions</th>
+		<th style="width: 400px;">Notes</th>
 	</tr>
 	</thead>
 	
@@ -42,7 +43,8 @@ table, td, th {
 		<td th:text="${recipe.servings}">2</td>
 		<td><a th:href="${recipe.url}" th:text="${recipe.source}">Recipe book</a></td>
 		<!-- <td th:text="${recipe.url}">www</td> -->
-		<td th:text="${recipe.directions}">Directions goes here!</td>
+		<td><pre th:text="${recipe.directions}">Directions goes here!</pre></td>
+		<td><pre th:text="${recipe.notes.recipeNotes}">Recipe Notes goes here!</pre></td>
 	</tr>
 	</tbody>
 </table>
