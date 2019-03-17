@@ -27,6 +27,7 @@ table, td, th {
 		<th style="width: 20px;">Cook Time</th>
 		<th style="width: 20px;">Prep Time</th>
 		<th style="width: 20px;">Servings</th>
+		<th style="width: 50px;">Difficulty</th>
 		<th style="width: 100px;">Source</th>
 		<!-- <th style="width: 100px;">URL</th> -->
 		<th style="width: 300px;">Directions</th>
@@ -41,6 +42,7 @@ table, td, th {
 		<td th:text="${recipe.cookTime}">10</td>
 		<td th:text="${recipe.prepTime}">10</td>
 		<td th:text="${recipe.servings}">2</td>
+		<td th:text="${recipe.difficulty}">EASY</td>
 		<td><a th:href="${recipe.url}" th:text="${recipe.source}">Recipe book</a></td>
 		<!-- <td th:text="${recipe.url}">www</td> -->
 		<td><pre th:text="${recipe.directions}">Directions goes here!</pre></td>

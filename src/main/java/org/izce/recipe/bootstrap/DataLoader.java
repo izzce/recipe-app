@@ -110,7 +110,7 @@ public class DataLoader implements CommandLineRunner {
 		recipe2.setUrl("https://www.simplyrecipes.com/recipes/spicy_grilled_chicken_tacos/");
 		recipe2.getCategories().add(mexican);
 		recipe2.setServings(5);
-		recipe1.setDifficulty(Difficulty.KIND_OF_HARD);
+		recipe2.setDifficulty(Difficulty.HARD);
 		// DB will auto-generate the ID.
 		recipe2 = recipeRepository.save(recipe2);
 
