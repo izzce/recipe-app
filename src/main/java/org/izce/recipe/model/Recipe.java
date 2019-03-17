@@ -1,5 +1,6 @@
 package org.izce.recipe.model;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -40,7 +41,7 @@ public class Recipe {
 	@JoinTable(name = "recipe_category", 
 		joinColumns = @JoinColumn(name = "recipe_id"), 
 		inverseJoinColumns = @JoinColumn(name = "category_id"))
-	private Set<Category> categories;
+	private Set<Category> categories = new HashSet<Category>();
 
 	public Long getId() {
 		return id;

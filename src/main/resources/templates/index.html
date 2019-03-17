@@ -2,9 +2,50 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
 <meta charset="UTF-8">
-<title>Izce's Recipes</title>
+<title>Recipes collected by IzCe</title>
+
+<style>
+table {
+  border-collapse: collapse;
+}
+
+table, td, th {
+  border: 1px solid black;
+  padding: 2px;
+}
+</style>
 </head>
 <body>
-	<h1>Recipe Index test</h1>
+	<!--/*@thymesVar id="recipes" type="java.lang.Iterable<org.izce.recipe.model.Recipe>"*/-->
+<h2 th:text="'Recipe List'">Recipe List goes here!</h2>
+
+<table style="border-width: 2px;">
+	<thead>
+	<tr>
+		<th style="width: 50px;">Id</th>
+		<th style="width: 200px;">Description</th>
+		<th style="width: 20px;">Cook Time</th>
+		<th style="width: 20px;">Prep Time</th>
+		<th style="width: 20px;">Servings</th>
+		<th style="width: 100px;">Source</th>
+		<!-- <th style="width: 100px;">URL</th> -->
+		<th style="width: 300px;">Directions</th>
+	</tr>
+	</thead>
+	
+	<tbody>
+	<tr th:each="recipe : ${recipes}">
+		<td th:text="${recipe.id}">1</td>
+		<td th:text="${recipe.description}">Recipe1</td>
+		<td th:text="${recipe.cookTime}">10</td>
+		<td th:text="${recipe.prepTime}">10</td>
+		<td th:text="${recipe.servings}">2</td>
+		<td><a th:href="${recipe.url}" th:text="${recipe.source}">Recipe book</a></td>
+		<!-- <td th:text="${recipe.url}">www</td> -->
+		<td th:text="${recipe.directions}">Directions goes here!</td>
+	</tr>
+	</tbody>
+</table>
+
 </body>
 </html>
