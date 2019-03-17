@@ -27,10 +27,10 @@ public class Recipe {
 	private String source;
 	private String url;
 	private String directions;
-	// TODO add Difficulty
-	// private Difficulty difficulty;
+	private Difficulty difficulty;
+	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "recipe")
-	private Set<Ingredient> ingredients;
+	private Set<Ingredient> ingredients = new HashSet<Ingredient>();
 	@Lob
 	private Byte[] image;
 
@@ -137,5 +137,13 @@ public class Recipe {
 
 	public void setCategories(Set<Category> categories) {
 		this.categories = categories;
+	}
+
+	public Difficulty getDifficulty() {
+		return difficulty;
+	}
+
+	public void setDifficulty(Difficulty difficulty) {
+		this.difficulty = difficulty;
 	}
 }

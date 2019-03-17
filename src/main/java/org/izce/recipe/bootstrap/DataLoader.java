@@ -3,6 +3,7 @@ package org.izce.recipe.bootstrap;
 import java.math.BigDecimal;
 
 import org.izce.recipe.model.Category;
+import org.izce.recipe.model.Difficulty;
 import org.izce.recipe.model.Ingredient;
 import org.izce.recipe.model.Notes;
 import org.izce.recipe.model.Recipe;
@@ -62,6 +63,7 @@ public class DataLoader implements CommandLineRunner {
 		recipe1.setUrl("https://www.simplyrecipes.com/recipes/perfect_guacamole/");
 		recipe1.getCategories().add(mexican);
 		recipe1.setServings(3);
+		recipe1.setDifficulty(Difficulty.MODERATE);
 		// DB will auto-generate the ID.
 		recipe1 = recipeRepository.save(recipe1);
 
@@ -108,6 +110,7 @@ public class DataLoader implements CommandLineRunner {
 		recipe2.setUrl("https://www.simplyrecipes.com/recipes/spicy_grilled_chicken_tacos/");
 		recipe2.getCategories().add(mexican);
 		recipe2.setServings(5);
+		recipe1.setDifficulty(Difficulty.KIND_OF_HARD);
 		// DB will auto-generate the ID.
 		recipe2 = recipeRepository.save(recipe2);
 
