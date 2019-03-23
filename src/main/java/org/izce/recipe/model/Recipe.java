@@ -5,6 +5,8 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -27,6 +29,7 @@ public class Recipe {
 	private String source;
 	private String url;
 	private String directions;
+	 @Enumerated(value = EnumType.STRING)
 	private Difficulty difficulty;
 	
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "recipe")
@@ -121,6 +124,8 @@ public class Recipe {
 
 	public void setNotes(Notes notes) {
 		this.notes = notes;
+		// Set bi-directional relationship at the time of adding notes to prevent being forgotten.
+		this.notes.setRecipe(this);
 	}
 
 	public Set<Ingredient> getIngredients() {
@@ -129,6 +134,13 @@ public class Recipe {
 
 	public void setIngredients(Set<Ingredient> ingredients) {
 		this.ingredients = ingredients;
+	}
+	
+	public void addIngredient(Ingredient ingredient) {
+		this.ingredients.add(ingredient);
+		// Set bi-directional relationship at the time of adding ingredient
+		// to prevent being forgotten.
+		ingredient.setRecipe(this);
 	}
 
 	public Set<Category> getCategories() {

@@ -1,7 +1,5 @@
 package org.izce.recipe.bootstrap;
 
-import java.math.BigDecimal;
-
 import org.izce.recipe.model.Category;
 import org.izce.recipe.model.Difficulty;
 import org.izce.recipe.model.Ingredient;
@@ -66,10 +64,9 @@ public class DataLoader implements CommandLineRunner {
 		recipe1.setDifficulty(Difficulty.MODERATE);
 		// DB will auto-generate the ID.
 		recipe1 = recipeRepository.save(recipe1);
-
+				
 		// RECIPE-1 NOTES
 		Notes notes1 = new Notes();
-		notes1.setRecipe(recipe1);
 		notes1.setRecipeNotes(
 				"1. Cut avocado, remove flesh: Cut the avocados in half. Remove seed. Score the inside of the avocado with a blunt knife and scoop out the flesh with a spoon. (See How to Cut and Peel an Avocado.) Place in a bowl.\r\n"
 						+ "\r\n"
@@ -84,19 +81,20 @@ public class DataLoader implements CommandLineRunner {
 						+ "4. Cover with plastic and chill to store: Place plastic wrap on the surface of the guacamole cover it and to prevent air reaching it. (The oxygen in the air causes oxidation which will turn the guacamole brown.) Refrigerate until ready to serve."
 						+ "\r\n"
 						+ "Chilling tomatoes hurts their flavor, so if you want to add chopped tomato to your guacamole, add it just before serving.");
-		notes1 = notesRepository.save(notes1);
 		recipe1.setNotes(notes1);
+		notes1 = notesRepository.save(notes1);
 		recipe1 = recipeRepository.save(recipe1);
 
 		// INGREDIENTS of RECIPE-1
-		createIngredient(recipe1, piece, "ripe avocado", 2.0f);
-		createIngredient(recipe1, teaspoon, "salt", 0.5f);
-		createIngredient(recipe1, tablespoon, "fresh lime juice or lemon juice", 1.0f);
-		createIngredient(recipe1, tablespoon, "minced red onion or thinly sliced green onion", 2.0f);
-		createIngredient(recipe1, piece, "serrano chiles, stems and seeds removed, minced", 1.5f);
-		createIngredient(recipe1, tablespoon, "cilantro (leaves and tender stems), finely chopped", 2.0f);
-		createIngredient(recipe1, dash, "freshly grated black pepper", 1.0f);
-		createIngredient(recipe1, piece, "ripe tomato, seeds and pulp removed, chopped", 0.5f);
+		this.addIngredient(recipe1, new Ingredient("ripe avocado", 2.0f, piece));
+		this.addIngredient(recipe1, new Ingredient("salt", 0.5f, teaspoon));
+		this.addIngredient(recipe1, new Ingredient("fresh lime juice or lemon juice", 1.0f, tablespoon));
+		this.addIngredient(recipe1, new Ingredient("minced red onion or thinly sliced green onion", 2.0f, tablespoon));
+		this.addIngredient(recipe1, new Ingredient("serrano chiles, stems and seeds removed, minced", 1.5f, piece));
+		this.addIngredient(recipe1,
+				new Ingredient("cilantro (leaves and tender stems), finely chopped", 2.0f, tablespoon));
+		this.addIngredient(recipe1, new Ingredient("freshly grated black pepper", 1.0f, dash));
+		this.addIngredient(recipe1, new Ingredient("ripe tomato, seeds and pulp removed, chopped", 0.5f, piece));
 
 		// RECIPE-2: Spicy Grilled Chicken Tacos
 		Recipe recipe2 = new Recipe();
@@ -113,10 +111,9 @@ public class DataLoader implements CommandLineRunner {
 		recipe2.setDifficulty(Difficulty.HARD);
 		// DB will auto-generate the ID.
 		recipe2 = recipeRepository.save(recipe2);
-
+		
 		// RECIPE-2 NOTES
 		Notes notes2 = new Notes();
-		notes2.setRecipe(recipe2);
 		notes2.setRecipeNotes("1 Prepare a gas or charcoal grill for medium-high, direct heat.\r\n" + "\r\n"
 				+ "2 Make the marinade and coat the chicken: In a large bowl, stir together the chili powder, oregano, cumin, sugar, salt, garlic and orange zest. "
 				+ "Stir in the orange juice and olive oil to make a loose paste. Add the chicken to the bowl and toss to coat all over.\r\n"
@@ -129,39 +126,35 @@ public class DataLoader implements CommandLineRunner {
 				+ "\r\n" + "Wrap warmed tortillas in a tea towel to keep them warm until serving.\r\n" + "\r\n"
 				+ "5 Assemble the tacos: Slice the chicken into strips. On each tortilla, place a small handful of arugula. "
 				+ "Top with chicken slices, sliced avocado, radishes, tomatoes, and onion slices. Drizzle with the thinned sour cream. Serve with lime wedges.");
-		notes2 = notesRepository.save(notes2);
 		recipe2.setNotes(notes2);
+		notes2 = notesRepository.save(notes2);
 		recipe2 = recipeRepository.save(recipe2);
-		
+
 		// INGREDIENTS of RECIPE-2
-		createIngredient(recipe2, tablespoon, "ancho chili powder", 2.0f);
-		createIngredient(recipe2, teaspoon, "dried oregano", 1.0f);
-		createIngredient(recipe2, teaspoon, "dried cumin", 1.0f);
-		createIngredient(recipe2, teaspoon, "sugar", 1.0f);
-		createIngredient(recipe2, teaspoon, "salt", 0.5f);
-		createIngredient(recipe2, clove, "garlic, finely chopped", 1.0f);
-		createIngredient(recipe2, teaspoon, "finely grated orange zest", 1.0f);
-		createIngredient(recipe2, teaspoon, "fresh-squeezed orange juice", 3.0f);
-		createIngredient(recipe2, teaspoon, "olive oil", 2.0f);
-		createIngredient(recipe2, pound, "skinless, boneless chicken thighs", 1.25f);
-		createIngredient(recipe2, piece, "small corn tortillas", 8.0f);
-		createIngredient(recipe2, cup, "packed baby arugula", 3.0f);
-		createIngredient(recipe2, piece, "medium ripe avocados, sliced", 3.0f);
-		createIngredient(recipe2, piece, "radishes, thinly sliced", 4.0f);
-		createIngredient(recipe2, pint, "cherry tomatoes, halved", 0.5f);
-		createIngredient(recipe2, piece, "red onion thinly sliced", 0.25f);
-		createIngredient(recipe2, piece, "roughly chopped cilantaro", 1.0f);
-		createIngredient(recipe2, cup, "sour cream thinned with 1/4 cup milk", 0.5f);
-		createIngredient(recipe2, piece, "lime, cut into wedges", 1.0f);
+		this.addIngredient(recipe2, new Ingredient("ancho chili powder", 2.0f, tablespoon));
+		this.addIngredient(recipe2, new Ingredient("dried oregano", 1.0f, teaspoon));
+		this.addIngredient(recipe2, new Ingredient("dried cumin", 1.0f, teaspoon));
+		this.addIngredient(recipe2, new Ingredient("sugar", 1.0f, teaspoon));
+		this.addIngredient(recipe2, new Ingredient("salt", 0.5f, teaspoon));
+		this.addIngredient(recipe2, new Ingredient("garlic, finely chopped", 1.0f, clove));
+		this.addIngredient(recipe2, new Ingredient("finely grated orange zest", 1.0f, teaspoon));
+		this.addIngredient(recipe2, new Ingredient("fresh-squeezed orange juice", 3.0f, teaspoon));
+		this.addIngredient(recipe2, new Ingredient("olive oil", 2.0f, teaspoon));
+		this.addIngredient(recipe2, new Ingredient("skinless, boneless chicken thighs", 1.25f, pound));
+		this.addIngredient(recipe2, new Ingredient("small corn tortillas", 8.0f, piece));
+		this.addIngredient(recipe2, new Ingredient("packed baby arugula", 3.0f, cup));
+		this.addIngredient(recipe2, new Ingredient("medium ripe avocados, sliced", 3.0f, piece));
+		this.addIngredient(recipe2, new Ingredient("radishes, thinly sliced", 4.0f, piece));
+		this.addIngredient(recipe2, new Ingredient("cherry tomatoes, halved", 0.5f, piece));
+		this.addIngredient(recipe2, new Ingredient("red onion thinly sliced", 0.25f, piece));
+		this.addIngredient(recipe2, new Ingredient("roughly chopped cilantaro", 1.0f, piece));
+		this.addIngredient(recipe2, new Ingredient("sour cream thinned with 1/4 cup milk", 0.5f, cup));
+		this.addIngredient(recipe2, new Ingredient("lime, cut into wedges", 1.0f, piece));
 	}
 
-	private void createIngredient(Recipe recipe, UnitOfMeasure uom, String description, float amount) {
-		Ingredient ingredient = new Ingredient();
-		ingredient.setUom(uom);
-		ingredient.setDescription(description);
-		ingredient.setAmount(new BigDecimal(amount));
-		ingredient.setRecipe(recipe);
+	private void addIngredient(Recipe recipe, Ingredient ingredient) {
 		ingredient = ingredientRepository.save(ingredient);
+		recipe.addIngredient(ingredient);
 	}
 
 }
