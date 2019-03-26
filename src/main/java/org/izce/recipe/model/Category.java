@@ -21,8 +21,7 @@ public class Category {
 	private Long id;
 	private String description;
 	
-	@EqualsAndHashCode.Exclude
 	@ManyToMany(mappedBy="categories")
-	private Set<Recipe> recipes = new HashSet<Recipe>();
+	@EqualsAndHashCode.Exclude private Set<Recipe> recipes = new HashSet<Recipe>();
 
 }
