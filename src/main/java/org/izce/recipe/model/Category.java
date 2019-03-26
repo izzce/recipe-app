@@ -1,6 +1,7 @@
 package org.izce.recipe.model;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 import javax.persistence.Entity;
@@ -9,6 +10,10 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+@Data
 @Entity
 public class Category {
 	@Id
@@ -16,31 +21,8 @@ public class Category {
 	private Long id;
 	private String description;
 	
+	@EqualsAndHashCode.Exclude
 	@ManyToMany(mappedBy="categories")
 	private Set<Recipe> recipes = new HashSet<Recipe>();
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-
-	public Set<Recipe> getRecipes() {
-		return recipes;
-	}
-
-	public void setRecipes(Set<Recipe> recipes) {
-		this.recipes = recipes;
-	}
 
 }

@@ -15,6 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Component
 public class DataLoader implements CommandLineRunner {
 
@@ -28,6 +31,7 @@ public class DataLoader implements CommandLineRunner {
 	public DataLoader(RecipeRepository recipeRepository, IngredientRepository ingredientRepository,
 			UnitOfMeasureRepository uomRepository, NotesRepository notesRepository,
 			CategoryRepository categoryRepository) {
+		log.debug("Initializing DataLoader...");
 		this.recipeRepository = recipeRepository;
 		this.ingredientRepository = ingredientRepository;
 		this.uomRepository = uomRepository;
@@ -95,7 +99,10 @@ public class DataLoader implements CommandLineRunner {
 				new Ingredient("cilantro (leaves and tender stems), finely chopped", 2.0f, tablespoon));
 		this.addIngredient(recipe1, new Ingredient("freshly grated black pepper", 1.0f, dash));
 		this.addIngredient(recipe1, new Ingredient("ripe tomato, seeds and pulp removed, chopped", 0.5f, piece));
-
+		
+		log.debug("Added Recipe1: {}", "Perfect Guacamole!");
+		
+		
 		// RECIPE-2: Spicy Grilled Chicken Tacos
 		Recipe recipe2 = new Recipe();
 		recipe2.setDescription("Spicy Grilled Chicken Tacos");
@@ -150,6 +157,7 @@ public class DataLoader implements CommandLineRunner {
 		this.addIngredient(recipe2, new Ingredient("roughly chopped cilantaro", 1.0f, piece));
 		this.addIngredient(recipe2, new Ingredient("sour cream thinned with 1/4 cup milk", 0.5f, cup));
 		this.addIngredient(recipe2, new Ingredient("lime, cut into wedges", 1.0f, piece));
+		log.debug("Added Recipe2: {}", "Spicy Grilled Chicken Tacos!");
 	}
 
 	private void addIngredient(Recipe recipe, Ingredient ingredient) {

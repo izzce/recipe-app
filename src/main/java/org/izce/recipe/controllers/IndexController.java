@@ -1,24 +1,29 @@
 package org.izce.recipe.controllers;
 
-import org.izce.recipe.model.Recipe;
 import org.izce.recipe.service.RecipeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Controller
 public class IndexController {
 	private final RecipeService recipeService;
 
 	@Autowired
 	public IndexController(RecipeService recipeService) {
+		log.debug("Initializing IndexController...");
 		this.recipeService = recipeService;
 	}
 
 	@RequestMapping({ "", "/", "index" })
 	public String getIndexPage(Model model) {
-		model.addAttribute("recipes", recipeService.getRecipeList());
+		log.debug("Index page is requested!");
+		model.addAttribute("recipes", recipeService.getRecipes());
+		log.debug("Number of recipes found: {}", recipeService.getRecipesCount());
 		return "index";
 	}
 }
