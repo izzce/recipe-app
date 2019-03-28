@@ -5,6 +5,9 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -16,6 +19,8 @@ import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.ui.Model;
 
 public class IndexControllerTest {
@@ -24,11 +29,13 @@ public class IndexControllerTest {
 	@Mock
 	Model model;
 	IndexController indexController;
+	MockMvc mockMvc;
 	
 	@Before
 	public void setUp() throws Exception {
 		MockitoAnnotations.initMocks(this);
 		indexController = new IndexController(recipeService);
+		mockMvc = MockMvcBuilders.standaloneSetup(indexController).build();
 	}
 
 	@Test
@@ -59,7 +66,20 @@ public class IndexControllerTest {
 		}
 		
 		assertEquals(2, recipeCount);
-		
+	}
+	
+	@Test
+	public void testMockMVC() throws Exception {
+		mockMvc.perform(get("/")).andExpect(status().isOk()).andExpect(view().name("index2"));
+	}
+	
+	@Test
+	public void testMockMVC2() throws Exception {
+		mockMvc.perform(get("/index")).andExpect(status().isOk()).andExpect(view().name("index2"));
 	}
 
+	@Test
+	public void testMockMVC_HTTP404() throws Exception {
+		mockMvc.perform(get("/index_404")).andExpect(status().isNotFound());
+	}
 }
