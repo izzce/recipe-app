@@ -6,7 +6,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.HashSet;
-import java.util.Set;
 
 import org.izce.recipe.model.Recipe;
 import org.izce.recipe.repositories.RecipeRepository;
