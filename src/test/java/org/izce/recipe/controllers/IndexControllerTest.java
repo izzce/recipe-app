@@ -55,7 +55,7 @@ public class IndexControllerTest {
 		when(recipeService.getRecipes()).thenReturn(recipes);
 		
 		String viewName = indexController.getIndexPage(model);
-		assertEquals("index2", viewName);
+		assertEquals("index", viewName);
 		
 		verify(model, times(1)).addAttribute(eq("recipes"), argumentCaptor.capture());
 		
@@ -70,13 +70,13 @@ public class IndexControllerTest {
 	
 	@Test
 	public void testMockMVC() throws Exception {
-		mockMvc.perform(get("/")).andExpect(status().isOk()).andExpect(view().name("index2"));
+		mockMvc.perform(get("/")).andExpect(status().isOk()).andExpect(view().name("index"));
 	}
 	
-	@Test
-	public void testMockMVC2() throws Exception {
-		mockMvc.perform(get("/index")).andExpect(status().isOk()).andExpect(view().name("index2"));
-	}
+//	@Test
+//	public void testMockMVC2() throws Exception {
+//		mockMvc.perform(get("/index")).andExpect(status().isOk()).andExpect(view().name("index"));
+//	}
 
 	@Test
 	public void testMockMVC_HTTP404() throws Exception {

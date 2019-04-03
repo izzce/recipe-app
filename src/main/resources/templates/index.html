@@ -1,67 +1,69 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<title>Recipes collected by IzCe</title>
+    <meta charset="UTF-8"/>
+    <title>Recipe Home</title>
 
+<!-- Latest compiled and minified CSS -->
 <link
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
 	rel="stylesheet"
 	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-	crossorigin="anonymous">
+	crossorigin="anonymous"
+	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}">
 
+<script src="/webjars/jquery/3.0.0/jquery.min.js" ></script>
+
+<!-- Latest compiled and minified Bundle JavaScript -->
 <script
 	src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"
 	integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o"
-	crossorigin="anonymous">
+	crossorigin="anonymous"
+	th:src=@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js} >
 </script>
 
-<style>
-table {
-  border-collapse: collapse;
-}
-
-table, td, th {
-  border: 1px solid black;
-  padding: 2px;
-}
-</style>
 </head>
 <body>
-	<!--/*@thymesVar id="recipes" type="java.lang.Iterable<org.izce.recipe.model.Recipe>"*/-->
-<h2 th:text="'Recipe List'">Recipe List goes here!</h2>
 
-<table style="border-width: 2px;">
-	<thead>
-	<tr>
-		<th style="width: 50px;">Id</th>
-		<th style="width: 200px;">Description</th>
-		<th style="width: 20px;">Cook Time</th>
-		<th style="width: 20px;">Prep Time</th>
-		<th style="width: 20px;">Servings</th>
-		<th style="width: 50px;">Difficulty</th>
-		<th style="width: 100px;">Source</th>
-		<!-- <th style="width: 100px;">URL</th> -->
-		<th style="width: 300px;">Directions</th>
-		<th style="width: 400px;">Notes</th>
-	</tr>
-	</thead>
-	
-	<tbody>
-	<tr th:each="recipe : ${recipes}">
-		<td th:text="${recipe.id}">1</td>
-		<td th:text="${recipe.description}">Recipe1</td>
-		<td th:text="${recipe.cookTime}">10</td>
-		<td th:text="${recipe.prepTime}">10</td>
-		<td th:text="${recipe.servings}">2</td>
-		<td th:text="${recipe.difficulty}">EASY</td>
-		<td><a th:href="${recipe.url}" th:text="${recipe.source}">Recipe book</a></td>
-		<!-- <td th:text="${recipe.url}">www</td> -->
-		<td><pre th:text="${recipe.directions}">Directions goes here!</pre></td>
-		<td><pre th:text="${recipe.notes.recipeNotes}">Recipe Notes goes here!</pre></td>
-	</tr>
-	</tbody>
-</table>
+<div class="container-fluid" style="margin-top: 20px">
+    <div class="row">
+        <div class="col-md-6 col-md-offset-3">
+            <div class="panel panel-primary">
+
+                <div class="panel-heading">
+                    <h1 class="panel-title">My Recipes!</h1>
+                </div>
+                <div class="panel-body">
+                    <div class="table-responsive" th:if="${not #lists.isEmpty(recipes)}">
+                        <table class="table table-hover ">
+                            <thead class="thead-inverse">
+                            <tr>
+                                <th>ID</th>
+                                <th>Description</th>
+                                <th>Directions</th>
+                            </tr>
+                            </thead>
+                            <tr th:remove="all">
+                                <td th:text="${recipe.id}">123</td>
+                                <td th:text="${recipe.description}">Tasty Goodnees 1</td>
+                            </tr>
+                            <tr th:remove="all">
+                                <td th:text="${recipe.id}">12333</td>
+                                <td th:text="${recipe.description}">Tasty Goodnees 2</td>
+                            </tr>
+                            <tr th:each="recipe : ${recipes}">
+                                <td th:text="${recipe.id}">334</td>
+                                <td th:text="${recipe.description}">Tasty Goodnees 3</td>
+                                <td th:text="${recipe.directions}">Tasty Goodnees 3</td>
+                                
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 </body>
 </html>

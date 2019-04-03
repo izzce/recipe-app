@@ -24,6 +24,6 @@ public class IndexController {
 		log.debug("Index page is requested!");
 		model.addAttribute("recipes", recipeService.getRecipes());
 		log.debug("Number of recipes found: {}", recipeService.getRecipesCount());
-		return "index2";
+		return "index";
 	}
 }
