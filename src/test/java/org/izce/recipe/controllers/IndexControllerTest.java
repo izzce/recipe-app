@@ -73,10 +73,10 @@ public class IndexControllerTest {
 		mockMvc.perform(get("/")).andExpect(status().isOk()).andExpect(view().name("index"));
 	}
 	
-//	@Test
-//	public void testMockMVC2() throws Exception {
-//		mockMvc.perform(get("/index")).andExpect(status().isOk()).andExpect(view().name("index"));
-//	}
+	@Test
+	public void testMockMVC2() throws Exception {
+		mockMvc.perform(get("")).andExpect(status().isOk()).andExpect(view().name("index"));
+	}
 
 	@Test
 	public void testMockMVC_HTTP404() throws Exception {

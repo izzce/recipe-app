@@ -4,26 +4,26 @@ import org.izce.recipe.service.RecipeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Controller
-public class IndexController {
+public class RecipeController {
 	private final RecipeService recipeService;
 
 	@Autowired
-	public IndexController(RecipeService recipeService) {
-		log.debug("Initializing IndexController...");
+	public RecipeController(RecipeService recipeService) {
+		log.debug("RecipeController IndexController...");
 		this.recipeService = recipeService;
 	}
 
-	@RequestMapping({ "", "/", "/index" })
-	public String getIndexPage(Model model) {
-		log.debug("Index page is requested!");
-		model.addAttribute("recipes", recipeService.getRecipes());
-		log.debug("Number of recipes found: {}", recipeService.getRecipesCount());
-		return "index";
+	@RequestMapping("/recipe/show/{id}")
+	public String showById(@PathVariable String id, Model model) {
+		log.debug("recipe/show page is requested!");
+		model.addAttribute("recipe", recipeService.findById(Long.valueOf(id)));
+		return "recipe/show";
 	}
 }

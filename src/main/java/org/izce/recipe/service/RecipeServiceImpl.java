@@ -1,5 +1,7 @@
 package org.izce.recipe.service;
 
+import java.util.Optional;
+
 import org.izce.recipe.model.Recipe;
 import org.izce.recipe.repositories.RecipeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,5 +28,12 @@ public class RecipeServiceImpl implements RecipeService {
 	@Override
 	public Long getRecipesCount() {
 		return recipeRepository.count();
+	}
+
+	@Override
+	public Recipe findById(Long id) {
+		Optional<Recipe> recipeOptional = recipeRepository.findById(id);
+		
+		return recipeOptional.orElseThrow(() -> new RuntimeException("Recipe not found: " + id));
 	}
 }
