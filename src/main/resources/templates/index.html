@@ -1,72 +1,116 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8"/>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <title>Recipe Home</title>
 
-<!-- Latest compiled and minified CSS -->
-<link
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-	rel="stylesheet"
-	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-	crossorigin="anonymous"
-	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}" />
+	<!-- Latest compiled and minified CSS -->
+	<link
+		href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+		rel="stylesheet"
+		integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+		crossorigin="anonymous"
+		th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}" />
 	
+	<!-- Latest compiled and minified Bundle JavaScript -->
+	<!-- <script
+		src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"
+		integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o"
+		crossorigin="anonymous"
+		th:src=@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js} >
+	</script> -->
+ 
+   
+<style type="text/css">
+body { 
+	/*background: darkgrey !important;*/
+	/* background-image: url('https://www.simplyrecipes.com/wp-content/uploads/2013/05/hummingbird-cake-horiz-a-1000.jpg') ; */
+	background-image: url('https://www.simplyrecipes.com/wp-content/uploads/2006/03/shrimp-cakes-vertical-a-1600-793x1024.jpg') ;
+	/* background-image: url('https://www.simplyrecipes.com/wp-content/uploads/2013/03/hoisin-glazed-salmon-vertical-735.jpg'); */	
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-size: cover;
+	opacity: 0.8;
+}
+ 
+.bg-grad {
+ 	background-image: linear-gradient(to right, skyblue, white, white);
+}
+ 
+.bg-grad-down {
+ 	background-image: linear-gradient(skyblue, white);
+}
 
-<script src="/webjars/jquery/3.0.0/jquery.min.js" ></script>
-
-<!-- Latest compiled and minified Bundle JavaScript -->
-<script
-	src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"
-	integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o"
-	crossorigin="anonymous"
-	th:src=@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js} >
-</script>
-
+</style>
+    
 </head>
+
+
 <body>
 
-<div class="container-fluid" style="margin-top: 20px">
-    <div class="row">
-        <div class="col-md-6 col-md-offset-3">
-            <div class="panel panel-primary">
+	<nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
+		<a class="navbar-brand" href="#">Home</a>
+			<span class="h3 text-light mx-auto">Recipes Index</span>
+			<span class="h3 text-light justify-right">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+	</nav>
+	
+	<div role="main" class="container">
+		
+		<div class="card col-8 mx-auto">
+<!-- 			<div class="card-header bg-primary text-light shadow">
+				<span class="h5">Recipes List</span>
+			</div> -->
+			<div class="card-body" th:if="${not #lists.isEmpty(recipes)}">
+				<table class="table table-hover">
+					
+					<tr class="thead-inverse">
+						<th>ID</th>
+						<th>Description</th>
+						<th>View</th>
+					</tr>
+	                <tr th:remove="all">
+	                    <td th:text="${recipe.id}">11</td>
+	                    <td th:text="${recipe.description}">Tasty Goodness 1</td>
+	                    <td><a href="#">View</a></td>
+	                </tr>
+	                <tr th:remove="all">
+	                    <td th:text="${recipe.id}">22</td>
+	                    <td th:text="${recipe.description}">Tasty Goodness 2</td>
+	                    <td><a href="#">View</a></td>
+	                </tr>
+	                <tr th:each="recipe : ${recipes}">
+	                    <td th:text="${recipe.id}">334</td>
+	                    <td th:text="${recipe.description}">Tasty Goodness 3</td>
+	                    <td><a href="#" th:href="@{'/recipe/show/' + ${recipe.id}}">View</a></td>   
+	                </tr>
+				</table>
+			</div>
+		</div>
+	</div>
+	
+	
+<footer class="footer footer-dark bg-dark mt-3 p-3">
+  <div class="container text-center">
+    <span class="h6 text-muted p-2">Sitemap</span> <span class="h6 text-muted p-2">Contact</span> <span class="h6 text-muted p-2">Copyright &copy; 2019</span>
+  </div>
+</footer>
 
-                <div class="panel-heading">
-                    <h1 class="panel-title">My Recipes!</h1>
-                </div>
-                <div class="panel-body">
-                    <div class="table-responsive" th:if="${not #lists.isEmpty(recipes)}">
-                        <table class="table table-hover ">
-                            <thead class="thead-inverse">
-                            <tr>
-                                <th>ID</th>
-                                <th>Description</th>
-                                <th>View</th>
-                            </tr>
-                            </thead>
-                            <tr th:remove="all">
-                                <td th:text="${recipe.id}">123</td>
-                                <td th:text="${recipe.description}">Tasty Goodnees 1</td>
-                                <td><a href="#">View</a></td>
-                            </tr>
-                            <tr th:remove="all">
-                                <td th:text="${recipe.id}">12333</td>
-                                <td th:text="${recipe.description}">Tasty Goodnees 2</td>
-                                <td><a href="#">View</a></td>
-                            </tr>
-                            <tr th:each="recipe : ${recipes}">
-                                <td th:text="${recipe.id}">334</td>
-                                <td th:text="${recipe.description}">Tasty Goodnees 3</td>
-                                <td><a href="#" th:href="@{'/recipe/show/' + ${recipe.id}}">View</a></td>
-                                
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+
+ <!-- Optional JavaScript -->
+ <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+   
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+	integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+	crossorigin="anonymous"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+	integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+	crossorigin="anonymous"></script>
+<script
+	src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+	integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+	crossorigin="anonymous"></script>
 
 </body>
 </html>

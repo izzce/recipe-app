@@ -2,137 +2,245 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
-    <title>Show Recipe</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title th:text="@{'Recipe: ' + ${recipe.description}}">Recipe Details</title>
 
 <!-- Latest compiled and minified CSS -->
 <link
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-	rel="stylesheet"
-	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-	crossorigin="anonymous"
-	th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}" />
+	rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+	crossorigin="anonymous" th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}" >
 
-<script src="/webjars/jquery/3.0.0/jquery.min.js" ></script>
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 
 <!-- Latest compiled and minified Bundle JavaScript -->
-<script
+<!-- <script
 	src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"
 	integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o"
 	crossorigin="anonymous"
 	th:src=@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js} >
 </script>
+ -->
+ 
+<style type="text/css" th:inline="text">
 
+a.collapser:hover {
+	text-decoration: none;
+	transform: rotate(-90deg);
+}
+
+body {
+  background: black;
+  position: relative;
+  z-index: 0;
+}
+
+body::before {
+  background-image: url([[@{(${recipe.imageUrl})}]]); 
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  content: "";
+  opacity: 0.5;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  z-index: -1;   
+}
+
+.container-fluid, .navbar, .footer {
+	opacity: 0.8;
+}
+
+.bg-grad {
+	background-image: linear-gradient(to bottom right, white, silver);
+}
+
+.bg-grad-down {
+	background-image: linear-gradient(to bottom right, skyblue, white);
+}
+
+</style>
+ 
 </head>
+
 <body>
 
-<div class="container-fluid" style="margin-top: 20px">
-    <div class="row">
-        <div class="col-md-6 col-md-offset-3">
-            <div class="panel-group">
-                <div class="panel panel-primary">
-                    <div class="panel-heading">
-                        <h1 class="panel-title" th:text="${recipe.description}">Recipe Description Here!</h1>
-                    </div>
-                    <div class="panel-body">
-                        <div class="row">
-                            <div class="col-md-3">
-                                <h5>Categories:</h5>
-                            </div>
-                            <div class="col-md-9">
-                                <ul>
-                                    <li>cat one</li>
-                                    <li>cat two</li>
-                                    <li>cat three</li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-3">
-                                <h5>Prep Time:</h5>
-                            </div>
-                            <div class="col-md-3">
-                                <p>30 min</p>
-                            </div>
-                            <div class="col-md-3">
-                                <h5>Difficulty:</h5>
-                            </div>
-                            <div class="col-md-3">
-                                <p>Easy</p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-3">
-                                <h5>Cooktime:</h5>
-                            </div>
-                            <div class="col-md-3">
-                                <p>30 min</p>
-                            </div>
-                            <div class="col-md-3">
-                                <h5>Servings:</h5>
-                            </div>
-                            <div class="col-md-3">
-                                <p>4</p>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-3">
-                                <h5>Source:</h5>
-                            </div>
-                            <div class="col-md-3">
-                                <p>30 min</p>
-                            </div>
-                            <div class="col-md-3">
-                                <h5>URL:</h5>
-                            </div>
-                            <div class="col-md-3">
-                                <p>http://www.example.com</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="panel panel-primary">
-                    <div class="panel-heading">
-                        <h1 class="panel-title" >Ingredients</h1>
-                    </div>
-                    <div class="panel-body">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <ul>
-                                    <li>1 Cup of milk</li>
-                                    <li>1 Teaspoon of chocolate</li>
-                                    <li>1 Teaspoon of Sugar</li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="panel panel-primary">
-                    <div class="panel-heading">
-                        <h1 class="panel-title" >Directions</h1>
-                    </div>
-                    <div class="panel-body">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="panel panel-primary">
-                    <div class="panel-heading">
-                        <h1 class="panel-title" >Notes</h1>
-                    </div>
-                    <div class="panel-body">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus. Phasellus viverra nulla ut metus varius laoreet. Quisque rutrum. Aenean imperdiet. Etiam ultricies nisi vel augue. Curabitur ullamcorper ultricies nisi. Nam eget dui. Etiam rhoncus. Maecenas tempus, tellus eget condimentum rhoncus, sem quam semper libero, sit amet adipiscing sem neque sed ipsum.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+<nav class="navbar navbar-dark bg-dark mb-3">
+	<a class="navbar-brand" href="/">Home</a>
+	<span class="h3 text-light mx-auto" th:text="${recipe.description}">Recipe Description Here!</span>
+	<span class="h3 text-light justify-right">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+</nav>
+
+<div role="main" class="container-fluid">
+
+<div class="row">
+	
+	<div class="col-md-6 col-sm-12">
+		<div class="card m-2 shadow border">
+			<div class="card-body p-1">
+	            
+	            <ul class="list-group list-group-flush">
+				  <li class="list-group-item bg-grad">
+					<div class="col-5 float-left">
+			        	<span class="h6">Prep Time:</span>
+			        </div>
+			        <div class="col-7 float-right">
+			        	<span th:text="@{${recipe.prepTime} + ' min'}">30 min</span>
+			        </div>
+				  </li>
+
+				  <li class="list-group-item bg-grad">
+					<div class="col-5 float-left">
+			        	<span class="h6">Cook time:</span>
+			        </div>
+			        <div class="col-7 float-right">
+			        	<span th:text="@{${recipe.cookTime} + ' min'}">30 min</span>
+			        </div>
+				  </li>				  
+				  
+				  <li class="list-group-item bg-grad">
+					<div class="col-5 float-left">
+			        	<span class="h6">Difficulty:</span>
+			        </div>
+			        <div class="col-7 float-right">
+			        	<span class="text-lowercase" th:text="${recipe.difficulty}">Easy</span>
+			        </div>
+				  </li>	
+				  
+				  <li class="list-group-item bg-grad">
+					<div class="col-5 float-left">
+			        	<span class="h6">Servings:</span>
+			        </div>
+			        <div class="col-7 float-right">
+			        	<span th:text="${recipe.servings}">4</span>
+			        </div>
+				  </li>
+				  
+				  <li class="list-group-item bg-grad">
+					<div class="col-5 float-left">
+			        	<span class="h6">Source:</span>
+			        </div>
+		            <div class="col-7 float-right">
+		                <a class="text-right" href="#" th:href="${recipe.url}" th:text="${recipe.source}">Easy Recipes</a>
+		            </div>
+				  </li>
+
+				  <li class="list-group-item bg-grad">
+					<div class="col-5 float-left">
+			        	<span class="h6">Categories:</span>
+			        </div>
+		            <div class="col-7 float-right">
+						<span th:remove="all">Turkish</span>
+		                <span th:remove="all">Mexican</span>
+		                <span class="badge badge-success mx-1" 
+		                	th:each="category : ${recipe.categories}" 
+		                	th:text="${category.description}">Italian</span>	                
+		            </div>
+				  </li>			  		  					  
+				</ul>
+				
+	        </div>
+	        
         </div>
-    </div>
+	        
+        <div class="card m-2 mt-3 shadow border">
+			<div class="card-header bg-warning text-dark shadow">
+               	<span class="h5">Directions</span>
+           	</div>
+            <div class="card-body">
+            	<ul> 
+            		<li th:remove="all">Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</li>
+            		<li th:remove="all">Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</li>
+            		<li th:each="direction : ${recipe.getDirectionsList()}" th:if="${not #strings.isEmpty(direction)}" th:text="${direction}">
+            		Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
+            		</li>
+            	</ul>
+            </div>
+         </div>
+	    
+	</div>
+	
+	<div class="col-md-6 col-sm-12">
+		<div class="card m-2 shadow border">
+			<img class="img-fluid rounded" src="" th:src="${recipe.imageUrl}" />
+		</div>
+	</div>
+	
 </div>
+
+<div class="row">
+
+	<div class="col-md-6 col-sm-12">
+		<div class="card m-2 shadow">
+			<div class="card-header bg-primary text-light shadow">
+				<span class="h5">Ingredients</span>
+			</div>
+			<div class="card-body" id="card3"
+				th:if="${not #lists.isEmpty(recipe.ingredients)}">
+				<ul>
+					<li th:remove="all">1 Cup of milk</li>
+					<li th:remove="all">1 Teaspoon of chocolate</li>
+					<li th:each="ing : ${recipe.ingredients}"
+						th:text="@{ ${#numbers.formatDecimal(ing.amount,1,1)} + ' ' + ${ing.uom.uom} + ' of ' + ${ing.description}}">1
+						Teaspoon of Sugar</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<div class="col-md-6 col-sm-12">
+		<div class="card m-2 shadow">
+		    <div class="card-header bg-danger text-light shadow">
+		        <span class="h5">Notes</span>
+		    </div>
+		    <div class="card-body" id="card2">
+		        <div class="row">
+		            <div class="col-md-12">
+		            	<ul> 
+		            		<li class="mb-1" th:remove="all">Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</li>
+		            		<li class="mb-1" th:remove="all">Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</li>
+		            		<li class="mb-1" 
+		            			th:each="note : ${recipe.notes.getNotesList()}" 
+		            			th:if="${not #strings.isEmpty(note)}" 
+		            			th:utext="${#strings.replace(#strings.escapeJava(note),'\n','&lt;br/&gt;')}">
+		            			Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
+		            		</li>
+		            	</ul>
+		            </div>
+		        </div>
+		    </div>
+		</div>
+	</div>
+</div>
+
+</div>
+
+
+<footer class="footer footer-dark bg-dark mt-3 p-3">
+  <div class="container text-center">
+    <span class="h6 text-muted p-2">Sitemap</span> <span class="h6 text-muted p-2">Contact</span> <span class="h6 text-muted p-2">Copyright &copy; 2019</span>
+  </div>
+</footer>
+
+
+
+ <!-- Optional JavaScript -->
+ <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+   
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+	integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+	crossorigin="anonymous"></script>
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+	integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+	crossorigin="anonymous"></script>
+<script
+	src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+	integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+	crossorigin="anonymous"></script>
+
 </body>
 </html>

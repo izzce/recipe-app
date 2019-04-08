@@ -19,4 +19,9 @@ public class Notes {
 	private Recipe recipe;
 	@Lob
 	private String recipeNotes;
+	
+	public String[] getNotesList() {
+		String[] notesArray = recipeNotes.split("\\d\\.");
+		return notesArray;
+	}
 }
