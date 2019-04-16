@@ -7,6 +7,8 @@ import static org.mockito.Mockito.when;
 
 import java.util.HashSet;
 
+import org.izce.recipe.converters.RecipeCommandToRecipe;
+import org.izce.recipe.converters.RecipeToRecipeCommand;
 import org.izce.recipe.model.Recipe;
 import org.izce.recipe.repositories.RecipeRepository;
 import org.junit.Before;
@@ -18,12 +20,18 @@ public class RecipeServiceImplTest {
 	RecipeServiceImpl service;
 	@Mock
 	RecipeRepository repository;
+	
+    @Mock
+    RecipeToRecipeCommand recipeToRecipeCommand;
+
+    @Mock
+    RecipeCommandToRecipe recipeCommandToRecipe;
 
 	@Before
 	public void setUp() throws Exception {
 		MockitoAnnotations.initMocks(this);
 
-		service = new RecipeServiceImpl(repository);
+		service = new RecipeServiceImpl(repository, recipeCommandToRecipe, recipeToRecipeCommand);
 	}
 
 	@Test

@@ -1,7 +1,6 @@
 package org.izce.recipe.model;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -55,6 +54,13 @@ public class Recipe {
 	@EqualsAndHashCode.Exclude 
 	private Set<Category> categories = new HashSet<Category>();
 
+	public void setNotes(Notes notes) {
+		if (notes != null) {
+			this.notes = notes;
+			notes.setRecipe(this);
+		}
+	}
+	
 	public void addIngredient(Ingredient ingredient) {
 		this.ingredients.add(ingredient);
 	}

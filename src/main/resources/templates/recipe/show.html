@@ -11,8 +11,11 @@
 	rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
 	crossorigin="anonymous" th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}" >
 
-<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-
+	<link rel="stylesheet"
+		href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+		integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
+		crossorigin="anonymous" >
+		
 <!-- Latest compiled and minified Bundle JavaScript -->
 <!-- <script
 	src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"
@@ -51,7 +54,7 @@ body::before {
 }
 
 .container-fluid, .navbar, .footer {
-	opacity: 0.8;
+	opacity: 0.9;
 }
 
 .bg-grad {
@@ -62,17 +65,41 @@ body::before {
 	background-image: linear-gradient(to bottom right, skyblue, white);
 }
 
+nav i#home:hover {
+	text-shadow: 0px 0px 20px white;
+}
+
+nav i#pepper {
+	text-shadow: 0px 0px 20px red;
+}
+
+nav i#pizza {
+	text-shadow: 0px 0px 20px orange;
+}
+
+nav span#title {
+	text-shadow: 0px 0px 20px white;
+}
+
 </style>
  
 </head>
 
 <body>
 
-<nav class="navbar navbar-dark bg-dark mb-3">
-	<a class="navbar-brand" href="/">Home</a>
-	<span class="h3 text-light mx-auto" th:text="${recipe.description}">Recipe Description Here!</span>
-	<span class="h3 text-light justify-right">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+<nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
+	<a class="navbar-brand" href="/"> 
+		<i id="home" class="h2 text-primary fas fa-home"></i> 
+	</a>
+	<span id="title" class="h2 text-light mx-auto">
+		<i id="pepper" class="p-1 text-danger fas fa-pepper-hot"></i>
+		<span th:text="${recipe.description}">Recipe Description Here!</span>
+		<i id="pizza" class="p-1 text-warning fas fa-pizza-slice"></i>
+		<!-- <i class="p-1 text-warning fas fa-fire"></i> -->
+	</span>
+		
 </nav>
+
 
 <div role="main" class="container-fluid">
 
@@ -221,7 +248,9 @@ body::before {
 
 <footer class="footer footer-dark bg-dark mt-3 p-3">
   <div class="container text-center">
-    <span class="h6 text-muted p-2">Sitemap</span> <span class="h6 text-muted p-2">Contact</span> <span class="h6 text-muted p-2">Copyright &copy; 2019</span>
+    <span class="h6 text-muted p-2">About</span>
+    <span class="h6 text-muted p-2">Contact</span>
+    <span class="h6 text-muted p-2">Copyright &copy; 2019</span>
   </div>
 </footer>
 
