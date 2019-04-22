@@ -66,6 +66,9 @@ public class Recipe {
 	}
 	
 	public String[] getDirectionsList() {
+		if (directions == null) {
+			return new String[0];
+		}
 		String[] directionsArray = directions.split("\\d\\.");
 		return directionsArray;
 	}

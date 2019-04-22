@@ -23,9 +23,11 @@ public class RecipeCommand {
     private Integer servings;
     private String source;
     private String url;
+    private String imageUrl;
     private String directions;
     private Set<IngredientCommand> ingredients = new HashSet<>();
     private Difficulty difficulty;
-    private NotesCommand notes;
+    private NotesCommand notes = new NotesCommand();
     private Set<CategoryCommand> categories = new HashSet<>();
+
 }

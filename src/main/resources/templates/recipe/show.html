@@ -11,34 +11,18 @@
 	rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
 	crossorigin="anonymous" th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}" >
 
-	<link rel="stylesheet"
-		href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
-		integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
-		crossorigin="anonymous" >
-		
-<!-- Latest compiled and minified Bundle JavaScript -->
-<!-- <script
-	src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"
-	integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o"
-	crossorigin="anonymous"
-	th:src=@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js} >
-</script>
- -->
+<link rel="stylesheet"
+	href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+	integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
+	crossorigin="anonymous" >
+	
+<link rel="stylesheet" 
+	href="../static/css/recipe.css" 
+	th:href="@{/css/recipe.css}" />
  
 <style type="text/css" th:inline="text">
 
-a.collapser:hover {
-	text-decoration: none;
-	transform: rotate(-90deg);
-}
-
-body {
-  background: black;
-  position: relative;
-  z-index: 0;
-}
-
-body::before {
+body.body-show::before {
   background-image: url([[@{(${recipe.imageUrl})}]]); 
   background-size: cover;
   background-repeat: no-repeat;
@@ -50,42 +34,14 @@ body::before {
   bottom: 0;
   right: 0;
   left: 0;
-  z-index: -1;   
-}
-
-.container-fluid, .navbar, .footer {
-	opacity: 0.9;
-}
-
-.bg-grad {
-	background-image: linear-gradient(to bottom right, white, silver);
-}
-
-.bg-grad-down {
-	background-image: linear-gradient(to bottom right, skyblue, white);
-}
-
-nav i#home:hover {
-	text-shadow: 0px 0px 20px white;
-}
-
-nav i#pepper {
-	text-shadow: 0px 0px 20px red;
-}
-
-nav i#pizza {
-	text-shadow: 0px 0px 20px orange;
-}
-
-nav span#title {
-	text-shadow: 0px 0px 20px white;
+  z-index: -1;
 }
 
 </style>
  
 </head>
 
-<body>
+<body class="body-show">
 
 <nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
 	<a class="navbar-brand" href="/"> 
@@ -133,7 +89,7 @@ nav span#title {
 			        	<span class="h6">Difficulty:</span>
 			        </div>
 			        <div class="col-7 float-right">
-			        	<span class="text-lowercase" th:text="${recipe.difficulty}">Easy</span>
+			        	<span th:text="${#strings.capitalize(#strings.toLowerCase(recipe.difficulty))}">Easy</span>
 			        </div>
 				  </li>	
 				  
@@ -226,16 +182,9 @@ nav span#title {
 		    <div class="card-body" id="card2">
 		        <div class="row">
 		            <div class="col-md-12">
-		            	<ul> 
-		            		<li class="mb-1" th:remove="all">Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</li>
-		            		<li class="mb-1" th:remove="all">Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</li>
-		            		<li class="mb-1" 
-		            			th:each="note : ${recipe.notes.getNotesList()}" 
-		            			th:if="${not #strings.isEmpty(note)}" 
-		            			th:utext="${#strings.replace(#strings.escapeJava(note),'\n','&lt;br/&gt;')}">
-		            			Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
-		            		</li>
-		            	</ul>
+		            	<span class="" th:utext="${#strings.replace(#strings.escapeJava(recipe.notes.recipeNotes),'\n','&lt;br/&gt;')}">
+		            		Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
+		            	</span>
 		            </div>
 		        </div>
 		    </div>

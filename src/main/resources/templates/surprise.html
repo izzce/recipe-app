@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=yes" />
+    <title>Surprise</title>
+
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet"
+		href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+		integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+		crossorigin="anonymous"
+		th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}" />
+	<link rel="stylesheet"
+		href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+		integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
+		crossorigin="anonymous">
+		
+ 	<link rel="stylesheet" href="/static/css/recipe.css" th:href="@{/css/recipe.css}" />
+ 	<link rel="stylesheet" href="/static/css/ellipse.css" th:href="@{/css/ellipse.css}" />
+</head>
+
+<body class="body-index">
+
+	<nav th:fragment="navbar" class="navbar navbar-expand-md navbar-dark bg-dark m-auto p-5 rounded">
+		<div class="navbar-brand">
+		<a class="" href="/"> 
+			<i id="home" class="font-xxl btn btn-outline-primary fas fa-home border-0 pulse"></i>
+		</a>
+		</div>
+			
+		<div class="h1 text-light mx-auto d-flex align-middle">
+			<i id="pepper" class="m-2 text-danger fas fa-pepper-hot glow glow-red rotate"></i>
+			<div id="title" class="m-2 align-middle"><span class="glow glow-red">Surprise</span></div> 
+			<i id="pizza" class="m-2 text-warning fas fa-pizza-slice glow glow-orange rotate"></i>
+		</div>
+	</nav>
+	
+	<canvas id="lightening-canvas"></canvas>
+	
+	<div id="ellipse-box" class="btn btn-outline-warning ellipse-box">
+		<div class="ellipse border-danger">
+			<i id="pepper2" class="circle p-1 text-danger fas fa-pepper-hot glow glow-red"></i>
+		</div>
+		<div class="ellipse border-primary">
+			<i id="fish2" class="circle p-1 text-primary fas fa-fish glow glow-blue"></i>
+		</div>
+		<div class="ellipse border-warning">
+			<i id="lemon2" class="circle p-1 text-warning fas fa-lemon glow glow-yellow"></i>
+		</div>
+	</div>
+	
+	<small id="log" class="text-light small text-right"></small>
+	
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->   
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+		integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+		integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+		crossorigin="anonymous"></script>
+	<script
+		src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+		integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+		crossorigin="anonymous"></script>
+		
+	<script type="text/javascript" th:src="@{/js/perlin-noise.js}" src="/static/js/perlin-noise.js"></script>
+	<script type="text/javascript" th:src="@{/js/lightening.js}" src="/static/js/lightening.js"></script>
+	
+</body>
+</html>
