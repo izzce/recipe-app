@@ -57,10 +57,10 @@ function log() {
 var DRAG_POINT_NUM = 3;
 var DRAG_POINT_MAX_NUM = 4;
 var CHILD_NUM = 2;
-var BACKGROUND_COLOR = 'rgba(0, 15, 20, 0.5)';
+var BACKGROUND_COLOR = 'rgba(0, 15, 20, 0.8)';
 
-// Color
-var H = 195;
+// Color 
+var H = 195; // 285 - violet,  195 - aqua (orig)
 var S = 100;
 var L_MAX = 85;
 var L_MIN = 45;
@@ -123,7 +123,7 @@ function init() {
 
 function startLoop() {
 	//orig: 33
-	loopInterval = setInterval(loop, 30); 
+	loopInterval = setInterval(loop, 35); 
 }
 
 function stopLoop() {
@@ -206,8 +206,8 @@ function loop() {
 //		return;
 //	}
 	
-    //context.globalCompositeOperation = 'source-over';
-    context.globalCompositeOperation = 'xor';
+    context.globalCompositeOperation = 'source-over';
+    //context.globalCompositeOperation = 'xor';
     context.fillStyle = BACKGROUND_COLOR;
     context.fillRect(0, 0, canvas.width, canvas.height);
     

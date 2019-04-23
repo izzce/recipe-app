@@ -23,16 +23,16 @@
 
 <body class="body-index">
 
-	<nav th:fragment="navbar" class="navbar navbar-expand-md navbar-dark bg-dark m-auto p-5 rounded">
-		<div class="navbar-brand">
+	<nav th:fragment="navbar" class="navbar navbar-expand-md navbar-dark bg-dark p-5">
+		<div id="home" class="navbar-brand glow glow-blue">
 		<a class="" href="/"> 
-			<i id="home" class="font-xxl btn btn-outline-primary fas fa-home border-0 pulse"></i>
+			<i class="btn btn-outline-primary fas fa-home border-0 pulse"></i>
 		</a>
 		</div>
 			
-		<div class="h1 text-light mx-auto d-flex align-middle">
+		<div class="text-light mx-auto d-flex navbar-text ">
 			<i id="pepper" class="m-2 text-danger fas fa-pepper-hot glow glow-red rotate"></i>
-			<div id="title" class="m-2 align-middle"><span class="glow glow-red">Surprise</span></div> 
+			<div id="title" class="px-2"><span class="glow glow-red">Surprise</span></div> 
 			<i id="pizza" class="m-2 text-warning fas fa-pizza-slice glow glow-orange rotate"></i>
 		</div>
 	</nav>

@@ -1,93 +1,50 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-    <title>New Recipe</title>
 
-<!-- Latest compiled and minified CSS -->
-<link
-	href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-	rel="stylesheet" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
-	crossorigin="anonymous" th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}" >
-
-<link rel="stylesheet"
-	href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
-	integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
-	crossorigin="anonymous" >
-
-<link rel="stylesheet" 
-	href="../static/css/recipe.css" 
-	th:href="@{/css/recipe.css}" />
-	
- 
-<style type="text/css" th:inline="text">
-
-body.body-form::before {
-  background-image: url([[@{(${recipe.imageUrl})}]]); 
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-  content: "";
-  opacity: 0.5;
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  left: 0;
-  z-index: -1;   
-}
-
-</style>
- 
+<head th:insert="~{layout :: header(title='New Recipe')}">
+	<title>This is New Recipe Form</title>
 </head>
 
 <body class="body-form">
 
-<nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
-	<a class="navbar-brand" href="/"> 
-		<i id="home" class="btn btn-outline-primary fas fa-home fa-2x border-0"></i> 
-	</a>
-	<span id="title" class="h2 text-light mx-auto">
-		<i id="pepper" class="p-1 text-danger fas fa-pepper-hot"></i>
-		<span>New Recipe</span>
-		<i id="pizza" class="p-1 text-warning fas fa-pizza-slice"></i>
-	</span>
-		
+<nav th:replace="~{layout :: navbar(title='New Recipe')}">
+	<span>This is New Recipe navbar</span>
 </nav>
-
+	
 
 <div role="main" class="container">
 
 	<form th:object="${recipe}" th:action="@{/recipe/}" method="post">
 		<input type="hidden" th:field="*{id}" />
 
-		<div class="form-group card col-9 mx-auto bg-dark text-light">
-			<div class="card-header text-center">
+		<div class="form-group card col-10 mx-auto bg-dark text-light">
+			<div class="card-header text-center mt-3">
 				<h3>Enter Recipe Details</h3>
 			</div>
 			
 			<div class="card-body p-0">
+				<ul th:if="${#fields.hasErrors('*')}">
+				  <li th:each="err : ${#fields.errors('*')}" th:text="${err}">Input is incorrect</li>
+				</ul>
 
 				<ul class="list-group list-group-flush">
 
 					<li class="list-group-item bg-transparent">
 						<div class="col-md-3 col-sm-12 float-left">
-							<span class="h6">Description:</span>
+							<span class="h6">Name:</span>
 						</div>
 						<div class="col-md-9 col-sm-12 float-right">
-							<input type="text" class="form-control"
+							<input type="text" class="form-control form-control-sm"
 								th:field="*{description}" />
 						</div>
 					</li>
-
 
 					<li class="list-group-item bg-transparent">
 						<div class="col-md-3 col-sm-12 float-left">
 							<span class="h6">Prep Time (min):</span>
 						</div>
 						<div class="col-md-9 col-sm-12 float-right">
-							<input type="number" class="form-control" th:field="*{prepTime}" />
+							<input type="number" class="form-control form-control-sm" th:field="*{prepTime}" />
 						</div>
 					</li>
 
@@ -96,7 +53,7 @@ body.body-form::before {
 							<span class="h6">Cook time (min):</span>
 						</div>
 						<div class="col-md-9 col-sm-12 float-right">
-							<input type="number" class="form-control" th:field="*{cookTime}" />
+							<input type="number" class="form-control form-control-sm" th:field="*{cookTime}" />
 						</div>
 					</li>
 
@@ -106,7 +63,7 @@ body.body-form::before {
 						</div>
 						<div class="col-md-9 col-sm-12 float-right">
 							<input name="difficulty" list="difficulties"
-								class="form-control" th:field="*{difficulty}" />
+								class="form-control form-control-sm" th:field="*{difficulty}" />
 							<datalist id="difficulties">
 								<option value="Easy" />
 								<option value="Medium" />
@@ -120,7 +77,7 @@ body.body-form::before {
 							<span class="h6">Servings:</span>
 						</div>
 						<div class="col-md-9 col-sm-12 float-right">
-							<input type="number" class="form-control" th:field="*{servings}" />
+							<input type="number" class="form-control form-control-sm" th:field="*{servings}" />
 						</div>
 					</li>
 
@@ -129,7 +86,7 @@ body.body-form::before {
 							<span class="h6">Source:</span>
 						</div>
 						<div class="col-md-9 col-sm-12 float-right">
-							<input type="text" class="form-control" th:field="*{source}" />
+							<input type="text" class="form-control form-control-sm" th:field="*{source}" />
 						</div>
 					</li>
 
@@ -138,7 +95,7 @@ body.body-form::before {
 							<span class="h6">Source URL:</span>
 						</div>
 						<div class="col-md-9 col-sm-12 float-right">
-							<input type="url" class="form-control" th:field="*{url}" />
+							<input type="url" class="form-control form-control-sm" th:field="*{url}" />
 						</div>
 					</li>
 
@@ -147,7 +104,7 @@ body.body-form::before {
 							<span class="h6">Image URL:</span>
 						</div>
 						<div class="col-md-9 col-sm-12 float-right">
-							<input type="url" class="form-control" th:field="*{imageUrl}" />
+							<input type="url" class="form-control form-control-sm" th:field="*{imageUrl}" />
 						</div>
 					</li>
 
@@ -156,7 +113,7 @@ body.body-form::before {
 							<span class="h6">Categories:</span>
 						</div>
 						<div class="col-md-9 col-sm-12 d-flex">
-							<input type="text" class="form-control mr-1" th:field="*{categories}" />
+							<input type="text" class="form-control form-control-sm mr-1" th:field="*{categories}" />
 							<a id="add-category" class="btn btn-outline-primary px-2 py-1 mx-1" href="#" role="button"> <i class="fas fa-1x fa-plus"></i> </a> 
 							<a id="rmv-category" class="btn btn-outline-danger px-2 py-1 mx-1" href="#" role="button"> <i class="fas fa-1x fa-minus"></i> </a>
 						</div>
@@ -167,7 +124,7 @@ body.body-form::before {
 							<span class="h6">Directions:</span>
 						</div>
 						<div class="col-md-9 col-sm-12 d-flex">
-							<input type="text" class="form-control mr-1" th:field="*{directions}" />
+							<input type="text" class="form-control form-control-sm mr-1" th:field="*{directions}" />
 							<a id="add-direction" class="btn btn-outline-primary px-2 py-1 mx-1" href="#" role="button"> <i class="fas fa-1x fa-plus"></i> </a> 
 							<a id="rmv-direction" class="btn btn-outline-danger px-2 py-1 mx-1" href="#" role="button"> <i class="fas fa-1x fa-minus"></i> </a>
 						</div>
@@ -178,7 +135,7 @@ body.body-form::before {
 							<span class="h6">Ingredients:</span>
 						</div>
 						<div class="col-md-9 col-sm-12 d-flex">
-							<input type="text" class="form-control mr-1" th:field="*{ingredients}" />
+							<input type="text" class="form-control form-control-sm mr-1" th:field="*{ingredients}" />
 							<a id="add-ingredient" class="btn btn-outline-primary px-2 py-1 mx-1" href="#" role="button"> <i class="fas fa-1x fa-plus"></i> </a> 
 							<a id="rmv-ingredient" class="btn btn-outline-danger px-2 py-1 mx-1" href="#" role="button"> <i class="fas fa-1x fa-minus"></i> </a>
 						</div>
@@ -189,7 +146,8 @@ body.body-form::before {
 							<span class="h6">Notes:</span>
 						</div>
 						<div class="col-md-9 col-sm-12 d-flex">
-							<input type="text" class="form-control mr-1" th:field="*{notes.recipeNotes}" />
+							<textarea cols="3" class="form-control form-control-sm mr-1" th:field="*{notes.recipeNotes}"> </textarea>
+							<!-- <input type="text" class="form-control form-control-sm mr-1" th:field="*{notes.recipeNotes}" /> -->
 							<a id="add-note" class="btn btn-outline-primary px-2 py-1 mx-1" data-toggle="modal" data-target="#exampleModalCenter" href="#" role="button"> <i class="fas fa-1x fa-plus"></i> </a> 
 							<a id="rmv-note" class="btn btn-outline-danger px-2 py-1 mx-1" href="#" role="button"> <i class="fas fa-1x fa-minus"></i> </a>
 						</div>
@@ -200,72 +158,51 @@ body.body-form::before {
 						 -->
 						
 						<!-- Modal -->
-							<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-							  <div class="modal-dialog modal-dialog-centered" role="document">
-							    <div class="modal-content">
-							      <div class="modal-header">
-							        <h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
-							        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-							          <span aria-hidden="true">&times;</span>
-							        </button>
-							      </div>
-							      <div class="modal-body">
-							        ...
-							      </div>
-							      <div class="modal-footer">
-							        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-							        <button type="button" class="btn btn-primary">Save changes</button>
-							      </div>
-							    </div>
-							  </div>
-							</div>
+						<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+						  <div class="modal-dialog modal-dialog-centered" role="document">
+						    <div class="modal-content">
+						      <div class="modal-header">
+						        <h5 class="modal-title" id="exampleModalCenterTitle">Modal title</h5>
+						        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						          <span aria-hidden="true">&times;</span>
+						        </button>
+						      </div>
+						      <div class="modal-body">
+						        ...
+						      </div>
+						      <div class="modal-footer">
+						        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+						        <button type="button" class="btn btn-primary">Save changes</button>
+						      </div>
+						    </div>
+						  </div>
+						</div>
 					</li>
 
 				</ul>
 
 			</div>
 			
-			<div class="d-flex justify-content-center m-4">
+			<div class="d-flex mx-auto mt-3 mb-5">
 				<button type="submit" class="btn btn-outline-primary mx-2">Submit</button>
 				<button type="reset" class="btn btn-outline-warning mx-2">Reset</button>
 			</div>
 				
 		</div>
-		
-		
+
 	</form>
 
 </div>
 
 
-<footer class="footer footer-dark bg-dark mt-3 p-3">
-  <div class="container text-center">
-    <span class="h6 text-muted p-2">About</span>
-    <span class="h6 text-muted p-2">Contact</span>
-    <span class="h6 text-muted p-2">Copyright &copy; 2019</span>
-  </div>
+<footer th:replace="~{layout :: footer}">
+	<span>This is Index - Copyright &copy; 2019</span>
 </footer>
 
 
+<th:block th:replace="~{layout :: scripts}"></th:block>
 
- <!-- Optional JavaScript -->
- <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-   
-<script type="text/javascript"
-	src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-	integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-	crossorigin="anonymous"></script>
-	
-<script type="text/javascript"
-	src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-	integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-	crossorigin="anonymous"></script>
-	
-<script type="text/javascript"
-	src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-	integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-	crossorigin="anonymous"></script>
-	
+<!-- recipe.js is not included in the layout. So add it explicitly here. -->
 <script type="text/javascript" 
 	th:src="@{/js/recipe.js}"
 	src="../../static/js/recipe.js"></script>
