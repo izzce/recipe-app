@@ -7,4 +7,5 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface CategoryRepository extends CrudRepository<Category, Long> {
 	Optional<Category> findByDescription(String description);
+	Optional<Category> findByDescriptionIgnoreCase(String description);
 }

@@ -33,8 +33,9 @@
                    <td th:text="${recipe.id}">334</td>
                    <td th:text="${recipe.description}">Tasty Goodness 3</td>
                    <td class="text-right">
-                   	<a href="#" th:href="@{'/recipe/show/' + ${recipe.id}}" role="button"><i class="far fa-eye btn btn-outline-primary font-xl border-0 p-1 pulse"></i></a>
-                   	<a href="#" th:href="@{'/recipe/delete/' + ${recipe.id}}" role="button"><i class="fas fa-minus-circle btn btn-outline-danger font-xl border-0 p-1 pulse"></i></a>
+                   	<a href="#" th:href="@{'/recipe/' + ${recipe.id} + '/show'}" role="button"><i class="far fa-eye btn btn-outline-primary font-xl border-0 p-1 pulse"></i></a>
+                   	<a href="#" th:href="@{'/recipe/' + ${recipe.id} + '/update'}" role="button"><i class="far fa-edit btn btn-outline-warning font-xl border-0 p-1 pulse"></i></a>
+                   	<a href="#" th:href="@{'/recipe/' + ${recipe.id} + '/delete'}" role="button"><i class="fas fa-minus-circle btn btn-outline-danger font-xl border-0 p-1 pulse"></i></a>
                    </td>   
                </tr>
                <tr>

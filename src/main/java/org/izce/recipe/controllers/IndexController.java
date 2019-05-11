@@ -26,4 +26,10 @@ public class IndexController {
 		log.debug("Number of recipes found: {}", recipeService.getRecipesCount());
 		return "index";
 	}
+	
+	@RequestMapping("/surprise")
+	public String surprise() {
+		log.info("surprise page is requested!");
+		return "surprise";
+	}
 }

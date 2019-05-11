@@ -1,33 +1,46 @@
 package org.izce.recipe.commands;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.Range;
 import org.izce.recipe.model.Difficulty;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-/**
- * Created by jt on 6/21/17.
- */
 @Getter
 @Setter
 @NoArgsConstructor
 public class RecipeCommand {
     private Long id;
+    
+    @NotEmpty
+    @Size(min=3, max=100)
     private String description;
+    @Range(min=1, max=200)
     private Integer prepTime;
+    @Range(min=0, max=200)
     private Integer cookTime;
+    @Range(min=1, max=10)
     private Integer servings;
+    @NotEmpty
     private String source;
     private String url;
     private String imageUrl;
-    private String directions;
-    private Set<IngredientCommand> ingredients = new HashSet<>();
+    @NotEmpty
+    private List<String> directions = new ArrayList<>();
+    @NotEmpty
+    private List<IngredientCommand> ingredients = new ArrayList<>();
+    @NotNull
     private Difficulty difficulty;
     private NotesCommand notes = new NotesCommand();
-    private Set<CategoryCommand> categories = new HashSet<>();
+    @NotEmpty
+    private List<CategoryCommand> categories = new ArrayList<>();
 
 }

@@ -1,5 +1,8 @@
 package org.izce.recipe.converters;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import org.izce.recipe.commands.RecipeCommand;
 import org.izce.recipe.model.Category;
 import org.izce.recipe.model.Recipe;
@@ -35,7 +38,10 @@ public class RecipeToRecipeCommand implements Converter<Recipe, RecipeCommand>{
         command.setPrepTime(source.getPrepTime());
         command.setDescription(source.getDescription());
         command.setDifficulty(source.getDifficulty());
-        command.setDirections(source.getDirections());
+        var directionsArr = source.getDirections().split("\\r?\\n");
+        var directionsList = new ArrayList<String>();
+        Arrays.stream(directionsArr).forEach(directionsList::add);
+        command.setDirections(directionsList);
         command.setServings(source.getServings());
         command.setSource(source.getSource());
         command.setUrl(source.getUrl());

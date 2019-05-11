@@ -26,16 +26,20 @@
   opacity: 0.9;
 }
 
-/* 
-.bg-grad { background-image: linear-gradient(to bottom right, white, silver); }
-.bg-grad-down { background-image: linear-gradient(to bottom right, skyblue, white); } 
-*/
-
 .font-xxl { font-size: xx-large; }
 .font-xl { font-size: x-large; }
+.font-lg { font-size: large; }
+.font-lgr { font-size: larger; }
+.font-md { font-size: medium; }
+.font-smr { font-size: smaller; }
+.font-sm { font-size: small; }
 
+.alert-btn-cancel {
+	position: absolute;
+	right: 2%;
+}
 
-/* Custom properties */
+/* Custom properties for Glow Effects */
 :root {
 	--glow-radius: 2px; /* glow radius */
 	--glow-in-color: #FFF; /* glow color inside */

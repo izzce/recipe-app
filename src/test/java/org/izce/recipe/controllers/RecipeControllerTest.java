@@ -14,23 +14,18 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.ui.Model;
 
 public class RecipeControllerTest {
-	@Mock
-	RecipeService recipeService;
-	@Mock
-	Model model;
+	@Mock RecipeService recipeService;
+	@Mock Model model;
 	RecipeController recipeController;
 	MockMvc mockMvc;
 	
-	@Before
-	public void setUp() throws Exception {
+	@Before public void setUp() throws Exception {
 		MockitoAnnotations.initMocks(this);
 		recipeController = new RecipeController(recipeService);
 		mockMvc = MockMvcBuilders.standaloneSetup(recipeController).build();
 	}
 
-	@Test
-	public void testShowById() throws Exception {
-		mockMvc.perform(get("/recipe/show/1")).andExpect(status().isOk()).andExpect(view().name("recipe/show"));
+	@Test public void testShowById() throws Exception {
+		mockMvc.perform(get("/recipe/1/show")).andExpect(status().isOk()).andExpect(view().name("recipe/show"));
 	}
-	
 }

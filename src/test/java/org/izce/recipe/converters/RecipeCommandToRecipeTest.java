@@ -4,6 +4,9 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import org.izce.recipe.commands.CategoryCommand;
 import org.izce.recipe.commands.IngredientCommand;
 import org.izce.recipe.commands.NotesCommand;
@@ -58,7 +61,10 @@ public class RecipeCommandToRecipeTest {
         recipeCommand.setPrepTime(PREP_TIME);
         recipeCommand.setDescription(DESCRIPTION);
         recipeCommand.setDifficulty(DIFFICULTY);
-        recipeCommand.setDirections(DIRECTIONS);
+        var directionsArr = DIRECTIONS.split("\\r?\\n");
+        var directionsList = new ArrayList<String>();
+        Arrays.stream(directionsArr).forEach(directionsList::add);
+        recipeCommand.setDirections(directionsList);
         recipeCommand.setServings(SERVINGS);
         recipeCommand.setSource(SOURCE);
         recipeCommand.setUrl(URL);
