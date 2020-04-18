@@ -17,7 +17,7 @@
 	<!-- This is for printing Thymeleaf variables for debugging purposes -->
 	<!-- <th:block th:replace="~{fragments :: thymeleafvars}"></th:block> -->
     
-	<form name="recipe-form" th:object="${recipe}" th:action="@{/recipe/new}" method="post">
+	<form name="recipe-form" th:object="${recipe}" th:action="@{/recipe}" method="post">
 		<input type="hidden" th:field="*{id}" />
 		
 		<div class="card col-lg-10 col-md-12 mx-auto bg-dark text-light">
@@ -176,7 +176,7 @@
 							</span>
 						</div>
 						<div class="input-group input-group-sm mt-1 px-2 py-1">
-							<!-- <input type="hidden" th:field="*{categories}" /> -->
+							<input type="hidden" th:field="*{categories}" />
 							<input type="text" id="input-category" class="form-control"
 									placeholder="Add some categories i.e. Turkish, Mexican" />
 							<ul th:if="${#fields.hasErrors('categories')}" class="alert alert-danger mb-0 py-2 invalid-feedback" role="alert">
@@ -213,6 +213,7 @@
 						</div>
 						</th:block>
 						<div id="direction-input-box" class="input-group input-group-sm mt-1 px-2 py-1">
+							<input type="hidden" th:field="*{directions}" />
 							<input type="text" id="input-direction" class="form-control"
 								placeholder="Add some directions i.e. Cook, Slice" />
 							<ul th:if="${#fields.hasErrors('directions')}" class="alert alert-danger mb-0 py-2 invalid-feedback" role="alert">
@@ -239,13 +240,26 @@
 							<i class="far fa-times-circle"></i></a>
 						</div>
 						
-						<th:block th:each="ingredient, ingredientStat : *{ingredients}">
-						<div th:id="'ingredient-' + ${ingredientStat.index}" 
+						<th:block th:each="ingredient, itemStat : *{ingredients}">
+						<div th:id="'ingredient-' + ${itemStat.index}" 
 							class="ingredient alert alert-success mx-2 my-1 px-2 py-1 font-sm">
 							<span class="" th:text="${ingredient}">1 Teaspoon Salt</span>
-							<a class="btn-outline-success bg-transparent float-right" 
-								th:href="@{/recipe/ingredient/remove(index=${ingredientStat.index})}">
-							<i class="far fa-times-circle"></i></a>
+							<input type="hidden" th:field="*{ingredients[__${itemStat.index}__].id}" />
+							<span th:id="'span-edit-ingredient-' + ${itemStat.index}" >
+								<input type="text" class="d-none" th:field="*{ingredients[__${itemStat.index}__].amount}" />
+								<input type="text" class="d-none" th:field="*{ingredients[__${itemStat.index}__].uom.uom}" />
+								<input type="text" class="d-none" th:field="*{ingredients[__${itemStat.index}__].description}" />
+							</span>
+							<a th:id="'btn-remove-ingredient-' + ${itemStat.index}" 
+								class="btn-outline-success bg-transparent float-right" 
+								th:href="@{/recipe/ingredient/remove(index=${itemStat.index})}">
+								<i class="font-lg far fa-times-circle"></i>
+							</a>
+							<a th:id="'btn-edit-ingredient-' + ${itemStat.index}"
+							class="btn-edit-ingredient btn-outline-success bg-transparent float-right" 
+								th:href="@{/recipe/ingredient/edit(index=${itemStat.index})}">
+								<i class="mx-1 font-lg fas fa-pen-square"></i>
+							</a>
 						</div>
 						</th:block>
 						<div id="ingredient-input-box" class="row mx-1 my-1 py-1 font-sm">
@@ -276,6 +290,7 @@
 								</div>
 							</div>
 							
+							<input type="hidden" th:field="*{ingredients}" />
 							<ul th:if="${#fields.hasErrors('ingredients')}" class="alert alert-danger mb-0 py-2 invalid-feedback" role="alert">
 								<li th:each="err : ${#fields.errors('ingredients')}" th:text="${err}">Input is incorrect</li>
 							</ul> 
@@ -285,18 +300,24 @@
 				</div>	
 				
 				<!--##### NOTES #####-->
-				<div class="input-group input-group-sm m-3">
-					<div class="input-group-prepend">
-						<label for="recipeNotes" class="input-group-text">Notes</label>
+				<div class="card input-group m-3 bg-transparent border border-info">
+					<div class="card-header">
+						<span class="h6 text-info">Notes</span>
 					</div>
-					<textarea rows="2"  
-						th:field="*{notes.recipeNotes}"
-						th:errorclass="is-invalid"
-						class="form-control" 
-						id="recipeNotes"
-						placeholder="Anything else you would like to add..." > </textarea>
+					
+					<div class="card-body px-3 pt-0" >
+						<div class="input-group input-group-sm">
+							<textarea rows="5"  
+								th:field="*{notes.recipeNotes}"
+								th:errorclass="is-invalid"
+								class="form-control" 
+								id="recipeNotes"
+								placeholder="Anything else you would like to add..." > 
+							</textarea>
+						</div>
+					</div>
+					
 				</div>
-			
 			</div>
 			
 			<div class="card-footer d-flex justify-content-center mb-4">

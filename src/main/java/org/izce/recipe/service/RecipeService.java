@@ -11,6 +11,7 @@ public interface RecipeService {
 	Iterable<Recipe> getRecipes();
 	Long getRecipesCount();
 	Recipe findById(Long id);
+	RecipeCommand findRecipeCommandById(Long id);
 	RecipeCommand saveRecipeCommand(RecipeCommand command);
 	CategoryCommand findCategoryByDescription(String description);
 	UnitOfMeasureCommand findUom(String uom);

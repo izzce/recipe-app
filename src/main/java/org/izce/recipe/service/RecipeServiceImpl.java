@@ -169,5 +169,10 @@ public class RecipeServiceImpl implements RecipeService {
 		return uomcList;
 	}
 
+	@Transactional
+	@Override
+	public RecipeCommand findRecipeCommandById(Long id) {
+		return recipeToRecipeCommand.convert(findById(id));
+	}
 	
 }

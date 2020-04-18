@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Range;
@@ -29,18 +28,17 @@ public class RecipeCommand {
     private Integer cookTime;
     @Range(min=1, max=10)
     private Integer servings;
-    @NotEmpty
     private String source;
     private String url;
     private String imageUrl;
-    @NotEmpty
+    //@NotEmpty
     private List<String> directions = new ArrayList<>();
-    @NotEmpty
+    //@NotEmpty
     private List<IngredientCommand> ingredients = new ArrayList<>();
-    @NotNull
+    //@NotNull
     private Difficulty difficulty;
     private NotesCommand notes = new NotesCommand();
-    @NotEmpty
+    //@NotEmpty
     private List<CategoryCommand> categories = new ArrayList<>();
 
 }

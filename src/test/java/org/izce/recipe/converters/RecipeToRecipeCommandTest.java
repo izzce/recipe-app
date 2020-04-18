@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
+import org.assertj.core.util.Arrays;
 import org.izce.recipe.commands.RecipeCommand;
 import org.izce.recipe.model.Category;
 import org.izce.recipe.model.Difficulty;
@@ -96,7 +97,7 @@ public class RecipeToRecipeCommandTest {
         assertEquals(PREP_TIME, command.getPrepTime());
         assertEquals(DESCRIPTION, command.getDescription());
         assertEquals(DIFFICULTY, command.getDifficulty());
-        assertEquals(DIRECTIONS, command.getDirections());
+        assertEquals(Arrays.asList(new String[] {DIRECTIONS}), command.getDirections());
         assertEquals(SERVINGS, command.getServings());
         assertEquals(SOURCE, command.getSource());
         assertEquals(URL, command.getUrl());

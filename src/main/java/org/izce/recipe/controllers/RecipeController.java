@@ -14,7 +14,6 @@ import org.izce.recipe.commands.IngredientCommand;
 import org.izce.recipe.commands.RecipeCommand;
 import org.izce.recipe.service.RecipeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -43,14 +42,14 @@ public class RecipeController {
 	}
 
 	@RequestMapping("/recipe/{id}/show")
-	public String showById(@PathVariable String id, Model model) {
+	public String showRecipe(@PathVariable String id, Model model) {
 		log.debug("recipe/show page is requested!");
 		model.addAttribute("recipe", recipeService.findById(Long.valueOf(id)));
 		return "recipe/show";
 	}
 
     @RequestMapping("/recipe/new")
-    public String newRecipe(final Model model){
+    public String createRecipe(final Model model){
     	RecipeCommand rc = new RecipeCommand();
     	rc.getCategories().add(recipeService.findCategoryByDescription("Turkish"));
     	rc.getDirections().add("Slice");
@@ -64,9 +63,16 @@ public class RecipeController {
 
         return "recipe/form";
     }
+    
+	@RequestMapping("/recipe/{id}/update")
+	public String updateRecipe(@PathVariable String id, Model model) {
+		log.debug("recipe/{}/update page is requested!", id);
+		model.addAttribute("recipe", recipeService.findRecipeCommandById(Long.valueOf(id)));
+		return "recipe/form";
+	}
 
-    @PostMapping("/recipe/new")
-    public String saveOrUpdate(@Validated @ModelAttribute("recipe") RecipeCommand recipe, 
+    @PostMapping("/recipe")
+    public String saveOrUpdateRecipe(@Validated @ModelAttribute("recipe") RecipeCommand recipe, 
     		BindingResult bindingResult, 
     		Model model, 
     		SessionStatus status) {
@@ -86,34 +92,25 @@ public class RecipeController {
         return "redirect:/recipe/" + savedRecipe.getId() + "/show";
     }
     
-    @PostMapping(value="/recipe/{elementType}/{action}", produces = MediaType.APPLICATION_JSON_UTF8_VALUE )
+
+    private void printRequestMap(HttpServletRequest req) {
+    	var reqParamMap = req.getParameterMap();
+    	StringBuilder sb = new StringBuilder();
+    	reqParamMap.forEach((k,v) -> sb.append(k).append(": ").append(Arrays.toString(v)).append(' '));
+    	log.info("params: {}", sb);
+    }
+    
+    @PostMapping(value="/recipe/category/{action}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody 
-    public Map<String, String> manageElement(
+    public Map<String, String> manageCategory(
     		@ModelAttribute("recipe") RecipeCommand recipe, 
-    		@PathVariable String elementType, 
-    		@PathVariable String action,
+    		@PathVariable String action, 
     		HttpServletRequest req, 
     		HttpServletResponse res) throws Exception {
     	
     	var reqParamMap = req.getParameterMap();
-    	StringBuilder sb = new StringBuilder();
-    	reqParamMap.forEach((k,v) -> sb.append(k).append(": ").append(Arrays.toString(v)).append(' '));
-    	log.info("manageElement: {} {}, params: {}", action, elementType, sb);
+    	printRequestMap(req);
     	
-    	if (elementType.equals("category")) {
-    		return manageCategory(recipe, action, reqParamMap);
-    	} else if (elementType.equals("direction")) {
-    		return manageDirection(recipe, action, reqParamMap);
-    	} else if (elementType.equals("ingredient")) {
-    		return manageIngredient(recipe, action, reqParamMap);
-    	} else {
-    		res.sendError(HttpStatus.NOT_IMPLEMENTED.value(), "Unsupported element type " + elementType);
-    		throw new RuntimeException("Unsupported element type: " + elementType);
-    	}
-    }
-
-    
-    private Map<String, String> manageCategory(RecipeCommand recipe, String action, Map<String, String[]> reqParamMap) {
     	Map<String, String> map = new HashMap<>();
     	map.put("type", "category");
     	
@@ -142,7 +139,17 @@ public class RecipeController {
 	}
 
     
-    private Map<String, String> manageDirection(RecipeCommand recipe, String action, Map<String, String[]> reqParamMap) {
+    @PostMapping(value="/recipe/direction/{action}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody 
+    public Map<String, String> manageDirection(
+    		@ModelAttribute("recipe") RecipeCommand recipe, 
+    		@PathVariable String action, 
+    		HttpServletRequest req, 
+    		HttpServletResponse res) throws Exception {
+    	
+    	var reqParamMap = req.getParameterMap();
+    	printRequestMap(req);
+    	
     	Map<String, String> map = new HashMap<>();
     	map.put("type", "direction");
     	
@@ -169,10 +176,20 @@ public class RecipeController {
 		return map;
 	}
     
-    private Map<String, String> manageIngredient(RecipeCommand recipe, String action, Map<String, String[]> reqParamMap) {
+    
+    @PostMapping(value="/recipe/ingredient/{action}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseBody 
+    public Map<String, String> manageIngredient(
+    		@ModelAttribute("recipe") RecipeCommand recipe, 
+    		@PathVariable String action, 
+    		HttpServletRequest req, 
+    		HttpServletResponse res) throws Exception {
+    	
+    	var reqParamMap = req.getParameterMap();
+    	printRequestMap(req);
+    	
     	Map<String, String> map = new HashMap<>();
     	map.put("type", "ingredient");
-    	
 
     	if ("add".equalsIgnoreCase(action)) {
     		String element = reqParamMap.get("element")[0];

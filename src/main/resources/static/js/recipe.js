@@ -10,6 +10,14 @@ $(document).ready(function() {
 	// Define INGREDIENT Events	
 	registerEvents('ingredient', 'div', '#input-ingredient-description', '#input-ingredient-amount', '#input-ingredient-uom');
 	
+	const $editBtn = $('.btn-edit-ingredient');
+	$editBtn.click(function(e) {
+		e.preventDefault();
+		e.stopPropagation();
+		
+		toggleEditIngredient(e);
+	});
+	
 });
 
 function registerEvents(elementType, boxType, inputId1, inputId2, inputId3) {
@@ -240,3 +248,32 @@ function removeIngredient(e) {
 	    	console.error('Status: ' + JSON.stringify(textStatus) + ', Error: ' + JSON.stringify(errorThrown));
 	    });
 };
+
+
+function editIngredient(e) {
+	e.preventDefault();
+	e.stopPropagation();
+	
+    $.post( {url: this.href, 
+    		dataType: 'json'})
+	    .done(function(data) {
+	    	console.log("data: ", data);
+	    	if (data.status == 'OK') {
+	    		const urlParams = new URL(this.url).searchParams;
+	    		$('#ingredient-' + urlParams.get('index')).remove();
+	    	} else {
+	    		console.error('Data returned: ' + JSON.stringify(data));
+	    		alert('Data returned: ' + JSON.stringify(data));
+	    	}
+	    })
+	    .fail(function(textStatus, errorThrown) {
+	    	console.error('Status: ' + JSON.stringify(textStatus) + ', Error: ' + JSON.stringify(errorThrown));
+	    });
+};
+
+
+function toggleEditIngredient(e) {
+	
+	
+};
+
