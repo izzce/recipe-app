@@ -1,6 +1,6 @@
 package org.izce.recipe.model;
 
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -38,7 +38,7 @@ public class Recipe {
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "recipe")
 	@EqualsAndHashCode.Exclude 
-	private Set<Ingredient> ingredients = new HashSet<Ingredient>();
+	private Set<Ingredient> ingredients = new LinkedHashSet<Ingredient>();
 	@Lob
 	private Byte[] image;
 	private String imageUrl;
@@ -52,7 +52,7 @@ public class Recipe {
 			joinColumns = @JoinColumn(name = "recipe_id"), 
 			inverseJoinColumns = @JoinColumn(name = "category_id"))
 	@EqualsAndHashCode.Exclude 
-	private Set<Category> categories = new HashSet<Category>();
+	private Set<Category> categories = new LinkedHashSet<Category>();
 
 	public void setNotes(Notes notes) {
 		if (notes != null) {
@@ -69,7 +69,7 @@ public class Recipe {
 		if (directions == null) {
 			return new String[0];
 		}
-		String[] directionsArray = directions.split("\\d\\.");
+		String[] directionsArray = directions.split("\\d\\. ");
 		return directionsArray;
 	}
 

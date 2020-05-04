@@ -10,8 +10,7 @@
 */
 
 .body-index, .body-form { 
-	background-image: url('https://www.simplyrecipes.com/wp-content/uploads/2006/03/shrimp-cakes-vertical-a-1600-793x1024.jpg') ;
-	/* background-image: url('https://www.simplyrecipes.com/wp-content/uploads/2013/03/hoisin-glazed-salmon-vertical-735.jpg'); */	
+	background-image: url('https://www.simplyrecipes.com/wp-content/uploads/2006/03/shrimp-cakes-vertical-a-1600-793x1024.jpg');
 	background-repeat: no-repeat;
 	background-attachment: fixed;
 	background-size: cover;
@@ -37,6 +36,10 @@
 .alert-btn-cancel {
 	position: absolute;
 	right: 2%;
+}
+
+.highlight {
+	box-shadow: 0 0 0 3px violet;
 }
 
 /* Custom properties for Glow Effects */

@@ -1,7 +1,7 @@
 package org.izce.recipe.service;
 
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -84,7 +84,7 @@ public class RecipeServiceImpl implements RecipeService {
     public RecipeCommand saveRecipeCommand(RecipeCommand recipeCommand) {
         Recipe recipe = recipeCommandToRecipe.convert(recipeCommand);
         if (recipe.getCategories().size() > 0) {
-        	Set<Category> newCategories = new HashSet<>();
+        	Set<Category> newCategories = new LinkedHashSet<>();
         	for (Category c : recipe.getCategories()) {
         		if (c.getId() == null) {
         			Optional<Category> savedCategory = categoryRepo.findByDescriptionIgnoreCase(c.getDescription());
@@ -107,7 +107,7 @@ public class RecipeServiceImpl implements RecipeService {
         }
         
         if (recipe.getIngredients().size() > 0) {
-        	Set<Ingredient> newIngredients = new HashSet<>();
+        	Set<Ingredient> newIngredients = new LinkedHashSet<>();
         	for(Ingredient ingredient : recipe.getIngredients()) {
         		ingredient.setRecipe(recipe);
         		if (ingredient.getId() == null) {

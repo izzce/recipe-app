@@ -20,30 +20,32 @@
 	crossorigin="anonymous">
 	
 <link rel="stylesheet" href="/static/css/recipe.css" th:href="@{/css/recipe.css}" />
+<!--  <link rel="icon" href="/static/images/pepper.gif" type="image/gif" sizes="16x16" /> --> 
+<link rel="icon" href="/static/images/favicon-pepper.png" type="image/png" th:href="@{/images/favicon-pepper.png}" />
 </th:block>	
 </head>
 
 <body class="body-layout">
 
 <nav th:fragment="navbar" class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
-	<div class="navbar-brand">
+	<div class="d-none d-sm-block navbar-brand">
 	<a class="" href="/"> 
-		<i id="home" class="font-xxl btn btn-outline-primary fas fa-home border-0 pulse"></i>
+		<i id="home" class="font-xl btn btn-outline-primary fas fa-home border-0 pulse"></i>
 	</a>
 	</div>
 		
-	<div class="font-xxl text-light mx-auto d-flex navbar-text">
+	<div class="font-xl text-light mx-auto d-flex navbar-text">
 		<a class="" href="/surprise.html" th:href="@{/surprise}"><i id="pepper" class="p-1 text-danger fas fa-pepper-hot glow glow-red rotate"></i></a>
 		<div id="title" class="mx-2"><span class="glow glow-red" th:text="${title ?: 'Elvis: Recipes'}">Layout: Recipes</span></div> 
 		<a class="" href="/surprise.html" th:href="@{/surprise}"><i id="pizza" class="p-1 text-warning fas fa-pizza-slice glow glow-orange rotate"></i></a>
 	</div>
 	
-	<div class="text-light justify-content-end" >
+	<div class="d-none d-sm-block text-light justify-content-end" >
 		<a href="https://github.com/izzce" target="_blank">
-		<i class="font-xxl btn btn-outline-light fab fa-github border-0 pulse"></i>
+		<i class="font-xl btn btn-outline-light fab fa-github border-0 pulse"></i>
 		</a>
 		<a href="https://stackoverflow.com/users/4211402/izce" target="_blank">
-		<i class="font-xxl btn btn-outline-light fab fab fa-stack-overflow border-0 pulse"></i>
+		<i class="font-xl btn btn-outline-light fab fab fa-stack-overflow border-0 pulse"></i>
 		</a>
 	</div>
 </nav>
@@ -67,9 +69,9 @@
 
 <!-- jQuery first, then Popper.js, then Bootstrap JS -->   
 	<!-- jQuery first, then Popper.js, then Bootstrap JS -->   
-	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" 
-			integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" 
-			crossorigin="anonymous">
+	<script src="https://code.jquery.com/jquery-3.5.0.min.js"
+  			integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ="
+  			crossorigin="anonymous">
 	</script>
 	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" 
 			integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" 

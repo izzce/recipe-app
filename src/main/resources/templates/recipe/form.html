@@ -148,7 +148,7 @@
 				</div>
 				
 				<!--##### CATEGORIES #####-->
-				<div class="card input-group m-3 bg-transparent border border-primary">
+				<div th:if="${recipe.id != null}" class="card input-group m-3 bg-transparent border border-primary">
 					<div class="card-header">
 						<span class="h6 text-primary">Categories</span>
 					</div>
@@ -176,7 +176,7 @@
 							</span>
 						</div>
 						<div class="input-group input-group-sm mt-1 px-2 py-1">
-							<input type="hidden" th:field="*{categories}" />
+							<!-- <input type="hidden" th:field="*{categories}" />  -->
 							<input type="text" id="input-category" class="form-control"
 									placeholder="Add some categories i.e. Turkish, Mexican" />
 							<ul th:if="${#fields.hasErrors('categories')}" class="alert alert-danger mb-0 py-2 invalid-feedback" role="alert">
@@ -190,7 +190,7 @@
 				</div>
 				
 				<!--##### DIRECTIONS #####-->
-				<div class="card input-group m-3 bg-transparent border border-warning">
+				<div th:if="${recipe.id != null}" class="card input-group m-3 bg-transparent border border-warning">
 					<div class="card-header">
 						<span class="h6 text-warning">Directions</span>
 					</div>
@@ -213,7 +213,7 @@
 						</div>
 						</th:block>
 						<div id="direction-input-box" class="input-group input-group-sm mt-1 px-2 py-1">
-							<input type="hidden" th:field="*{directions}" />
+							<!-- <input type="hidden" th:field="*{directions}" />  -->
 							<input type="text" id="input-direction" class="form-control"
 								placeholder="Add some directions i.e. Cook, Slice" />
 							<ul th:if="${#fields.hasErrors('directions')}" class="alert alert-danger mb-0 py-2 invalid-feedback" role="alert">
@@ -227,43 +227,50 @@
 				</div>			
 				
 				<!--##### INGREDIENTS #####-->
-				<div class="card input-group m-3 bg-transparent border border-success">
+				<div th:if="${recipe.id != null}" class="card input-group m-3 bg-transparent border border-success">
 					<div class="card-header">
 						<span class="h6 text-success">Ingredients</span>
 					</div>
 					<div class="card-body p-2" >
-						<!--  This is template for adding new directions -->
-						<div id="ingredient-" class="ingredient alert alert-success mx-2 my-1 px-2 py-1 font-sm" style="display: none;">
-							<span class="">1 Teaspoon Salt</span>
-							<a class="btn-outline-success bg-transparent float-right" 
-								href="/recipe/ingredient/remove">
-							<i class="far fa-times-circle"></i></a>
-						</div>
 						
-						<th:block th:each="ingredient, itemStat : *{ingredients}">
-						<div th:id="'ingredient-' + ${itemStat.index}" 
-							class="ingredient alert alert-success mx-2 my-1 px-2 py-1 font-sm">
-							<span class="" th:text="${ingredient}">1 Teaspoon Salt</span>
-							<input type="hidden" th:field="*{ingredients[__${itemStat.index}__].id}" />
-							<span th:id="'span-edit-ingredient-' + ${itemStat.index}" >
-								<input type="text" class="d-none" th:field="*{ingredients[__${itemStat.index}__].amount}" />
-								<input type="text" class="d-none" th:field="*{ingredients[__${itemStat.index}__].uom.uom}" />
-								<input type="text" class="d-none" th:field="*{ingredients[__${itemStat.index}__].description}" />
-							</span>
-							<a th:id="'btn-remove-ingredient-' + ${itemStat.index}" 
-								class="btn-outline-success bg-transparent float-right" 
-								th:href="@{/recipe/ingredient/remove(index=${itemStat.index})}">
-								<i class="font-lg far fa-times-circle"></i>
+						<!-- START: TEMPLATE for adding new ingredients -->
+						<div id="ingredient-template" class="ingredient alert alert-success mx-2 my-1 px-2 py-1 font-sm d-none">
+							<span class="ingredient-text">1.5 Teaspoon Salt</span>
+							<!-- Note that recipe.id will be replaced with its actual value 
+								but {ingredient.id} is a placeholder for recipe.js to replace it. -->
+							<a class="btn-remove-ingredient btn-outline-success bg-transparent float-right" 
+								th:href="@{'/recipe/' + ${recipe.id} + '/ingredient/{ingredient.id}/delete'}">
+							<i class="far fa-times-circle"></i>
 							</a>
-							<a th:id="'btn-edit-ingredient-' + ${itemStat.index}"
-							class="btn-edit-ingredient btn-outline-success bg-transparent float-right" 
-								th:href="@{/recipe/ingredient/edit(index=${itemStat.index})}">
+							<a class="btn-edit-ingredient btn-outline-success bg-transparent float-right" 
+								th:href="@{'/recipe/' + ${recipe.id} + '/ingredient/{ingredient.id}/update'}">
 								<i class="mx-1 font-lg fas fa-pen-square"></i>
 							</a>
 						</div>
-						</th:block>
-						<div id="ingredient-input-box" class="row mx-1 my-1 py-1 font-sm">
-							<div class="input-group input-group-sm col-md-3 my-0 px-1">
+						<!-- END: TEMPLATE -->
+						
+						<!-- START: Current ingredients List -->
+						<div th:each="ingredient, itemStat : *{ingredients}" th:id="'ingredient-' + ${ingredient.id}" 
+							class="ingredient alert alert-success mx-2 my-1 px-2 py-1 font-sm">
+							<span class="ingredient-text" 
+								th:text="${ingredient}"
+								 th:attr="data-id=${ingredient.id}, data-amount=${ingredient.amount}, data-uomid=${ingredient.uom.id}, data-description=${ingredient.description}"
+								>1 Teaspoon Salt</span>
+							<a th:id="'btn-remove-ingredient-' + ${ingredient.id}" 
+								class="btn-remove-ingredient btn-outline-success bg-transparent float-right" 
+								th:href="@{'/recipe/' + ${recipe.id} + '/ingredient/' + ${ingredient.id} + '/delete'}" title="Delete">
+								<i class="font-lg far fa-times-circle"></i>
+							</a>
+							<a th:id="'btn-edit-ingredient-' + ${ingredient.id}"
+								class="btn-edit-ingredient btn-outline-success bg-transparent float-right" 
+								th:href="@{'/recipe/' + ${recipe.id} + '/ingredient/' + ${ingredient.id} + '/update'}" title="Edit">
+								<i class="mx-1 font-lg fas fa-pen-square"></i>
+							</a>
+						</div>
+						<!-- END: Current ingredients List -->
+						
+						<div id="ingredient-input-box" class="row mx-1 my-1 py-1 font-sm rounded">
+							<div class="input-group input-group-sm col-md-2 my-0 px-1">
 								<div class="input-group-prepend">
 									<label for="input-ingredient-amount" class="input-group-text">Amount</label>
 								</div>
@@ -280,17 +287,26 @@
 								    </option>
 								</select>
 							</div>
-							<div class="input-group input-group-sm col-md-6 my-0 px-1">
+							<div class="input-group input-group-sm col-md-7 my-0 px-1">
 								<div class="input-group-prepend">
 									<label for="input-ingredient-description" class="input-group-text">Ingredient</label>
 								</div>
 								<input type="text" id="input-ingredient-description" class="form-control font-sm"/>
 								<div class="input-group-append">
-									<a id="btn-add-ingredient" class="btn btn-outline-success ml-1 font-sm" th:href="@{/recipe/ingredient/add}"> <i class="fas fa-1x fa-plus"></i> </a> 
+									<a id="btn-add-ingredient" class="btn btn-outline-success ml-1 font-sm" 
+										th:href="@{'/recipe/' + ${recipe.id} + '/ingredient/add'}" title="Add" > 
+										<i class="fas fa-1x fa-plus"></i> 
+									</a> 
+									<a id="btn-update-ingredient" class="d-none btn btn-outline-success ml-1 font-sm" title="Update"> 
+										<i class="fas fa-1x fa-pen"></i> 
+									</a> 
+									<a id="btn-cancel-update-ingredient" class="d-none btn btn-outline-success ml-1 font-sm" title="Cancel"> 
+										<i class="fas fa-1x fa-times"></i>
+									</a>
 								</div>
 							</div>
 							
-							<input type="hidden" th:field="*{ingredients}" />
+							<!--  <input type="hidden" th:field="*{ingredients}" />  -->
 							<ul th:if="${#fields.hasErrors('ingredients')}" class="alert alert-danger mb-0 py-2 invalid-feedback" role="alert">
 								<li th:each="err : ${#fields.errors('ingredients')}" th:text="${err}">Input is incorrect</li>
 							</ul> 
@@ -300,7 +316,7 @@
 				</div>	
 				
 				<!--##### NOTES #####-->
-				<div class="card input-group m-3 bg-transparent border border-info">
+				<div th:if="${recipe.id != null}" class="card input-group m-3 bg-transparent border border-info">
 					<div class="card-header">
 						<span class="h6 text-info">Notes</span>
 					</div>

@@ -1,7 +1,6 @@
 package org.izce.recipe;
 
 import org.izce.recipe.formatters.CategoryFormatter;
-import org.izce.recipe.formatters.IngredientFormatter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Configuration;
@@ -21,7 +20,6 @@ public class RecipeAppApplication {
         @Override
         public void addFormatters(FormatterRegistry registry) {
             registry.addFormatter(new CategoryFormatter());
-            registry.addFormatter(new IngredientFormatter());
         }
     }
 }

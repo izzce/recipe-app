@@ -11,10 +11,12 @@ import javax.persistence.OneToOne;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @Data
 @NoArgsConstructor
 @Entity
+@ToString
 public class Ingredient {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,6 +27,7 @@ public class Ingredient {
 	@OneToOne
 	private UnitOfMeasure uom;
 
+	@ToString.Exclude
 	@ManyToOne
 	private Recipe recipe;
 
@@ -33,5 +36,4 @@ public class Ingredient {
 		this.amount = new BigDecimal(amount);
 		this.uom = uom;
 	}
-
 }

@@ -12,10 +12,12 @@ import org.izce.recipe.model.Difficulty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
 @NoArgsConstructor
+@ToString
 public class RecipeCommand {
     private Long id;
     
