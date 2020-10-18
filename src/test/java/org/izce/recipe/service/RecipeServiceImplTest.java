@@ -7,6 +7,7 @@ import static org.mockito.Mockito.when;
 
 import java.util.HashSet;
 
+import org.izce.recipe.converters.CategoryToCategoryCommand;
 import org.izce.recipe.converters.RecipeCommandToRecipe;
 import org.izce.recipe.converters.RecipeToRecipeCommand;
 import org.izce.recipe.converters.UnitOfMeasureToUnitOfMeasureCommand;
@@ -31,12 +32,13 @@ public class RecipeServiceImplTest {
     @Mock RecipeToRecipeCommand recipeToRecipeCommand;
     @Mock RecipeCommandToRecipe recipeCommandToRecipe;
     @Mock UnitOfMeasureToUnitOfMeasureCommand uom2uomc;
+    @Mock CategoryToCategoryCommand cTocc;
     
 	@Before
 	public void setUp() throws Exception {
 		MockitoAnnotations.initMocks(this);
 
-		service = new RecipeServiceImpl(repository, catRepo, ingredientRepo, uomRepo, notesRepo, recipeCommandToRecipe, recipeToRecipeCommand, uom2uomc);
+		service = new RecipeServiceImpl(repository, catRepo, ingredientRepo, uomRepo, notesRepo, recipeCommandToRecipe, recipeToRecipeCommand, uom2uomc, cTocc);
 	}
 
 	@Test

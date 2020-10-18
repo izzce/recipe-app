@@ -34,6 +34,7 @@ public class RecipeServiceImpl implements RecipeService {
 	private final RecipeRepository recipeRepository;
     private final RecipeCommandToRecipe recipeCommandToRecipe;
     private final RecipeToRecipeCommand recipeToRecipeCommand;
+    private final CategoryToCategoryCommand cTocc;
     private final CategoryRepository categoryRepo;
     private final IngredientRepository ingredientRepo;
     private final UnitOfMeasureRepository uomRepo;
@@ -49,7 +50,8 @@ public class RecipeServiceImpl implements RecipeService {
 			NotesRepository nr,
 			RecipeCommandToRecipe rc2r, 
 			RecipeToRecipeCommand r2rc,
-			UnitOfMeasureToUnitOfMeasureCommand uom2uomc) {
+			UnitOfMeasureToUnitOfMeasureCommand uom2uomc, 
+			CategoryToCategoryCommand cTocc) {
 		
 		log.debug("Initializing RecipeServiceImpl...");
 		this.recipeRepository = rr;
@@ -60,6 +62,7 @@ public class RecipeServiceImpl implements RecipeService {
 		this.recipeCommandToRecipe = rc2r;
 		this.recipeToRecipeCommand = r2rc;
 		this.uom2uomc = uom2uomc;
+		this.cTocc = cTocc;
 	}
 
 	@Override
@@ -130,15 +133,20 @@ public class RecipeServiceImpl implements RecipeService {
 
 	@Override
 	public CategoryCommand findCategoryByDescription(String description) {
-		var c = categoryRepo.findByDescriptionIgnoreCase(description);
-		if (c.isPresent()) {
-			return new CategoryToCategoryCommand().convert(c.get());
+		var cOpt = categoryRepo.findByDescriptionIgnoreCase(description);
+		if (cOpt.isPresent()) {
+			return cTocc.convert(cOpt.get());
 		} else {
-			var cc = new CategoryCommand();
-			cc.setDescription(description);
-			return cc;
+			// First save the new category and then add to set of categories (a fresh set)!
+			Category c = new Category();
+			c.setDescription(description);
+			
+			Category savedCategory = categoryRepo.save(c);
+			log.info("Saved Category - id: {}, name: {}", savedCategory.getId(), savedCategory.getDescription());
+			return cTocc.convert(savedCategory);
 		}
 	}
+	
 	
 	@Override
 	public UnitOfMeasureCommand findUom(String uom) {

@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.izce.recipe.commands.CategoryCommand;
 import org.izce.recipe.commands.RecipeCommand;
 import org.izce.recipe.service.RecipeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -97,8 +96,8 @@ public class RecipeController {
 			status.setComplete();
 			return "redirect:/recipe/" + savedRecipe.getId() + "/show";
 		}
-
 	}
+	
 
 	private void printRequestMap(HttpServletRequest req, HttpSession session, Model model) {
 		final StringBuilder sb = new StringBuilder();
@@ -127,43 +126,8 @@ public class RecipeController {
 			Object modelValue = modelMap.get(modelKey);
 			System.out.println(modelKey + " -- " + modelValue);
 		}
-
 	}
-
-	@PostMapping(value = "/recipe/category/{action}", produces = MediaType.APPLICATION_JSON_VALUE)
-	@ResponseBody
-	public Map<String, String> manageCategory(@ModelAttribute("recipe") RecipeCommand recipe,
-			@PathVariable String action, HttpServletRequest req, HttpServletResponse res, HttpSession session, Model model) throws Exception {
-
-		var reqParamMap = req.getParameterMap();
-		//printRequestMap(req, session, model);
-
-		Map<String, String> map = new HashMap<>();
-		map.put("type", "category");
-
-		if ("add".equalsIgnoreCase(action)) {
-			String element = reqParamMap.get("element")[0];
-			if (recipe.getCategories().stream().anyMatch(e -> e.getDescription().equalsIgnoreCase(element))) {
-				map.put("status", "PRESENT");
-			} else {
-				CategoryCommand cc = recipeService.findCategoryByDescription(element);
-				recipe.getCategories().add(cc);
-				map.putAll(cc.toMap());
-				map.put("index", Integer.toString(recipe.getCategories().size() - 1));
-				map.put("status", "OK");
-			}
-		} else if ("remove".equalsIgnoreCase(action)) {
-			String index = reqParamMap.get("index")[0];
-			int categoryIndex = Integer.valueOf(index);
-			((ArrayList<CategoryCommand>) recipe.getCategories()).remove(categoryIndex);
-			map.put("status", "OK");
-		} else {
-			map.put("status", "ERROR");
-			map.put("message", "Unsupported action: " + action);
-		}
-
-		return map;
-	}
+	
 
 	@PostMapping(value = "/recipe/direction/{action}", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody

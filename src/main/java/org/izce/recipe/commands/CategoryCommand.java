@@ -1,5 +1,6 @@
 package org.izce.recipe.commands;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,8 +15,10 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class CategoryCommand {
-    private Long id;
+public class CategoryCommand implements Serializable {
+	private static final long serialVersionUID = 1185885918929722957L;
+	
+	private Long id;
     private String description;
     
     public CategoryCommand(String description) {

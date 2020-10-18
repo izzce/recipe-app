@@ -156,20 +156,10 @@ public class DataLoader implements CommandLineRunner {
 		// INGREDIENTS of RECIPE-2
 		this.addIngredient(recipe2, new Ingredient("ancho chili powder", 2.0f, tablespoon));
 		this.addIngredient(recipe2, new Ingredient("dried oregano", 1.0f, teaspoon));
-		this.addIngredient(recipe2, new Ingredient("dried cumin", 1.0f, teaspoon));
+		this.addIngredient(recipe2, new Ingredient("dried cumin", 1.0f, pound));
 		this.addIngredient(recipe2, new Ingredient("sugar", 1.0f, teaspoon));
-		this.addIngredient(recipe2, new Ingredient("salt", 0.5f, teaspoon));
+		this.addIngredient(recipe2, new Ingredient("salt", 0.5f, pint));
 		this.addIngredient(recipe2, new Ingredient("garlic, finely chopped", 1.0f, clove));
-		this.addIngredient(recipe2, new Ingredient("finely grated orange zest", 1.0f, teaspoon));
-		this.addIngredient(recipe2, new Ingredient("fresh-squeezed orange juice", 3.0f, teaspoon));
-		this.addIngredient(recipe2, new Ingredient("olive oil", 2.0f, teaspoon));
-		this.addIngredient(recipe2, new Ingredient("skinless, boneless chicken thighs", 1.25f, pound));
-		this.addIngredient(recipe2, new Ingredient("small corn tortillas", 8.0f, piece));
-		this.addIngredient(recipe2, new Ingredient("packed baby arugula", 3.0f, cup));
-		this.addIngredient(recipe2, new Ingredient("medium ripe avocados, sliced", 3.0f, piece));
-		this.addIngredient(recipe2, new Ingredient("radishes, thinly sliced", 4.0f, piece));
-		this.addIngredient(recipe2, new Ingredient("cherry tomatoes, halved", 0.5f, piece));
-		this.addIngredient(recipe2, new Ingredient("red onion thinly sliced", 0.25f, piece));
 		this.addIngredient(recipe2, new Ingredient("roughly chopped cilantaro", 1.0f, piece));
 		this.addIngredient(recipe2, new Ingredient("sour cream thinned with 1/4 cup milk", 0.5f, cup));
 		this.addIngredient(recipe2, new Ingredient("lime, cut into wedges", 1.0f, piece));

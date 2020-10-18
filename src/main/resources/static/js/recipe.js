@@ -1,48 +1,31 @@
 $(document).ready(function() {
-	console.log("Registering category events on doc ready...");
-
-	// Define CATEGORY Events
-	registerEvents("category", "span");
-
-	console.log("Registering direction events on doc ready...");
-	// Define DIRECTION Events
-	registerEvents("direction", "div");
-	
-	console.log("Registering ingredient events on doc ready...");
-	// Define INGREDIENT Events	
+	registerEvents("category", "span", "description");
+	registerEvents("direction", "div", "direction");
 	registerIngredientEvents();
-	
+	console.log("Registered category, direction, ingredient events on doc ready.");
 });
 
-function registerEvents(elementType, boxType, inputId1, inputId2, inputId3) {
+function registerEvents(elementType, boxType, description) {
 	const elementTypeCapitalized = capitalize(elementType);
 	// $("div.ingredient a")!
-	$(boxType + "." + elementType + " a").click(window["remove" + elementTypeCapitalized]);
+	$(boxType + "." + elementType + " a").click(window["delete" + elementTypeCapitalized]);
 	
 	const $btn = $("#btn-add-" + elementType);
 	const btnHref = $btn.attr("href");
 	$btn.click(function(e) {
 		e.preventDefault();
 		e.stopPropagation();
-		
-		if (typeof inputId1 !== "undefined" && typeof inputId2 !== "undefined" && typeof inputId3 !== "undefined") {			
-			sendValueToServer(e, btnHref, inputId1, inputId2, inputId3);
-		} else {
-			sendValueToServer(e, btnHref, "#input-" + elementType);
-		}
+
+		sendValueToServer(e, btnHref, elementType, description);
 	});
 	
-	const $input = $((typeof inputId1 !== "undefined") ? inputId1 : ("#input-" + elementType));
+	const $input = $("#input-" + elementType);
 	$input.on("keypress", function(e) {
 		if (e.which === 13) {
 			e.preventDefault();
 			e.stopPropagation();
 			
-			if (typeof inputId1 !== "undefined" && typeof inputId2 !== "undefined" && typeof inputId3 !== "undefined") {			
-				sendValueToServer(e, btnHref, inputId1, inputId2, inputId3);
-			} else {
-				sendValueToServer(e, btnHref, "#input-" + elementType);
-			}
+			sendValueToServer(e, btnHref, elementType, description);
 		}
 	});
 	
@@ -58,32 +41,47 @@ function isEmpty(str) {
 }
 
 
-function sendValueToServer(e, postUrl, myData) {	
-	$.post({
-		url : postUrl,
-		data : myData,
-		dataType : "json"
-	}).done(function(returnData) {
-		if (returnData.status == "OK") {
-			createElement(returnData);
-		}
-		$input.val("");// clears the field.
-	}).fail(function(textStatus, errorThrown) {
+function sendValueToServer(e, postUrl, elementType, description) {	
+	var myData = {};
+	
+	const inputId = "#input-" + elementType;
+	var $input = $(inputId);
+	var inputVal = $input.val().trim();
+	if (inputVal.length == 0) {
 		$input.addClass("is-invalid");
-	}).always(function() {
 		$input.focus();
-	});
-}
-
-function createElement(data) {
-	if (data.type == "category" || data.type == "direction" || data.type == "ingredient") {
-		const typeCapitalized = capitalize(data.type);
-		//i.e. createCategory(data);
-		window["create" + typeCapitalized](data);
+		return;
 	} else {
-		console.error("Unexpected Element: " + data);
-		alert("Unexpected Element: " + data);
+		$input.removeClass("is-invalid");
+		
+		myData["id"] = null;
+		myData[description] = inputVal;
 	}
+	
+	postData(postUrl, myData)
+    .then(
+		(responseData) => {
+			// JSON data parsed by "response.json()" call
+			console.log(responseData); 
+			if (responseData.status == "OK") {
+				if (responseData.type == "category") {
+					createCategory(responseData);
+				} else if (responseData.type == "direction") {
+					createDirection(responseData);
+				} else {
+					console.error("Unexpected Element: " + responseData);
+					alert("Unexpected Element: " + responseData);
+				}
+			}
+			$input.val("");// clears the field.
+			$input.focus();
+		}, 
+		(error) => {
+			console.error(error); 
+			$input.focus();
+		}
+    );
+
 }
 
 
@@ -93,8 +91,11 @@ function createCategory(data) {
 	$clonedSpan.attr("id", "category-" + data.id);
 	$clonedSpan.addClass(isEmpty(data.id) ? "btn-warning" : "btn-primary");
 	$clonedSpan.find("span").text(data.description);
+	
+	var recipeId = $('input#id').val();
+	var newHref = '/recipe/' + recipeId + '/category/' + data.id + '/delete';
+	
 	var $clonedA = $clonedSpan.find("a");
-	var newHref = $clonedA.attr("href") + "?index=" + data.id;
 	$clonedA.attr("href", newHref);
 	if (!isEmpty(data.id)) {
 		$clonedA.attr("data-id", data.id);
@@ -102,31 +103,37 @@ function createCategory(data) {
 	} else {
 		$clonedA.addClass("btn-warning");
 	}
-	$clonedA.click(removeCategory);
+	$clonedA.click(deleteCategory);
 	$clonedSpan.appendTo($span.parent());
 	$clonedSpan.toggle(true);
 };
 
 
-function removeCategory(e) {
+function deleteCategory(e) {
 	e.preventDefault();
 	e.stopPropagation();
 	
-    $.post( {url: this.href, 
-    		dataType: "json"})
-	    .done(function(data) {
-	    	console.log("data: ", data);
-	    	if (data.status == "OK") {
-	    		const urlParams = new URL(this.url).searchParams;
-	    		$("#category-" + urlParams.get("index")).remove();
-	    	} else {
-	    		console.error("Data returned: " + JSON.stringify(data));
-	    		alert("Data returned: " + JSON.stringify(data));
-	    	}
-	    })
-	    .fail(function(textStatus, errorThrown ) {
-	    	console.error("Status: " + JSON.stringify(textStatus) + ", Error: " + JSON.stringify(errorThrown));
-	    });
+	var myData = {};
+	// e.g. href = '/recipe/1/category/2/delete';
+	var pattern = /\d+(?=\/delete)/gi; 
+	myData["id"] = pattern.exec(this.href);
+	
+	postData(this.href, myData)
+    .then(
+		(responseData) => {
+			// JSON data parsed by "response.json()" call
+			console.log(responseData); 
+			if (responseData.status == "OK" && responseData.type == "category") {
+	    		$("#category-" + myData.id).remove();	
+			} else {
+				console.error("Unexpected Element: " + responseData);
+			}
+		}, 
+		(error) => {
+			console.error(error); 
+		}
+    );
+	
 };
 
 
@@ -140,13 +147,13 @@ function createDirection(data) {
 	$clonedA.attr("href", newHref);
 	$clonedA.attr("data-id", data.id);
 
-	$clonedA.click(removeDirection);
+	$clonedA.click(deleteDirection);
 	$clonedDiv.insertBefore("div#direction-input-box");
 	$clonedDiv.toggle(true);
 };
 
 
-function removeDirection(e) {
+function deleteDirection(e) {
 	e.preventDefault();
 	e.stopPropagation();
 	
@@ -172,8 +179,8 @@ function removeDirection(e) {
 function registerIngredientEvents() {
 	const $divIngredient = $("div.ingredient");
 	
-	// Multiple "a" tags are to be selected for remove button clicks. 
-	$divIngredient.find("a.btn-remove-ingredient").click(removeIngredient);
+	// Multiple "a" tags are to be selected for delete button clicks. 
+	$divIngredient.find("a.btn-delete-ingredient").click(deleteIngredient);
 	
 	$divIngredient.find("a.btn-edit-ingredient").click(startEditingIngredient);
 	
@@ -325,11 +332,11 @@ function createIngredient(responseData) {
 	$clonedSpan.attr("data-uomid", responseData.uomid);
 	$clonedSpan.attr("data-description", responseData.description);
 	
-	const $clonedAforRemove = $clonedDiv.find("a.btn-remove-ingredient");
+	const $clonedAforRemove = $clonedDiv.find("a.btn-delete-ingredient");
 	const newHref = $clonedAforRemove.attr("href").replace("{ingredient.id}", responseData.id);
 	$clonedAforRemove.attr("href", newHref);
 	$clonedAforRemove.attr("data-id", responseData.id);
-	$clonedAforRemove.click(removeIngredient);
+	$clonedAforRemove.click(deleteIngredient);
 	
 	const $clonedAforEdit = $clonedDiv.find("a.btn-edit-ingredient");
 	const newHref2 = $clonedAforEdit.attr("href").replace("{ingredient.id}", responseData.id);
@@ -380,7 +387,7 @@ function updateIngredient(responseData) {
 	$targetSpan.text(responseData.alltext);
 };
 
-function removeIngredient(e) {
+function deleteIngredient(e) {
 	e.preventDefault();
 	e.stopPropagation();
 	
@@ -427,13 +434,13 @@ async function postData(url = "", data = {}) {
     body: JSON.stringify(data) // body data type must match "Content-Type"
 								// header
   });
+  
+  if (!response.ok) {
+      throw new Error('Network response was not ok');
+  }
+  
   return response.json(); // parses JSON response into native JavaScript
 							// objects
 }
 
-/* postData("https://example.com/answer", { answer: 42 })
-  .then((data) => {
-    console.log(data); // JSON data parsed by `response.json()` call
-  });
- */
 
