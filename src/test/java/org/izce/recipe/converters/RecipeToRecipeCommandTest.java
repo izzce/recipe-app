@@ -4,12 +4,12 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
-import org.assertj.core.util.Arrays;
 import org.izce.recipe.commands.RecipeCommand;
 import org.izce.recipe.model.Category;
 import org.izce.recipe.model.Difficulty;
+import org.izce.recipe.model.Direction;
 import org.izce.recipe.model.Ingredient;
-import org.izce.recipe.model.Notes;
+import org.izce.recipe.model.Note;
 import org.izce.recipe.model.Recipe;
 import org.junit.Before;
 import org.junit.Test;
@@ -20,7 +20,7 @@ public class RecipeToRecipeCommandTest {
     public static final Integer COOK_TIME = Integer.valueOf("5");
     public static final Integer PREP_TIME = Integer.valueOf("7");
     public static final String DESCRIPTION = "My Recipe";
-    public static final String DIRECTIONS = "Directions";
+    public static final Long DIRECTION_ID = 100L;
     public static final Difficulty DIFFICULTY = Difficulty.EASY;
     public static final Integer SERVINGS = Integer.valueOf("3");
     public static final String SOURCE = "Source";
@@ -37,7 +37,7 @@ public class RecipeToRecipeCommandTest {
         converter = new RecipeToRecipeCommand(
                 new CategoryToCategoryCommand(),
                 new IngredientToIngredientCommand(new UnitOfMeasureToUnitOfMeasureCommand()),
-                new NotesToNotesCommand());
+                new DirectionToDirectionCommand(), new NoteToNoteCommand());
     }
 
     @Test
@@ -59,15 +59,14 @@ public class RecipeToRecipeCommandTest {
         recipe.setPrepTime(PREP_TIME);
         recipe.setDescription(DESCRIPTION);
         recipe.setDifficulty(DIFFICULTY);
-        recipe.setDirections(DIRECTIONS);
         recipe.setServings(SERVINGS);
         recipe.setSource(SOURCE);
         recipe.setUrl(URL);
 
-        Notes notes = new Notes();
-        notes.setId(NOTES_ID);
+        Note note = new Note();
+        note.setId(NOTES_ID);
 
-        recipe.setNotes(notes);
+        recipe.getNotes().add(note);
 
         Category category = new Category();
         category.setId(CAT_ID_1);
@@ -86,6 +85,10 @@ public class RecipeToRecipeCommandTest {
 
         recipe.getIngredients().add(ingredient);
         recipe.getIngredients().add(ingredient2);
+        
+        Direction direction = new Direction();
+        direction.setId(DIRECTION_ID);
+        recipe.getDirections().add(direction);
 
         //when
         RecipeCommand command = converter.convert(recipe);
@@ -97,13 +100,13 @@ public class RecipeToRecipeCommandTest {
         assertEquals(PREP_TIME, command.getPrepTime());
         assertEquals(DESCRIPTION, command.getDescription());
         assertEquals(DIFFICULTY, command.getDifficulty());
-        assertEquals(Arrays.asList(new String[] {DIRECTIONS}), command.getDirections());
         assertEquals(SERVINGS, command.getServings());
         assertEquals(SOURCE, command.getSource());
         assertEquals(URL, command.getUrl());
-        assertEquals(NOTES_ID, command.getNotes().getId());
         assertEquals(2, command.getCategories().size());
         assertEquals(2, command.getIngredients().size());
+        assertEquals(1, command.getDirections().size());        
+        assertEquals(1, command.getNotes().size());
 
     }
 

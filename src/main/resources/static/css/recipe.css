@@ -42,6 +42,16 @@
 	box-shadow: 0 0 0 3px violet;
 }
 
+/*<i class="fas fa-chevron-up"></i>*/
+[data-toggle="collapse"] .fas:before {   
+  content: "\f077";
+}
+
+/*<i class="fas fa-chevron-down"></i>*/
+[data-toggle="collapse"].collapsed .fas:before {
+  content: "\f078";
+}
+
 /* Custom properties for Glow Effects */
 :root {
 	--glow-radius: 2px; /* glow radius */

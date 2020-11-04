@@ -10,7 +10,7 @@ body.body-show::before {
 	background-repeat: no-repeat;
 	background-attachment: absolute;
 	content: "";
-	opacity: 0.8;
+	opacity: 0.7;
 	position: absolute;
 	top: 0;
 	bottom: 0;
@@ -101,12 +101,15 @@ body.body-show::before {
         <div class="card m-2 mt-3 shadow border">
 			<div class="card-header bg-warning text-dark shadow">
                	<span class="h5">Directions</span>
+               	<button type="button" class="btn btn-warning float-right px-1 py-0 mr-n1 collapsed" data-toggle="collapse" data-target="#card1">
+					<i class="fas fa-1x"></i>
+				</button>
            	</div>
-            <div class="card-body">
+            <div class="card-body collapse" id="card1">
             	<ul> 
             		<li th:remove="all">Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</li>
             		<li th:remove="all">Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</li>
-            		<li th:each="direction : ${recipe.getDirectionsList()}" th:if="${not #strings.isEmpty(direction)}" th:text="${direction}">
+            		<li th:each="direction : ${recipe.directions}" th:if="${not #strings.isEmpty(direction)}" th:text="${direction.direction}">
             		Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
             		</li>
             	</ul>
@@ -129,8 +132,11 @@ body.body-show::before {
 		<div class="card m-2 shadow">
 			<div class="card-header bg-primary text-light shadow">
 				<span class="h5">Ingredients</span>
+				<button type="button" class="btn btn-primary float-right px-1 py-0 mr-n1 collapsed" data-toggle="collapse" data-target="#card3">
+					<i class="fas fa-1x"></i>
+				</button>
 			</div>
-			<div class="card-body" id="card3"
+			<div class="card-body collapse" id="card3"
 				th:if="${not #lists.isEmpty(recipe.ingredients)}">
 				<ul>
 					<li th:remove="all">1 Cup of milk</li>
@@ -147,14 +153,18 @@ body.body-show::before {
 		<div class="card m-2 shadow">
 		    <div class="card-header bg-danger text-light shadow">
 		        <span class="h5">Notes</span>
+				<button type="button" class="btn btn-danger float-right px-1 py-0 mr-n1 collapsed" data-toggle="collapse" data-target="#card2">
+					<i class="fas fa-1x"></i>
+				</button>
 		    </div>
-		    <div class="card-body" id="card2">
+		    <div class="card-body collapse" id="card2">
 		        <div class="row">
-		            <div class="col-md-12">
-		            	<span class="" th:utext="${#strings.replace(#strings.escapeJava(recipe.notes.recipeNotes),'\n','&lt;br/&gt;')}">
-		            		Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
-		            	</span>
-		            </div>
+		            <ul>
+			            <li th:remove="all">Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</li>
+						<li th:remove="all">Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</li>
+		            	<li th:each="note : ${recipe.notes}" th:text="${note.note}">
+		            		Lorem ipsum dolor sit amet, consectetuer adipiscing elit.</li>
+		            </ul>
 		        </div>
 		    </div>
 		</div>

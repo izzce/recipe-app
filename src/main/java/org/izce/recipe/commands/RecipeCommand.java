@@ -1,7 +1,7 @@
 package org.izce.recipe.commands;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
@@ -33,14 +33,15 @@ public class RecipeCommand {
     private String source;
     private String url;
     private String imageUrl;
-    //@NotEmpty
-    private List<String> directions = new ArrayList<>();
-    //@NotEmpty
-    private List<IngredientCommand> ingredients = new ArrayList<>();
     //@NotNull
     private Difficulty difficulty;
-    private NotesCommand notes = new NotesCommand();
     //@NotEmpty
-    private List<CategoryCommand> categories = new ArrayList<>();
-
+    private Set<DirectionCommand> directions = new LinkedHashSet<>();
+    //@NotEmpty
+    private Set<IngredientCommand> ingredients = new LinkedHashSet<>();
+    //@NotEmpty
+    private Set<CategoryCommand> categories = new LinkedHashSet<>();
+    
+    private Set<NoteCommand> notes = new LinkedHashSet<>();
+    
 }

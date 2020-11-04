@@ -1,7 +1,7 @@
 package org.izce.recipe.model;
 
-import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -15,7 +15,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
+import javax.persistence.OrderBy;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -32,45 +32,33 @@ public class Recipe {
 	private Integer servings;
 	private String source;
 	private String url;
-	private String directions;
 	@Enumerated(value = EnumType.STRING)
 	private Difficulty difficulty;
+	
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "recipe")
+	@OrderBy(value = "id") 
+	@EqualsAndHashCode.Exclude 
+	private List<Direction> directions = new ArrayList<>();
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "recipe")
+	@OrderBy(value = "id") 
 	@EqualsAndHashCode.Exclude 
-	private Set<Ingredient> ingredients = new LinkedHashSet<Ingredient>();
+	private List<Ingredient> ingredients = new ArrayList<>();
 	@Lob
 	private Byte[] image;
 	private String imageUrl;
 
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "recipe")
+	@OrderBy(value = "id") 
 	@EqualsAndHashCode.Exclude 
-	private Notes notes;
+	private List<Note> notes = new ArrayList<>();
 
 	@ManyToMany
 	@JoinTable(name = "recipe_category", 
 			joinColumns = @JoinColumn(name = "recipe_id"), 
 			inverseJoinColumns = @JoinColumn(name = "category_id"))
+	@OrderBy(value = "id") 
 	@EqualsAndHashCode.Exclude 
-	private Set<Category> categories = new LinkedHashSet<Category>();
-
-	public void setNotes(Notes notes) {
-		if (notes != null) {
-			this.notes = notes;
-			notes.setRecipe(this);
-		}
-	}
-	
-	public void addIngredient(Ingredient ingredient) {
-		this.ingredients.add(ingredient);
-	}
-	
-	public String[] getDirectionsList() {
-		if (directions == null) {
-			return new String[0];
-		}
-		String[] directionsArray = directions.split("\\d\\. ");
-		return directionsArray;
-	}
+	private List<Category> categories = new ArrayList<>();
 
 }

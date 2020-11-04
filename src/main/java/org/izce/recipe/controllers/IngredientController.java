@@ -31,7 +31,7 @@ public class IngredientController {
 
 	@Autowired
 	public IngredientController(IngredientService ingredientService) {
-		log.debug("IngredientController ...");
+		log.debug("Initializing IngredientController ...");
 		this.ingredientService = ingredientService;
 	}
 

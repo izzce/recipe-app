@@ -5,23 +5,29 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Data
+@NoArgsConstructor
 @Entity
 @ToString
-public class Notes {
+public class Note {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long Id;
 	
 	@Lob
-	private String recipeNotes;
+	private String note;
 	
 	@ToString.Exclude 
-	@OneToOne
+	@ManyToOne
 	private Recipe recipe;
+	
+	public Note(String note) {
+		this.note = note;
+	}
 }

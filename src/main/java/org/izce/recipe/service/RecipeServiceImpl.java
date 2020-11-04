@@ -1,11 +1,9 @@
 package org.izce.recipe.service;
 
 import java.util.ArrayList;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
-import java.util.Set;
 
 import org.izce.recipe.commands.CategoryCommand;
 import org.izce.recipe.commands.RecipeCommand;
@@ -15,11 +13,14 @@ import org.izce.recipe.converters.RecipeCommandToRecipe;
 import org.izce.recipe.converters.RecipeToRecipeCommand;
 import org.izce.recipe.converters.UnitOfMeasureToUnitOfMeasureCommand;
 import org.izce.recipe.model.Category;
+import org.izce.recipe.model.Direction;
 import org.izce.recipe.model.Ingredient;
+import org.izce.recipe.model.Note;
 import org.izce.recipe.model.Recipe;
 import org.izce.recipe.repositories.CategoryRepository;
+import org.izce.recipe.repositories.DirectionRepository;
 import org.izce.recipe.repositories.IngredientRepository;
-import org.izce.recipe.repositories.NotesRepository;
+import org.izce.recipe.repositories.NoteRepository;
 import org.izce.recipe.repositories.RecipeRepository;
 import org.izce.recipe.repositories.UnitOfMeasureRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +39,8 @@ public class RecipeServiceImpl implements RecipeService {
     private final CategoryRepository categoryRepo;
     private final IngredientRepository ingredientRepo;
     private final UnitOfMeasureRepository uomRepo;
-    private final NotesRepository notesRepo;
+    private final NoteRepository notesRepo;
+    private final DirectionRepository directionRepo;
     private final UnitOfMeasureToUnitOfMeasureCommand uom2uomc;
 
 	@Autowired
@@ -47,7 +49,8 @@ public class RecipeServiceImpl implements RecipeService {
 			CategoryRepository cr, 
 			IngredientRepository ir,
 			UnitOfMeasureRepository uomr,
-			NotesRepository nr,
+			NoteRepository nr,
+			DirectionRepository dr,
 			RecipeCommandToRecipe rc2r, 
 			RecipeToRecipeCommand r2rc,
 			UnitOfMeasureToUnitOfMeasureCommand uom2uomc, 
@@ -59,6 +62,7 @@ public class RecipeServiceImpl implements RecipeService {
 		this.ingredientRepo = ir;
 		this.uomRepo = uomr;
 		this.notesRepo = nr;
+		this.directionRepo = dr;
 		this.recipeCommandToRecipe = rc2r;
 		this.recipeToRecipeCommand = r2rc;
 		this.uom2uomc = uom2uomc;
@@ -86,9 +90,14 @@ public class RecipeServiceImpl implements RecipeService {
     @Transactional
     public RecipeCommand saveRecipeCommand(RecipeCommand recipeCommand) {
         Recipe recipe = recipeCommandToRecipe.convert(recipeCommand);
+        
+        if (recipe.getId() == null) {
+        	recipe = recipeRepository.save(recipe);
+        }
+        
         if (recipe.getCategories().size() > 0) {
-        	Set<Category> newCategories = new LinkedHashSet<>();
-        	for (Category c : recipe.getCategories()) {
+        	List<Category> newCategories = new ArrayList<>();
+        	for (var c : recipe.getCategories()) {
         		if (c.getId() == null) {
         			Optional<Category> savedCategory = categoryRepo.findByDescriptionIgnoreCase(c.getDescription());
         			if (savedCategory.isPresent()) {
@@ -105,24 +114,36 @@ public class RecipeServiceImpl implements RecipeService {
         	recipe.setCategories(newCategories);
         }
        
-        if (recipe.getId() == null) {
-        	recipe = recipeRepository.save(recipe);
+        if (recipe.getDirections().size() > 0) {
+        	List<Direction> newDirections = new ArrayList<>();
+        	for(var d : recipe.getDirections()) {
+        		d.setRecipe(recipe);
+        		if (d.getId() == null) {
+        			newDirections.add(directionRepo.save(d));
+        		}
+        	}
+        	recipe.setDirections(newDirections);
         }
         
         if (recipe.getIngredients().size() > 0) {
-        	Set<Ingredient> newIngredients = new LinkedHashSet<>();
-        	for(Ingredient ingredient : recipe.getIngredients()) {
-        		ingredient.setRecipe(recipe);
-        		if (ingredient.getId() == null) {
-        			newIngredients.add(ingredientRepo.save(ingredient));
+        	List<Ingredient> newIngredients = new ArrayList<>();
+        	for(var i : recipe.getIngredients()) {
+        		i.setRecipe(recipe);
+        		if (i.getId() == null) {
+        			newIngredients.add(ingredientRepo.save(i));
         		}
         	}
         	recipe.setIngredients(newIngredients);
         }
         
-        if (recipe.getNotes() != null && recipe.getNotes().getId() == null) {
-        	recipe.getNotes().setRecipe(recipe);
-        	recipe.setNotes(notesRepo.save(recipe.getNotes()));
+        if (recipe.getNotes().size() > 0) {
+        	List<Note> newNotes = new ArrayList<>();
+        	for (var n : recipe.getNotes()) {
+        		n.setRecipe(recipe);
+        		if (n.getId() == null) {
+        			newNotes.add(notesRepo.save(n));
+        		}
+        	}
         }
         
         recipe = recipeRepository.save(recipe);

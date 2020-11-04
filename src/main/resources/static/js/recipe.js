@@ -1,7 +1,12 @@
 $(document).ready(function() {
+
 	registerEvents("category", "span", "description");
 	registerEvents("direction", "div", "direction");
+	registerEvents("note", "div", "note");
 	registerIngredientEvents();
+	
+	$("input#imageUrl").on("change", waitForImageLoad);
+	
 	console.log("Registered category, direction, ingredient events on doc ready.");
 });
 
@@ -21,14 +26,13 @@ function registerEvents(elementType, boxType, description) {
 	
 	const $input = $("#input-" + elementType);
 	$input.on("keypress", function(e) {
-		if (e.which === 13) {
+		if (e.key === "Enter") {
 			e.preventDefault();
 			e.stopPropagation();
 			
 			sendValueToServer(e, btnHref, elementType, description);
 		}
 	});
-	
 }
 
 
@@ -59,28 +63,28 @@ function sendValueToServer(e, postUrl, elementType, description) {
 	}
 	
 	postData(postUrl, myData)
-    .then(
-		(responseData) => {
-			// JSON data parsed by "response.json()" call
-			console.log(responseData); 
-			if (responseData.status == "OK") {
-				if (responseData.type == "category") {
-					createCategory(responseData);
-				} else if (responseData.type == "direction") {
-					createDirection(responseData);
-				} else {
-					console.error("Unexpected Element: " + responseData);
-					alert("Unexpected Element: " + responseData);
-				}
-			}
-			$input.val("");// clears the field.
-			$input.focus();
-		}, 
-		(error) => {
-			console.error(error); 
-			$input.focus();
+    .then( responseData => {
+		// JSON data parsed by "response.json()" call
+    	console.log(responseData);
+    	
+		if (elementType == "category") {
+			createCategory(responseData);
+		} else if (elementType == "direction") {
+			createDirection(responseData);
+		} else if (elementType == "note") {
+			createNote(responseData);	
+		} else {
+			console.error("Unexpected Element: " + responseData);
+			alert("Unexpected Element: " + responseData);
 		}
-    );
+		$input.val("");// clears the field.
+		
+	}).catch( error => {
+		// TODO: do proper error handling
+		console.error(error);
+	}); 
+	
+	$input.focus();
 
 }
 
@@ -105,7 +109,7 @@ function createCategory(data) {
 	}
 	$clonedA.click(deleteCategory);
 	$clonedSpan.appendTo($span.parent());
-	$clonedSpan.toggle(true);
+	$clonedSpan.removeClass("d-none");
 };
 
 
@@ -113,27 +117,15 @@ function deleteCategory(e) {
 	e.preventDefault();
 	e.stopPropagation();
 	
-	var myData = {};
-	// e.g. href = '/recipe/1/category/2/delete';
-	var pattern = /\d+(?=\/delete)/gi; 
-	myData["id"] = pattern.exec(this.href);
+	const categoryId = $(this).data("id");
 	
-	postData(this.href, myData)
-    .then(
-		(responseData) => {
-			// JSON data parsed by "response.json()" call
-			console.log(responseData); 
-			if (responseData.status == "OK" && responseData.type == "category") {
-	    		$("#category-" + myData.id).remove();	
-			} else {
-				console.error("Unexpected Element: " + responseData);
-			}
-		}, 
-		(error) => {
-			console.error(error); 
-		}
-    );
-	
+	postData(this.href, {}, "DELETE")
+    .then( responseData => {
+		// JSON data parsed by "response.json()" call
+		console.log(responseData); 
+    	$("#category-" + categoryId).remove();
+	})
+	.catch(error => console.error(error));
 };
 
 
@@ -141,15 +133,17 @@ function createDirection(data) {
 	var $div = $("#direction-");
 	var $clonedDiv = $div.clone();
 	$clonedDiv.attr("id", "direction-" + data.id);
-	$clonedDiv.find("span").text((parseInt(data.id) + 1) + ". " + data.description);
+	$clonedDiv.find("span").text(data.direction);
+	
+	var recipeId = $('input#id').val();
+	var newHref = '/recipe/' + recipeId + '/direction/' + data.id + '/delete';
 	var $clonedA = $clonedDiv.find("a");
-	var newHref = $clonedA.attr("href") + "?index=" + data.id;
 	$clonedA.attr("href", newHref);
 	$clonedA.attr("data-id", data.id);
-
 	$clonedA.click(deleteDirection);
+	
 	$clonedDiv.insertBefore("div#direction-input-box");
-	$clonedDiv.toggle(true);
+	$clonedDiv.removeClass("d-none");
 };
 
 
@@ -157,23 +151,49 @@ function deleteDirection(e) {
 	e.preventDefault();
 	e.stopPropagation();
 	
-    $.post( {url: this.href, 
-    		dataType: "json"})
-	    .done(function(data) {
-	    	console.log("data: ", data);
-	    	if (data.status == "OK") {
-	    		const urlParams = new URL(this.url).searchParams;
-	    		$("#direction-" + urlParams.get("index")).remove();
-	    	} else {
-	    		console.error("Data returned: " + JSON.stringify(data));
-	    		alert("Data returned: " + JSON.stringify(data));
-	    	}
-	    })
-	    .fail(function(textStatus, errorThrown) {
-	    	console.error("Status: " + JSON.stringify(textStatus) + ", Error: " + JSON.stringify(errorThrown));
-	    });
+	const directionId = $(this).data("id");
+	
+	postData(this.href, {}, "DELETE")
+    .then( responseData => {
+		// JSON data parsed by "response.json()" call
+		console.log(responseData); 
+    	$("#direction-" + directionId).remove();
+	})
+	.catch(error => console.error(error));
 };
 
+function createNote(data) {
+	var $div = $("#note-");
+	var $clonedDiv = $div.clone();
+	$clonedDiv.attr("id", "note-" + data.id);
+	$clonedDiv.find("span").text(data.note);
+	
+	var recipeId = $('input#id').val();
+	var newHref = '/recipe/' + recipeId + '/note/' + data.id + '/delete';
+	var $clonedA = $clonedDiv.find("a");
+	$clonedA.attr("href", newHref);
+	$clonedA.attr("data-id", data.id);
+	$clonedA.click(deleteNote);
+	
+	$clonedDiv.insertBefore("div#note-input-box");
+	$clonedDiv.removeClass("d-none");
+};
+
+
+function deleteNote(e) {
+	e.preventDefault();
+	e.stopPropagation();
+	
+	const noteId = $(this).data("id");
+	
+	postData(this.href, {}, "DELETE")
+    .then( responseData => {
+		// JSON data parsed by "response.json()" call
+		console.log(responseData); 
+    	$("#note-" + noteId).remove();
+	})
+	.catch(error => console.error(error));
+};
 
 
 function registerIngredientEvents() {
@@ -240,7 +260,7 @@ function registerIngredientEvents() {
 	
 	
 	$("input#input-ingredient-description").on("keypress", function(e) {
-		if (e.which == 13) {
+		if (e.key == "Enter") {
 			e.preventDefault();
 			e.stopPropagation();
 			// Pressing Enter in "description" field will trigger 
@@ -260,8 +280,9 @@ function registerIngredientEvents() {
 		e.preventDefault();
 		e.stopPropagation();
 		
-		// Finish editing mode. 
-		$divIngredient.removeClass("highlight");
+		// Finish editing mode by removing "highlight" class from fresh $divIngredient elements.
+		$("div.ingredient").removeClass("highlight");
+		
 		
 		$inputBox.removeClass("highlight");
 		
@@ -392,10 +413,7 @@ function deleteIngredient(e) {
 	e.stopPropagation();
 	
     postData(e.currentTarget.href)
-    .then(
-		(responseData) => {
-			// JSON data parsed by "response.json()" call
-			console.log(responseData); 
+    .then( responseData => {
 			$("div#ingredient-" + responseData.id).remove();
 			$("a#btn-cancel-update-ingredient").click();
 		}, 
@@ -407,40 +425,78 @@ function deleteIngredient(e) {
 };
 
 
+function waitForImageLoad() {
+	// Get a reference to the image in whatever way suits.
+	const newImageUrl = this.value;
+	const $recipeImg = $("img#recipeImage");
+	const $imgDownload = $("div#waitForDownloadIcons");
+	const $iconSpinner = $("i#iconSpinner");
+	const $iconSuccess = $("i#iconSuccess");
+	const $iconError = $("i#iconError");
+  	
+  	let myPromise = new Promise((resolve, reject) => {
+	  	$imgDownload.removeClass("d-none");
+		$iconSpinner.removeClass("d-none");
+		$iconSuccess.addClass("d-none");
+		$iconError.addClass("d-none");
+	  	$recipeImg.on("error", reject);
+	  	$recipeImg.on("load", resolve);	
+	  	$recipeImg.attr("src", newImageUrl);
+	});
+	
+	myPromise.then(
+		function(success) {
+			$iconSuccess.removeClass("d-none");
+			$iconSpinner.addClass("d-none");
+		}, 
+		function(error) {
+			$iconSpinner.addClass("d-none");
+			$iconError.removeClass("d-none");
+			$iconError.attr("title", "Error loading image. Please check if the image URL is correct!");
+			$recipeImg.off("error");
+			//$recipeImg.attr("src", "https://user-images.githubusercontent.com/24848110/33519396-7e56363c-d79d-11e7-969b-09782f5ccbab.png");
+			//$recipeImg.attr("width", "100%");
+			//$recipeImg.attr("height", "100%");
+		}
+	);
+  	
+}
 
 
 
 // https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch
 // Example POST method implementation using fetch() method.
-async function postData(url = "", data = {}) {
+async function postData(url = "", data = {}, methodArg = "POST") {
 	console.log("post-data: {}", data);
-  // Default options are marked with *
-  const response = await fetch(url, {
-    method: "POST", // *GET, POST, PUT, DELETE, etc.
-    mode: "cors", // no-cors, *cors, same-origin
-    cache: "no-cache", // *default, no-cache, reload, force-cache,
-						// only-if-cached
-    credentials: "same-origin", // include, *same-origin, omit
-    headers: {
-      "Content-Type": "application/json"
-      // "Content-Type": "application/x-www-form-urlencoded",
-    },
-    redirect: "follow", // manual, *follow, error
-    referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade,
-									// origin, origin-when-cross-origin,
-									// same-origin, strict-origin,
-									// strict-origin-when-cross-origin,
-									// unsafe-url
-    body: JSON.stringify(data) // body data type must match "Content-Type"
-								// header
-  });
+  	// Default options are marked with *
+  	const responseJson = await fetch(url, {
+	    method: methodArg, // *GET, POST, PUT, DELETE, etc.
+	    mode: "cors", // no-cors, *cors, same-origin
+	    cache: "no-cache", // *default, no-cache, reload, force-cache,
+							// only-if-cached
+	    credentials: "same-origin", // include, *same-origin, omit
+	    headers: {
+	      "Content-Type": "application/json"
+	      // "Content-Type": "application/x-www-form-urlencoded",
+	    },
+	    redirect: "follow", // manual, *follow, error
+	    referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade,
+										// origin, origin-when-cross-origin,
+										// same-origin, strict-origin,
+										// strict-origin-when-cross-origin,
+										// unsafe-url
+	    body: JSON.stringify(data) // body data type must match "Content-Type"
+									// header
+	}).then(response => {
+		if (!response.ok) {
+	  		throw new Error('Network response was not ok: Status: ' + response.status + ', Text: ' + response.statusText );
+		}
+		
+		// parses JSON response into native JavaScript objects
+		return response.json();
+	});
   
-  if (!response.ok) {
-      throw new Error('Network response was not ok');
-  }
-  
-  return response.json(); // parses JSON response into native JavaScript
-							// objects
+	return responseJson; 
 }
 
 

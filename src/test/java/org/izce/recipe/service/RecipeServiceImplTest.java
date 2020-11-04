@@ -13,8 +13,9 @@ import org.izce.recipe.converters.RecipeToRecipeCommand;
 import org.izce.recipe.converters.UnitOfMeasureToUnitOfMeasureCommand;
 import org.izce.recipe.model.Recipe;
 import org.izce.recipe.repositories.CategoryRepository;
+import org.izce.recipe.repositories.DirectionRepository;
 import org.izce.recipe.repositories.IngredientRepository;
-import org.izce.recipe.repositories.NotesRepository;
+import org.izce.recipe.repositories.NoteRepository;
 import org.izce.recipe.repositories.RecipeRepository;
 import org.izce.recipe.repositories.UnitOfMeasureRepository;
 import org.junit.Before;
@@ -28,7 +29,8 @@ public class RecipeServiceImplTest {
 	@Mock CategoryRepository catRepo;
 	@Mock IngredientRepository ingredientRepo;
 	@Mock UnitOfMeasureRepository uomRepo;
-	@Mock NotesRepository notesRepo;
+	@Mock NoteRepository noteRepo;
+	@Mock DirectionRepository directionRepo;
     @Mock RecipeToRecipeCommand recipeToRecipeCommand;
     @Mock RecipeCommandToRecipe recipeCommandToRecipe;
     @Mock UnitOfMeasureToUnitOfMeasureCommand uom2uomc;
@@ -38,7 +40,7 @@ public class RecipeServiceImplTest {
 	public void setUp() throws Exception {
 		MockitoAnnotations.initMocks(this);
 
-		service = new RecipeServiceImpl(repository, catRepo, ingredientRepo, uomRepo, notesRepo, recipeCommandToRecipe, recipeToRecipeCommand, uom2uomc, cTocc);
+		service = new RecipeServiceImpl(repository, catRepo, ingredientRepo, uomRepo, noteRepo, directionRepo, recipeCommandToRecipe, recipeToRecipeCommand, uom2uomc, cTocc);
 	}
 
 	@Test
