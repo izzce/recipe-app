@@ -17,4 +17,5 @@ public interface RecipeService {
 	UnitOfMeasureCommand findUom(String uom);
 	UnitOfMeasureCommand findUom(Long uomId);
 	List<UnitOfMeasureCommand> findAllUoms();
+	void delete(Long recipeId);
 }

@@ -32,7 +32,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service
 public class RecipeServiceImpl implements RecipeService {
-	private final RecipeRepository recipeRepository;
+	private final RecipeRepository recipeRepo;
     private final RecipeCommandToRecipe recipeCommandToRecipe;
     private final RecipeToRecipeCommand recipeToRecipeCommand;
     private final CategoryToCategoryCommand cTocc;
@@ -57,7 +57,7 @@ public class RecipeServiceImpl implements RecipeService {
 			CategoryToCategoryCommand cTocc) {
 		
 		log.debug("Initializing RecipeServiceImpl...");
-		this.recipeRepository = rr;
+		this.recipeRepo = rr;
 		this.categoryRepo = cr;
 		this.ingredientRepo = ir;
 		this.uomRepo = uomr;
@@ -71,17 +71,17 @@ public class RecipeServiceImpl implements RecipeService {
 
 	@Override
 	public Iterable<Recipe> getRecipes() {
-		return recipeRepository.findAll();
+		return recipeRepo.findAll();
 	}
 
 	@Override
 	public Long getRecipesCount() {
-		return recipeRepository.count();
+		return recipeRepo.count();
 	}
 
 	@Override
 	public Recipe findById(Long id) {
-		Optional<Recipe> recipeOptional = recipeRepository.findById(id);
+		Optional<Recipe> recipeOptional = recipeRepo.findById(id);
 		
 		return recipeOptional.orElseThrow(() -> new RuntimeException("Recipe not found: " + id));
 	}
@@ -92,7 +92,7 @@ public class RecipeServiceImpl implements RecipeService {
         Recipe recipe = recipeCommandToRecipe.convert(recipeCommand);
         
         if (recipe.getId() == null) {
-        	recipe = recipeRepository.save(recipe);
+        	recipe = recipeRepo.save(recipe);
         }
         
         if (recipe.getCategories().size() > 0) {
@@ -146,7 +146,7 @@ public class RecipeServiceImpl implements RecipeService {
         	}
         }
         
-        recipe = recipeRepository.save(recipe);
+        recipe = recipeRepo.save(recipe);
 
         log.info("Saved Recipe - id: {}, name: {}", recipe.getId(), recipe.getDescription());
         return recipeToRecipeCommand.convert(recipe);
@@ -202,6 +202,14 @@ public class RecipeServiceImpl implements RecipeService {
 	@Override
 	public RecipeCommand findRecipeCommandById(Long id) {
 		return recipeToRecipeCommand.convert(findById(id));
+	}
+
+	@Override
+	public void delete(Long recipeId) {
+		recipeRepo.deleteById(recipeId);
+		 
+		log.info("Deleted Recipe: {}", recipeId);
+		
 	}
 	
 }

@@ -59,7 +59,7 @@ public class NoteServiceImpl implements NoteService {
 	public void delete(Long noteId) {
 		noteRepo.deleteById(noteId);
 		 
-		log.info("Deleted Note: {}", noteId);		 
+		log.info("Deleted Note: {}", noteId);
 	}
 }
 

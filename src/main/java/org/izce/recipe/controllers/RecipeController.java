@@ -90,6 +90,14 @@ public class RecipeController {
 		}
 	}
 	
+	@GetMapping(value = "/recipe/{recipeId}/delete")
+	public String deleteRecipe(@PathVariable Long recipeId) throws Exception {
+		
+		recipeService.delete(recipeId);
+		
+		return "redirect:/index";
+	}
+	
 	/*
 	 * private void printRequestMap(HttpServletRequest req, HttpSession session,
 	 * Model model) { final StringBuilder sb = new StringBuilder();
