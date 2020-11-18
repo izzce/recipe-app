@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.izce.recipe.commands.IngredientCommand;
 import org.izce.recipe.commands.RecipeCommand;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -89,32 +91,23 @@ public class IngredientController {
 		return map;
 	}
 
-	@PostMapping(value = "/recipe/{recipeId}/ingredient/{ingredientId}/delete", produces = MediaType.APPLICATION_JSON_VALUE)
+	@DeleteMapping(value = "/recipe/{recipeId}/ingredient/{ingredientId}/delete", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public Map<String, String> deleteIngredient(
 			@ModelAttribute("recipe") RecipeCommand recipe,
-			@PathVariable String recipeId, 
-			@PathVariable String ingredientId, 
+			@PathVariable Long recipeId, 
+			@PathVariable Long ingredientId, 
 			Model model, 
-			HttpServletRequest req) throws Exception {
+			HttpServletRequest req, 
+			HttpServletResponse resp) throws Exception {
 
-		//printRequestMap(req);
-		Long ingrIdLong = Long.valueOf(ingredientId);
-		ingredientService.delete(Long.valueOf(ingrIdLong));
-		recipe.getIngredients().removeIf(e -> e.getId() == ingrIdLong);
-
-		Map<String, String> map = new HashMap<>();
-		map.put("id", ingredientId);
-		map.put("status", "OK");
+		if (true == recipe.getIngredients().removeIf(e -> e.getId() == ingredientId)) {
+			ingredientService.delete(ingredientId);
+		} else {
+			resp.setStatus(HttpServletResponse.SC_NOT_FOUND);			
+		}
 		
-		return map;
+		return Map.of("id", Long.toString(ingredientId), "status", "OK");
 	}
-
-//	private void printRequestMap(HttpServletRequest req) {
-//		var reqParamMap = req.getParameterMap();
-//		StringBuilder sb = new StringBuilder();
-//		reqParamMap.forEach((k, v) -> sb.append(k).append(": ").append(Arrays.toString(v)).append(' '));
-//		log.info("params: {}", sb);
-//	}
 
 }
