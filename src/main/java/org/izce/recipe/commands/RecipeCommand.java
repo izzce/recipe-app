@@ -44,4 +44,7 @@ public class RecipeCommand {
     
     private Set<NoteCommand> notes = new LinkedHashSet<>();
     
+    public RecipeCommand(Long id) {
+    	this.id = id;
+    }
 }

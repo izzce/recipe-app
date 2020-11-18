@@ -1,14 +1,14 @@
 package org.izce.recipe.controllers;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
+import org.izce.recipe.commands.CategoryCommand;
 import org.izce.recipe.commands.RecipeCommand;
 import org.izce.recipe.service.RecipeService;
 import org.junit.Before;
@@ -20,55 +20,95 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.ui.Model;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 
 public class CategoryControllerTest {
 	@Mock
 	RecipeService recipeService;
 	@Mock
 	Model model;
-	RecipeController recipeController;
+	CategoryController categoryController;
 	MockMvc mockMvc;
 
 	@Before
 	public void setUp() throws Exception {
 		MockitoAnnotations.initMocks(this);
-		recipeController = new RecipeController(recipeService);
-		mockMvc = MockMvcBuilders.standaloneSetup(recipeController).build();
+		categoryController = new CategoryController(recipeService);
+		mockMvc = MockMvcBuilders.standaloneSetup(categoryController).build();
 	}
 
 	@Test
-	public void testGetRecipe() throws Exception {
-		mockMvc.perform(get("/recipe/1/show")).andExpect(status().isOk()).andExpect(view().name("recipe/show"));
-	}
-
-	@Test
-	public void testGetNewRecipeForm() throws Exception {
-		mockMvc.perform(get("/recipe/new")).andExpect(status().isOk()).andExpect(view().name("recipe/form"))
-				.andExpect(model().attributeExists("recipe"));
-	}
-
-	@Test
-	public void testPostNewRecipeForm() throws Exception {
-		RecipeCommand recipeCommand = new RecipeCommand();
-		recipeCommand.setId(2L);
-
-		when(recipeService.saveRecipeCommand(any())).thenReturn(recipeCommand);
+	public void testAddExistingCategory() throws Exception {
+		RecipeCommand rc = new RecipeCommand();
+		rc.setId(2L);
+		CategoryCommand cc = new CategoryCommand("Turkish");
+		cc.setId(1L);
+		rc.getCategories().add(cc);
 		
-		mockMvc.perform(post("/recipe").sessionAttr("recipe", recipeCommand).contentType(MediaType.APPLICATION_FORM_URLENCODED)
-				.param("description", "some string")).andExpect(status().is3xxRedirection())
-				.andExpect(view().name("redirect:/recipe/2/show"));
+		when(recipeService.findCategoryByDescription(any())).thenReturn(cc);
+		
+		mockMvc.perform(post("/recipe/2/category/add")
+						.sessionAttr("recipe", rc)
+						.contentType(MediaType.APPLICATION_JSON)
+						.content(asJsonString(cc)))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$.status", is("PRESENT")));
 	}
 	
 	@Test
-    public void testGetUpdateView() throws Exception {
-        RecipeCommand command = new RecipeCommand();
-        command.setId(2L);
+	public void testAddNewCategory() throws Exception {
+		RecipeCommand rc = new RecipeCommand();
+		rc.setId(2L);
+		CategoryCommand cc = new CategoryCommand("Italian");
+		cc.setId(2L);
+		//rc.getCategories().add(cc);
+		
+		when(recipeService.findCategoryByDescription(any())).thenReturn(cc);
+		
+		mockMvc.perform(post("/recipe/2/category/add")
+						.sessionAttr("recipe", rc)
+						.contentType(MediaType.APPLICATION_JSON)
+						.content(asJsonString(cc)))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$.id", is("2")))
+				.andExpect(jsonPath("$.description", is("Italian")));
+	}
+	
+	@Test
+    public void testDeleteExistingCategory() throws Exception {
+        RecipeCommand rc = new RecipeCommand();
+        rc.setId(2L);
+		CategoryCommand cc = new CategoryCommand("Turkish");
+		cc.setId(1L);
+		rc.getCategories().add(cc);
 
-        when(recipeService.findRecipeCommandById(anyLong())).thenReturn(command);
-
-        mockMvc.perform(get("/recipe/1/update"))
+        mockMvc.perform(delete("/recipe/2/category/1/delete")
+        				.sessionAttr("recipe", rc))
                 .andExpect(status().isOk())
-                .andExpect(view().name("recipe/form"))
-                .andExpect(model().attributeExists("recipe"));
+                .andExpect(jsonPath("id", is(1)));
     }
+	
+	@Test
+    public void testDeleteMissingCategory() throws Exception {
+		 RecipeCommand rc = new RecipeCommand();
+		 rc.setId(2L);
+	        
+        CategoryCommand cc = new CategoryCommand("Italian");
+		cc.setId(2L);
+		
+		 mockMvc.perform(delete("/recipe/2/category/2/delete")
+ 				.sessionAttr("recipe", rc))
+         .andExpect(status().isNotFound())
+         .andExpect(jsonPath("$.id", is(2)));
+    }
+	
+	
+	public static String asJsonString(final Object obj) {
+	    try {
+	        return new ObjectMapper().writeValueAsString(obj);
+	    } catch (Exception e) {
+	        throw new RuntimeException(e);
+	    }
+	}
 }
