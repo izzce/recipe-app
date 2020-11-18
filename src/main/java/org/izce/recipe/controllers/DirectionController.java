@@ -36,7 +36,7 @@ public class DirectionController {
 
 	@PostMapping(value = "/recipe/{recipeId}/direction/add", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
-	public Map<String, Object> addDirection(
+	public Map<String, String> addDirection(
 			@PathVariable Long recipeId, 
 			@RequestBody DirectionCommand direction,
 			@ModelAttribute("recipe") RecipeCommand recipe,
@@ -80,8 +80,9 @@ public class DirectionController {
 		boolean elementRemoved = recipe.getDirections().removeIf(e -> e.getId() == directionId);
 		if (!elementRemoved) {
 			resp.setStatus(HttpServletResponse.SC_NOT_FOUND);
+		} else {
+			directionService.delete(directionId);			
 		}
-		directionService.delete(directionId);
 		return Map.of("id", directionId);
 	}
 

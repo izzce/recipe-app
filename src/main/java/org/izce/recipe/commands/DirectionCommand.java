@@ -11,4 +11,9 @@ public class DirectionCommand {
 	private Long id;
 	private String direction;
 	private Long recipeId;
+	
+	public DirectionCommand(Long id, String direction) {
+		this.id = id;
+		this.direction = direction;
+	}
 }
