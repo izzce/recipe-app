@@ -412,7 +412,8 @@ function deleteIngredient(e) {
 	e.preventDefault();
 	e.stopPropagation();
 	
-    postData(e.currentTarget.href)
+    //postData(e.currentTarget.href)
+	postData(this.href, {}, "DELETE")
     .then( responseData => {
 			$("div#ingredient-" + responseData.id).remove();
 			$("a#btn-cancel-update-ingredient").click();
