@@ -25,6 +25,10 @@
   opacity: 0.9;
 }
 
+#divImageUpload label {
+	line-height: 0.8em;
+}
+
 .font-xxl { font-size: xx-large; }
 .font-xl { font-size: x-large; }
 .font-lg { font-size: large; }

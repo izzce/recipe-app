@@ -50,9 +50,9 @@ public class RecipeServiceImplTest {
 		recipeData.add(recipe);
 		when(repository.findAll()).thenReturn(recipeData);
 		
-		Iterable<Recipe> recipes = service.getRecipes();
 		int recipeCount = 0;
-		for(Recipe r : recipes) {
+		for (Recipe r : service.getRecipes()) {
+			r.getId();
 			recipeCount++;
 		}
 		

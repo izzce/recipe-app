@@ -97,30 +97,6 @@ public class RecipeController {
 		
 		return "redirect:/index";
 	}
-	
-	/*
-	 * private void printRequestMap(HttpServletRequest req, HttpSession session,
-	 * Model model) { final StringBuilder sb = new StringBuilder();
-	 * req.getParameterMap() .forEach((k, v) ->
-	 * sb.append("   ").append(k).append(": ").append(Arrays.toString(v)).append('\n
-	 * ')); log.info("Request Parameters:\n {}", sb);
-	 * 
-	 * final StringBuilder sb2 = new StringBuilder(); for (var attrNameItr =
-	 * req.getAttributeNames().asIterator(); attrNameItr.hasNext();) { var name =
-	 * attrNameItr.next();
-	 * sb2.append("   ").append(name).append(": ").append(req.getAttribute(name)).
-	 * append('\n'); } log.info("Request Attributes:\n {}", sb2);
-	 * 
-	 * System.out.println("*** Session data ***"); Enumeration<String> e =
-	 * session.getAttributeNames(); while (e.hasMoreElements()) { String s =
-	 * e.nextElement(); System.out.println(s); System.out.println("**" +
-	 * session.getAttribute(s)); }
-	 * 
-	 * System.out.println("--- Model data ---"); var modelMap = model.asMap(); for
-	 * (Object modelKey : modelMap.keySet()) { Object modelValue =
-	 * modelMap.get(modelKey); System.out.println(modelKey + " -- " + modelValue); }
-	 * }
-	 */
 
 }
 

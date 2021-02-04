@@ -5,7 +5,8 @@ $(document).ready(function() {
 	registerEvents("note", "div", "note");
 	registerIngredientEvents();
 	
-	$("input#imageUrl").on("change", waitForImageLoad);
+	$("input#imageUrl").on("change", waitForImageUrlLoad);
+	$("input#image-file-input").on("change", waitForImageUpload);
 	
 	console.log("Registered category, direction, ingredient events on doc ready.");
 });
@@ -426,14 +427,21 @@ function deleteIngredient(e) {
 };
 
 
-function waitForImageLoad() {
-	// Get a reference to the image in whatever way suits.
+function waitForImageUrlLoad(e) {
+	e.preventDefault();
+	e.stopPropagation();
+  	
 	const newImageUrl = this.value;
-	const $recipeImg = $("img#recipeImage");
-	const $imgDownload = $("div#waitForDownloadIcons");
+  	const $recipeImg = $("img#recipeImage");
+	const $imgDownload = $("div#divImageUpload");
 	const $iconSpinner = $("i#iconSpinner");
 	const $iconSuccess = $("i#iconSuccess");
 	const $iconError = $("i#iconError");
+	
+  	$imgDownload.removeClass("d-none");
+	$iconSpinner.removeClass("d-none");
+	$iconSuccess.addClass("d-none");
+	$iconError.addClass("d-none");
   	
   	let myPromise = new Promise((resolve, reject) => {
 	  	$imgDownload.removeClass("d-none");
@@ -445,24 +453,69 @@ function waitForImageLoad() {
 	  	$recipeImg.attr("src", newImageUrl);
 	});
 	
-	myPromise.then(
-		function(success) {
-			$iconSuccess.removeClass("d-none");
-			$iconSpinner.addClass("d-none");
-		}, 
-		function(error) {
-			$iconSpinner.addClass("d-none");
-			$iconError.removeClass("d-none");
-			$iconError.attr("title", "Error loading image. Please check if the image URL is correct!");
-			$recipeImg.off("error");
-			//$recipeImg.attr("src", "https://user-images.githubusercontent.com/24848110/33519396-7e56363c-d79d-11e7-969b-09782f5ccbab.png");
-			//$recipeImg.attr("width", "100%");
-			//$recipeImg.attr("height", "100%");
-		}
-	);
+	myPromise.then((success) => {		
+		$iconSpinner.addClass("d-none");
+		$iconSuccess.removeClass("d-none");
+	}).catch((error) => {
+		$iconSpinner.addClass("d-none");
+		$iconError.removeClass("d-none");
+		$iconError.attr("title", "Error in loading image!");
+		$recipeImg.off("error");
+		$recipeImg.attr("src", "/images/no-picture.png");
+	});
   	
 }
 
+
+async function waitForImageUpload(e) {
+	e.preventDefault();
+	e.stopPropagation();
+	
+	//const newImageUrl = this.value;
+	const $imageFileInput = $("input#image-file-input");
+	if ($imageFileInput[0].files.length > 2) {
+        alert("You can select only 2 images");
+        return;
+    }
+  	
+  	const $recipeImg = $("img#recipeImage");
+	const $imgDownload = $("div#divImageUpload");
+	const $iconSpinner = $("i#iconSpinner");
+	const $iconSuccess = $("i#iconSuccess");
+	const $iconError = $("i#iconError");
+	const $imageUrl = $("input#imageUrl");
+	
+  	$imgDownload.removeClass("d-none");
+	$iconSpinner.removeClass("d-none");
+	$iconSuccess.addClass("d-none");
+	$iconError.addClass("d-none");
+  	$recipeImg.attr("src", "");
+  	
+	const data = new FormData();
+	// Multiple files are allowed
+	for (const imageFile of $imageFileInput[0].files) {
+		data.append("image[]", imageFile);
+	}
+
+	await fetch("/recipe/image", {
+		method: "POST",
+		body: data
+	})
+	.then((response) => response.json())
+	.then((jsondata) => {
+		$recipeImg.attr("src", jsondata.imageurl_0);
+		$imageUrl.val(jsondata.imageurl_0);
+		$iconSuccess.removeClass("d-none");
+		$iconSpinner.addClass("d-none");
+	}).catch((error) => {
+		console.log("Error in fetching ", error);
+		$iconSpinner.addClass("d-none");
+		$iconError.removeClass("d-none");
+		$iconError.attr("title", "Error in loading image!");
+		$recipeImg.attr("src", "/images/no-picture.png");
+	});
+  	
+}
 
 
 // https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API/Using_Fetch

@@ -143,16 +143,23 @@
 							class="form-control" 
 							th:errorclass="is-invalid"
 							placeholder="Point to an image of this yummy recipe" />
-							
-					<div id="waitForDownloadIcons" class="input-group-append fa-2x pl-1 d-none">
-						<i id="iconSpinner" class="fas fa-spinner fa-pulse text-warning"></i>
+										
+					<div id="divImageUpload" class="input-group-append fa-2x pl-1">
+						<label for="image-file-input" role="button" class="m-0 py-0 px-1">
+	    					<i id="iconBrowse" class="fas fa-ellipsis-h text-primary"></i>
+	  					</label>
+	  					<input id="image-file-input" type="file" class="d-none" multiple="multiple" accept="image/png, image/jpeg" />
+	  					
+						<i id="iconSpinner" class="fas fa-spinner fa-pulse text-warning d-none"></i>
 						<i id="iconSuccess" class="far fa-check-circle text-success d-none"></i>
 						<i id="iconError" class="fas fa-exclamation-triangle text-danger d-none"></i>
+						<i id="iconImageUpload" class="fas fa-upload text-danger d-none"></i>
 					</div>
 				</div>
 				
 				<div class="card m-2 shadow border">
-					<img id="recipeImage" class="img-fluid rounded mx-auto" src="" th:src="*{imageUrl}" />
+					<img id="recipeImage" class="img-fluid rounded mx-auto" src="../../static/images/no-picture.png" 
+					th:src="${recipe.imageUrl != null} ? ${recipe.imageUrl} : @{/images/no-picture.png}" />
 				</div>
 				
 				

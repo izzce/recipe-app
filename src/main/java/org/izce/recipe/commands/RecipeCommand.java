@@ -33,6 +33,7 @@ public class RecipeCommand {
     private String source;
     private String url;
     private String imageUrl;
+    private Byte[] image;
     //@NotNull
     private Difficulty difficulty;
     //@NotEmpty
