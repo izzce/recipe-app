@@ -26,7 +26,7 @@
 							<span aria-hidden="true">&times;</span>
 						</button>
 					</div>
-				    <div th:if="${param.logout}" class="col alert alert-warning alert-dismissible fade show" role="alert">
+				    <div th:if="${param.logout}" class="col alert alert-info alert-dismissible fade show" role="alert">
 						<span class="align-top"><i class="font-xl fas fa-exclamation-circle pr-2"></i> You have been logged out.</span>
 						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
@@ -36,14 +36,14 @@
 			    
 		    	<div class="input-group input-group-sm p-1">
 		    		<div class="input-group-prepend">
-						<label for="username" class="input-group-text">Username: </label>
+						<label for="username" class="input-group-text">Username</label>
 					</div>
 					<input type="text" class="form-control" name="username" value="izzet"/>
 		        </div>
 		        
 		        <div class="input-group input-group-sm p-1">
 					<div class="input-group-prepend">
-						<label for="password" class="input-group-text">Password: </label>
+						<label for="password" class="input-group-text">Password</label>
 					</div>
 					<input type="password" class="form-control" name="password" value="password"/>
 		        </div>
