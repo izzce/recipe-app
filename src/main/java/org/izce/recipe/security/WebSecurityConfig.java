@@ -1,8 +1,12 @@
 package org.izce.recipe.security;
 
 
+import javax.sql.DataSource;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -17,6 +21,18 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+	
+	@Autowired
+	DataSource dataSource;
+
+	@Override
+	public void configure(AuthenticationManagerBuilder builder) throws Exception {
+		PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+		String encPwd = encoder.encode("password");
+		builder.jdbcAuthentication().dataSource(dataSource).withDefaultSchema().withUser("izzet").password(encPwd)
+				.roles("USER");
+	}
+
 	
  	@Override
  	public void configure(WebSecurity web) throws Exception {
@@ -66,6 +82,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	public UserDetailsService userDetailsService() {
 		//UserDetails user = User.withDefaultPasswordEncoder()
 		
+		//FIXME This seems to have no impact when this#configure(AuthenticationManagerBuilder builder)  
+		// is configured above. This maybe unnecessary. 
 		PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
 		String encPwd = encoder.encode("password");
 
@@ -83,4 +101,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		
 		return new InMemoryUserDetailsManager(admin1, user1);
 	}
+
 }
