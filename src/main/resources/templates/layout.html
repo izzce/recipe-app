@@ -29,35 +29,31 @@
 <body class="body-layout">
 
 <nav th:fragment="navbar" class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
+	
+	<!-- HOME BUTTON -->
 	<div class="d-none d-sm-block navbar-brand">
-	<a class="" href="/"> 
-		<i id="home" class="font-xxl btn btn-outline-primary fas fa-home border-0 pulse"></i>
-	</a>
+		<a class="" href="/"> 
+			<i id="home" class="font-xxl btn btn-outline-primary fas fa-home border-0 pulse"></i>
+		</a>
 	</div>
-		
+	
+	<!-- MAIN TITLE -->
 	<div class="font-xl text-light mx-auto d-flex navbar-text">
 		<a class="" href="/surprise.html" th:href="@{/surprise}"><i id="pepper" class="p-1 text-danger fas fa-pepper-hot glow glow-red rotate"></i></a>
 		<div id="title" class="mx-2"><span class="glow glow-red" th:text="${title ?: 'Elvis: Recipes'}">Layout: Recipes</span></div> 
 		<a class="" href="/surprise.html" th:href="@{/surprise}"><i id="pizza" class="p-1 text-warning fas fa-pizza-slice glow glow-orange rotate"></i></a>
 	</div>
 		
-	<div class="d-none d-sm-block navbar-brand justify-content-end" th:if="${#httpServletRequest.remoteUser} != null">
+	<!-- USER DETAILS -->
+	<div th:if="${#httpServletRequest.remoteUser} != null" class="d-none d-sm-block navbar-brand justify-content-end" >
         <form th:action="@{/logout}" method="post">
         	<span class="h6" th:inline="text">Hello [[${#httpServletRequest.remoteUser}]]!</span>
 	        <button type="submit" class="font-xl btn btn-outline-warning border-0 pulse">
 			    <i class=" fas fa-sign-out-alt  pulse"></i>
 			</button>
         </form>
-		
-<!-- 		<div class="d-flex justify-content-end">
-			<a href="https://github.com/izzce" target="_blank">
-			<i class="font-xl btn btn-outline-light fab fa-github border-0 pulse"></i>
-			</a>
-			<a href="https://stackoverflow.com/users/4211402/izce" target="_blank">
-			<i class="font-xl btn btn-outline-light fab fab fa-stack-overflow border-0 pulse"></i>
-			</a>
-		</div> -->
 	</div>
+	
 </nav>
 	
 <div role="main" class="container">
