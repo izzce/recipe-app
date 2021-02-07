@@ -499,6 +499,9 @@ async function waitForImageUpload(e) {
 
 	await fetch("/recipe/image", {
 		method: "POST",
+	    headers: {
+	      "X-CSRF-TOKEN": $("input:hidden[name=_csrf]").val()
+	    },
 		body: data
 	})
 	.then((response) => response.json())
@@ -530,8 +533,9 @@ async function postData(url = "", data = {}, methodArg = "POST") {
 							// only-if-cached
 	    credentials: "same-origin", // include, *same-origin, omit
 	    headers: {
-	      "Content-Type": "application/json"
-	      // "Content-Type": "application/x-www-form-urlencoded",
+	      "Content-Type": "application/json",
+	      // "Content-Type": "application/x-www-form-urlencoded"
+	      "X-CSRF-TOKEN": $("input:hidden[name=_csrf]").val()
 	    },
 	    redirect: "follow", // manual, *follow, error
 	    referrerPolicy: "no-referrer", // no-referrer, *no-referrer-when-downgrade,
