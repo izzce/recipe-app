@@ -10,6 +10,7 @@ public class MvcConfig implements WebMvcConfigurer {
 	public void addViewControllers(ViewControllerRegistry registry) {
 		// izzetc: Alternatively, consider creating a LoginController to do this mapping. 
 		registry.addViewController("/login").setViewName("login");
+		registry.addViewController("/logout").setViewName("login?logout");
 	}
 
 }
