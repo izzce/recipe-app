@@ -12,6 +12,7 @@ import org.izce.recipe.converters.CategoryToCategoryCommand;
 import org.izce.recipe.converters.RecipeCommandToRecipe;
 import org.izce.recipe.converters.RecipeToRecipeCommand;
 import org.izce.recipe.converters.UnitOfMeasureToUnitOfMeasureCommand;
+import org.izce.recipe.exceptions.NotFoundException;
 import org.izce.recipe.model.Category;
 import org.izce.recipe.model.Direction;
 import org.izce.recipe.model.Ingredient;
@@ -83,7 +84,8 @@ public class RecipeServiceImpl implements RecipeService {
 	public Recipe findById(Long id) {
 		Optional<Recipe> recipeOptional = recipeRepo.findById(id);
 		
-		return recipeOptional.orElseThrow(() -> new RuntimeException("Recipe not found: " + id));
+		//return recipeOptional.orElseThrow(() -> new RuntimeException("Recipe not found: " + id));
+		return recipeOptional.orElseThrow(() -> new NotFoundException("Recipe not found for id: " + id));
 	}
 	
     @Override

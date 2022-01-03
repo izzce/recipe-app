@@ -4,18 +4,24 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.izce.recipe.commands.RecipeCommand;
+import org.izce.recipe.exceptions.NotFoundException;
 import org.izce.recipe.service.RecipeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.method.annotation.ModelAndViewResolverMethodReturnValueHandler;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -96,6 +102,24 @@ public class RecipeController {
 		recipeService.delete(recipeId);
 		
 		return "redirect:/index";
+	}
+	
+	@ResponseStatus(HttpStatus.NOT_FOUND)
+	@ExceptionHandler(NotFoundException.class)
+	public ModelAndView handleNotFound(Exception exception) {
+		log.error("Handling not found exception: " + exception.getMessage());
+		ModelAndView mav = new ModelAndView("error/404error");
+		mav.addObject("exception", exception);
+		return mav;
+	}
+	
+	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	@ExceptionHandler(NumberFormatException.class)
+	public ModelAndView handleNumberFormatException(Exception exception) {
+		log.error("Handling number format exception: " + exception.getMessage());
+		ModelAndView mav = new ModelAndView("error/400error");
+		mav.addObject("exception", exception);
+		return mav;
 	}
 
 }
