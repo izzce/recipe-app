@@ -54,13 +54,13 @@ function log() {
  * @see http://jsdo.it/akm2/fhMC
  */
 
-var DRAG_POINT_NUM = 3;
-var DRAG_POINT_MAX_NUM = 4;
-var CHILD_NUM = 2;
+var DRAG_POINT_NUM = 4; // orig: 3
+var DRAG_POINT_MAX_NUM = 5; // orig: 4
+var CHILD_NUM = 3; // orig: 2
 var BACKGROUND_COLOR = 'rgba(0, 15, 20, 0.8)';
 
 // Color 
-var H = 195; // 285 - violet,  195 - aqua (orig)
+var H = 295; // 285 - violet,  195 - aqua (orig)
 var S = 100;
 var L_MAX = 85;
 var L_MIN = 45;

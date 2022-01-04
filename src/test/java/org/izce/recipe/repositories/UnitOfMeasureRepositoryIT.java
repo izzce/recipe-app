@@ -5,6 +5,7 @@ import static org.junit.Assert.assertEquals;
 import java.util.Optional;
 
 import org.izce.recipe.model.UnitOfMeasure;
+import org.izce.recipe.service.StorageService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -18,6 +19,9 @@ public class UnitOfMeasureRepositoryIT {
 	
 	@Autowired
 	UnitOfMeasureRepository repository;
+	
+	@Autowired
+	StorageService storageService;
 	
 	@Before
 	public void setUp() throws Exception {

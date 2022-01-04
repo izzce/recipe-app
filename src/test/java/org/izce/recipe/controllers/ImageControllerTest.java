@@ -47,7 +47,9 @@ public class ImageControllerTest {
 	public void setUp() throws Exception {
 		MockitoAnnotations.initMocks(this);
 		imageController = new ImageController(recipeService, imageService, storageService);
-		mockMvc = MockMvcBuilders.standaloneSetup(imageController).build();
+		mockMvc = MockMvcBuilders.standaloneSetup(imageController)
+				.setControllerAdvice(new ControllerExceptionHandler())
+				.build();
 		recipe = new RecipeCommand(1L);
 		when(recipeService.findRecipeCommandById(anyLong())).thenReturn(recipe);
 		when(storageService.load(anyString())).thenReturn(Paths.get(new StorageProperties().getLocation(), TEST_FILE_NAME));

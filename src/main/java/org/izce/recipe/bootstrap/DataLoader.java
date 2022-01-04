@@ -69,7 +69,7 @@ public class DataLoader implements CommandLineRunner {
 		r1.setPrepTime(10);
 		r1.setSource("Simply Recipes");
 		r1.setUrl("https://www.simplyrecipes.com/recipes/perfect_guacamole/");
-		r1.setImageUrl("https://www.simplyrecipes.com/wp-content/uploads/2014/05/guacamole-horiz-a-1600-1024x729.jpg");
+		r1.setImageUrl("https://www.gimmesomeoven.com/wp-content/uploads/2012/08/The-Best-Guacamole-Recipe-4.jpg");
 		r1.getCategories().add(mexican);
 		r1.getCategories().add(american);
 		r1.setServings(3);
@@ -113,7 +113,7 @@ public class DataLoader implements CommandLineRunner {
 		r2.setPrepTime(20);
 		r2.setSource("Simply Recipes");
 		r2.setUrl("https://www.simplyrecipes.com/recipes/red_velvet_cookies/");
-		r2.setImageUrl("https://www.simplyrecipes.com/wp-content/uploads/2019/01/Red-Velvet-Cookies-LEAD-02.jpg");
+		r2.setImageUrl("https://www.cookingclassy.com/wp-content/uploads/2012/08/red-velvet-cookies-33-1024x1536.jpg");
 		r2.getCategories().add(mexican);
 		r2.getCategories().add(chinese);
 		r2.getCategories().add(american);

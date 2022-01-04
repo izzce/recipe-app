@@ -30,6 +30,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		builder
 			.jdbcAuthentication().dataSource(dataSource).withDefaultSchema()
 			.withUser("izzet").password(encPwd).roles("USER").and()
+			.withUser("elif").password(encPwd).roles("USER").and()
 			.withUser("admin").password(encPwd).roles("ADMIN");
 	}
 
@@ -54,7 +55,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 			.requiresChannel().anyRequest().requiresSecure();
 		
 		
-		// The following part should be used as workaround to prevent 8080 to 8443 redirect. 
+//		 The following part should be used as workaround to prevent 8080 to 8443 redirect. 
 //		var portMapper = new PortMapperImpl();
 //		portMapper.setPortMappings(Map.of("80", "443", "8080", "8080"));
 //		var portResolver = new PortResolverImpl();
@@ -87,19 +88,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
 		String encPwd = encoder.encode("password");
 
-		UserDetails admin1 = User
-				.withUsername("admin")
-				.password(encPwd)
-				.roles("ADMIN")
-				.build();
+		UserDetails admin1 = User.withUsername("admin").password(encPwd).roles("ADMIN").build();
+
+		UserDetails user1 = User.withUsername("izzet").password(encPwd).roles("USER").build();
+
+		UserDetails user2 = User.withUsername("elif").password(encPwd).roles("USER").build();
 		
-		UserDetails user1 = User
-				.withUsername("izzet")
-				.password(encPwd)
-				.roles("USER")
-				.build();
-		
-		return new InMemoryUserDetailsManager(admin1, user1);
+		return new InMemoryUserDetailsManager(admin1, user1, user2);
 	}
 
 }
