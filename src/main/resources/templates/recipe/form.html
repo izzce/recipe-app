@@ -27,7 +27,10 @@
 			<div class="card-body mx-3">
 				
 				<div th:if="${#fields.hasGlobalErrors()}" class="alert alert-danger">
-				  <p th:each="err : ${#fields.globalErrors()}" th:text="${err}">All errors</p>
+				  <p th:each="err : ${#fields.globalErrors()}" th:text="${err}">All global errors</p>
+				</div>
+				<div th:if="${#fields.hasAnyErrors()}" class="alert alert-danger">
+				  <p th:each="err : ${#fields.detailedErrors()}" th:text="${err.fieldName} + ' : ' + ${err.message}">All field errors</p>
 				</div>
 				
 				<div class="input-group input-group-sm p-2">

@@ -23,7 +23,7 @@ import lombok.ToString;
 public class RecipeCommand {
     private Long id;
     
-    @NotEmpty
+    @NotBlank
     @Size(min=3, max=255)
     private String description;
     @Range(min=1, max=200)
