@@ -68,9 +68,9 @@ public class RecipeController {
 			HttpServletRequest req, HttpSession session) {
 
 		if (bindingResult.hasErrors()) {
-			for (var error : bindingResult.getAllErrors()) {
+			bindingResult.getAllErrors().forEach(error -> {
 				log.warn(error.toString());
-			}
+			});
 			// the model attr 'recipe' will still be avail to view for rendering!
 			return "recipe/form";
 		}

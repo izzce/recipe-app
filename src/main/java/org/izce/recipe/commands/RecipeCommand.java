@@ -3,10 +3,12 @@ package org.izce.recipe.commands;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Range;
+import org.hibernate.validator.constraints.URL;
 import org.izce.recipe.model.Difficulty;
 
 import lombok.Getter;
@@ -22,16 +24,19 @@ public class RecipeCommand {
     private Long id;
     
     @NotEmpty
-    @Size(min=3, max=100)
+    @Size(min=3, max=255)
     private String description;
     @Range(min=1, max=200)
     private Integer prepTime;
-    @Range(min=0, max=200)
+    @Range(min=1, max=200)
     private Integer cookTime;
-    @Range(min=1, max=10)
+    @Range(min=1, max=100)
     private Integer servings;
     private String source;
+    
+    @URL
     private String url;
+    @URL
     private String imageUrl;
     private Byte[] image;
     //@NotNull
