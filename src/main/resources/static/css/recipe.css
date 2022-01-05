@@ -10,7 +10,8 @@
 */
 
 .body-index, .body-form { 
-	background-image: url('https://www.simplyrecipes.com/wp-content/uploads/2006/03/shrimp-cakes-vertical-a-1600-793x1024.jpg');
+	/*background-image: url('https://www.simplyrecipes.com/wp-content/uploads/2006/03/shrimp-cakes-vertical-a-1600-793x1024.jpg');*/
+	background-image: url('https://i.lezzet.com.tr/images-xxlarge-recipe/kis-pudingi-9654df7a-a639-4360-8c62-5780d213d2d8.jpg');
 	background-repeat: no-repeat;
 	background-attachment: fixed;
 	background-size: cover;

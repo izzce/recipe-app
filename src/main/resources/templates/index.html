@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-<head th:insert="~{layout :: header(title='Recipe Index')}">
+<head th:insert="~{layout :: header(title='__#{index.title}__')}">
 	<title>This is Index Title</title>
 </head>
 
 <body class="body-index">
 
-<nav th:replace="~{layout :: navbar(title='Recipe Index')}">
+<nav th:replace="~{layout :: navbar(title='__#{index.title}__')}">
 	<span>This is Index navbar</span>
 </nav>
 	
@@ -18,15 +18,15 @@
 			<thead>
                <tr>
                    <td class="" colspan="3">
-                		<h3 class="text-center">Recipe Index</h3>
+                		<h3 class="text-center" th:text="#{index.title}">Recipe Index</h3>
                    </td>   
                </tr>
             </thead>
 			<tbody  th:if="${not #lists.isEmpty(recipes)}">
 				<tr class="">
-					<th style="width:10%">ID</th>
-					<th style="width:65%">Description</th>
-					<th style="white-space:nowrap" class="text-right">Actions</th>
+					<th style="width:10%" th:text="#{index.id}">ID</th>
+					<th style="width:65%" th:text="#{index.name}">Description</th>
+					<th style="white-space:nowrap" class="text-right" th:text="#{index.actions}">Actions</th>
 				</tr>
 	            <tr th:remove="all">
 	                <td th:text="${recipe.id}">11</td>
@@ -61,7 +61,7 @@
 	
 	
 <footer th:replace="~{layout :: footer}">
-	<span>This is Index - Copyright &copy; 2020</span>
+	<span>This is Index - Copyright &copy; 2022</span>
 </footer>
 
 

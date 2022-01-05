@@ -37,7 +37,7 @@ body.body-show::before {
 	            <ul class="list-group list-group-flush">
 				  <li class="list-group-item bg-grad p-2">
 					<div class="col-5 float-left">
-			        	<span class="h6">Prep Time:</span>
+			        	<span class="h6" th:text="#{recipe.prepTime}">Prep Time:</span>
 			        </div>
 			        <div class="col-7 float-right">
 			        	<span th:text="@{${recipe.prepTime} + ' min'}">30 min</span>
@@ -46,7 +46,7 @@ body.body-show::before {
 
 				  <li class="list-group-item bg-grad p-2">
 					<div class="col-5 float-left">
-			        	<span class="h6">Cook time:</span>
+			        	<span class="h6" th:text="#{recipe.cookTime}">Cook time:</span>
 			        </div>
 			        <div class="col-7 float-right">
 			        	<span th:text="@{${recipe.cookTime} + ' min'}">30 min</span>
@@ -55,16 +55,16 @@ body.body-show::before {
 				  
 				  <li class="list-group-item bg-grad p-2">
 					<div class="col-5 float-left">
-			        	<span class="h6">Difficulty:</span>
+			        	<span class="h6" th:text="#{recipe.difficulty}">Difficulty:</span>
 			        </div>
 			        <div class="col-7 float-right">
-			        	<span th:text="${#strings.capitalize(#strings.toLowerCase(recipe.difficulty))}">Easy</span>
+			        	<span th:text="#{recipe.difficulty.__${#strings.toLowerCase(recipe.difficulty)}__}">Easy</span>
 			        </div>
 				  </li>	
 				  
 				  <li class="list-group-item bg-grad p-2">
 					<div class="col-5 float-left">
-			        	<span class="h6">Servings:</span>
+			        	<span class="h6" th:text="#{recipe.servings}">Servings:</span>
 			        </div>
 			        <div class="col-7 float-right">
 			        	<span th:text="${recipe.servings}">4</span>
@@ -73,16 +73,16 @@ body.body-show::before {
 				  
 				  <li class="list-group-item bg-grad p-2">
 					<div class="col-5 float-left">
-			        	<span class="h6">Source:</span>
+			        	<span class="h6" th:text="#{recipe.source}">Source:</span>
 			        </div>
 		            <div class="col-7 float-right">
-		                <a class="text-right" href="#" th:href="${recipe.url}" th:text="${recipe.source}">Easy Recipes</a>
+		                <a class="text-right" href="#" target="_blank" th:href="${recipe.url}" th:text="${recipe.source}">Easy Recipes</a>
 		            </div>
 				  </li>
 
 				  <li class="list-group-item bg-grad p-2">
 					<div class="col-5 float-left">
-			        	<span class="h6">Categories:</span>
+			        	<span class="h6" th:text="#{recipe.categories}">Categories:</span>
 			        </div>
 		            <div class="col-7 float-right">
 						<span th:remove="all">Turkish</span>
@@ -100,7 +100,7 @@ body.body-show::before {
 	        
         <div class="card m-2 mt-3 shadow border">
 			<div class="card-header bg-warning text-dark shadow">
-               	<span class="h5">Directions</span>
+               	<span class="h5" th:text="#{recipe.directions}">Directions</span>
                	<button type="button" class="btn btn-warning float-right px-1 py-0 mr-n1 collapsed" data-toggle="collapse" data-target="#card1">
 					<i class="fas fa-1x"></i>
 				</button>
@@ -131,7 +131,7 @@ body.body-show::before {
 	<div class="col-md-6 col-sm-12">
 		<div class="card m-2 shadow">
 			<div class="card-header bg-primary text-light shadow">
-				<span class="h5">Ingredients</span>
+				<span class="h5" th:text="#{recipe.ingredients}">Ingredients</span>
 				<button type="button" class="btn btn-primary float-right px-1 py-0 mr-n1 collapsed" data-toggle="collapse" data-target="#card3">
 					<i class="fas fa-1x"></i>
 				</button>
@@ -152,7 +152,7 @@ body.body-show::before {
 	<div class="col-md-6 col-sm-12">
 		<div class="card m-2 shadow">
 		    <div class="card-header bg-danger text-light shadow">
-		        <span class="h5">Notes</span>
+		        <span class="h5" th:text="#{recipe.notes}">Notes</span>
 				<button type="button" class="btn btn-danger float-right px-1 py-0 mr-n1 collapsed" data-toggle="collapse" data-target="#card2">
 					<i class="fas fa-1x"></i>
 				</button>
@@ -175,7 +175,7 @@ body.body-show::before {
 
 
 <footer th:replace="~{layout :: footer}">
-	<span>This is Show page - Copyright &copy; 2019</span>
+	<span>This is Show page - Copyright &copy; 2022</span>
 </footer>
 
 
