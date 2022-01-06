@@ -16,8 +16,8 @@ import org.izce.recipe.service.ImageService;
 import org.izce.recipe.service.RecipeService;
 import org.izce.recipe.service.StorageProperties;
 import org.izce.recipe.service.StorageService;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
@@ -43,9 +43,9 @@ public class ImageControllerTest {
 	RecipeCommand recipe;
 	
 	
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
-		MockitoAnnotations.initMocks(this);
+		MockitoAnnotations.openMocks(this);
 		imageController = new ImageController(recipeService, imageService, storageService);
 		mockMvc = MockMvcBuilders.standaloneSetup(imageController)
 				.setControllerAdvice(new ControllerExceptionHandler())

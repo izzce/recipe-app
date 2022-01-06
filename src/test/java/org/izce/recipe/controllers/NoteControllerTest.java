@@ -11,8 +11,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import org.izce.recipe.commands.NoteCommand;
 import org.izce.recipe.commands.RecipeCommand;
 import org.izce.recipe.service.NoteService;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
@@ -31,9 +31,9 @@ public class NoteControllerTest {
 	MockMvc mockMvc;
 	RecipeCommand recipe;
 
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
-		MockitoAnnotations.initMocks(this);
+		MockitoAnnotations.openMocks(this);
 		noteController = new NoteController(noteService);
 		mockMvc = MockMvcBuilders.standaloneSetup(noteController).build();
 		recipe = new RecipeCommand(2L);

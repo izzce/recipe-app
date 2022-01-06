@@ -1,8 +1,8 @@
 package org.izce.recipe.converters;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.math.BigDecimal;
 
@@ -10,8 +10,8 @@ import org.izce.recipe.commands.IngredientCommand;
 import org.izce.recipe.commands.UnitOfMeasureCommand;
 import org.izce.recipe.model.Ingredient;
 import org.izce.recipe.model.Recipe;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class IngredientCommandToIngredientTest {
 
@@ -23,7 +23,7 @@ public class IngredientCommandToIngredientTest {
 
 	IngredientCommandToIngredient converter;
 
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 		converter = new IngredientCommandToIngredient(new UnitOfMeasureCommandToUnitOfMeasure());
 	}

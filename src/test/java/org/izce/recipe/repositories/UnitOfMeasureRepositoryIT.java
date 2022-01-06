@@ -1,19 +1,19 @@
 package org.izce.recipe.repositories;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Optional;
 
 import org.izce.recipe.model.UnitOfMeasure;
 import org.izce.recipe.service.StorageService;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-@RunWith(SpringRunner.class) 
+@ExtendWith(SpringExtension.class) 
 @DataJpaTest
 public class UnitOfMeasureRepositoryIT {
 	
@@ -23,7 +23,7 @@ public class UnitOfMeasureRepositoryIT {
 	@Autowired
 	StorageService storageService;
 	
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
 	}
 

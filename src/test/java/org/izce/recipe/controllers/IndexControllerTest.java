@@ -1,6 +1,6 @@
 package org.izce.recipe.controllers;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -14,8 +14,8 @@ import java.util.Set;
 
 import org.izce.recipe.model.Recipe;
 import org.izce.recipe.service.RecipeService;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -31,9 +31,9 @@ public class IndexControllerTest {
 	IndexController indexController;
 	MockMvc mockMvc;
 	
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
-		MockitoAnnotations.initMocks(this);
+		MockitoAnnotations.openMocks(this);
 		indexController = new IndexController(recipeService);
 		mockMvc = MockMvcBuilders.standaloneSetup(indexController).build();
 	}

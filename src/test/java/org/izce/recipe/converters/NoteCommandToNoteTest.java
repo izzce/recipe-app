@@ -1,13 +1,13 @@
 package org.izce.recipe.converters;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import org.izce.recipe.commands.NoteCommand;
 import org.izce.recipe.model.Note;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class NoteCommandToNoteTest {
 
@@ -15,7 +15,7 @@ public class NoteCommandToNoteTest {
     public static final String RECIPE_NOTE = "Notes";
     NoteCommandToNote converter;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         converter = new NoteCommandToNote();
 

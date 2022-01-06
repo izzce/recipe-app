@@ -11,8 +11,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import org.izce.recipe.commands.CategoryCommand;
 import org.izce.recipe.commands.RecipeCommand;
 import org.izce.recipe.service.RecipeService;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
@@ -31,9 +31,9 @@ public class CategoryControllerTest {
 	CategoryController categoryController;
 	MockMvc mockMvc;
 
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
-		MockitoAnnotations.initMocks(this);
+		MockitoAnnotations.openMocks(this);
 		categoryController = new CategoryController(recipeService);
 		mockMvc = MockMvcBuilders.standaloneSetup(categoryController).build();
 	}

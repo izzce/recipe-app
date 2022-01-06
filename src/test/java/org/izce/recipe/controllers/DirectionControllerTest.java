@@ -11,8 +11,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import org.izce.recipe.commands.DirectionCommand;
 import org.izce.recipe.commands.RecipeCommand;
 import org.izce.recipe.service.DirectionService;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
@@ -31,9 +31,9 @@ public class DirectionControllerTest {
 	DirectionController directionController;
 	MockMvc mockMvc;
 
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
-		MockitoAnnotations.initMocks(this);
+		MockitoAnnotations.openMocks(this);
 		directionController = new DirectionController(directionService);
 		mockMvc = MockMvcBuilders.standaloneSetup(directionController).build();
 	}

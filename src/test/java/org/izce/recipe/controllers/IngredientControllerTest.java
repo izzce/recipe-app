@@ -16,8 +16,8 @@ import org.izce.recipe.commands.IngredientCommand;
 import org.izce.recipe.commands.RecipeCommand;
 import org.izce.recipe.commands.UnitOfMeasureCommand;
 import org.izce.recipe.service.IngredientService;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.http.MediaType;
@@ -38,9 +38,9 @@ public class IngredientControllerTest {
 	UnitOfMeasureCommand piece;
 	List<UnitOfMeasureCommand> uomList;
 
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
-		MockitoAnnotations.initMocks(this);
+		MockitoAnnotations.openMocks(this);
 		ingredientController = new IngredientController(ingredientService);
 		mockMvc = MockMvcBuilders.standaloneSetup(ingredientController).build();
 		recipe = new RecipeCommand(2L);

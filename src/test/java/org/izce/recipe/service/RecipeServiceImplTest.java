@@ -1,6 +1,6 @@
 package org.izce.recipe.service;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -18,8 +18,8 @@ import org.izce.recipe.repositories.IngredientRepository;
 import org.izce.recipe.repositories.NoteRepository;
 import org.izce.recipe.repositories.RecipeRepository;
 import org.izce.recipe.repositories.UnitOfMeasureRepository;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
@@ -36,9 +36,9 @@ public class RecipeServiceImplTest {
     @Mock UnitOfMeasureToUnitOfMeasureCommand uom2uomc;
     @Mock CategoryToCategoryCommand cTocc;
     
-	@Before
+	@BeforeEach
 	public void setUp() throws Exception {
-		MockitoAnnotations.initMocks(this);
+		MockitoAnnotations.openMocks(this);
 
 		service = new RecipeServiceImpl(repository, catRepo, ingredientRepo, uomRepo, noteRepo, directionRepo, recipeCommandToRecipe, recipeToRecipeCommand, uom2uomc, cTocc);
 	}
