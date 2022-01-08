@@ -23,14 +23,12 @@
 				<div class="input-group input-group-sm p-1">
 					<div th:if="${param.error}" class="col alert alert-danger alert-dismissible fade show" role="alert">
 						<span class="align-top"  th:inline="text"><i class="font-xl far fa-times-circle pr-2"></i> [[#{login.invalidCreds ?: 'Invalid username or password.'}]]</span>
-						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
+						<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
 						</button>
 					</div>
 				    <div th:if="${param.logout}" class="col alert alert-info alert-dismissible fade show" role="alert">
 						<span class="align-top" th:inline="text"><i class="font-xl fas fa-exclamation-circle pr-2"></i> [[#{login.loggedOut ?: 'You have been logged out.'}]]</span>
-						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
+						<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
 						</button>
 					</div>
 			    </div>

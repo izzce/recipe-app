@@ -34,9 +34,7 @@
 				</div>
 				
 				<div class="input-group input-group-sm p-2">
-					<div class="input-group-prepend">
-						<label for="description" class="input-group-text" th:text="#{recipe.description}">Name</label>
-					</div>
+					<label for="description" class="input-group-text" th:text="#{recipe.description}">Name</label>
 					<input type="text" 
 							th:field="*{description}"
 							class="form-control" 
@@ -47,41 +45,21 @@
 					</ul> 
 				</div>
 				
-				<div class="input-group">
-					<div class="col-lg-6 input-group input-group-sm p-2">
-						<div class="input-group-prepend">
-							<label for="prepTime" class="input-group-text" th:text="#{recipe.prepTime}">Prep Time</label>
-						</div>
-						<input type="number" min="0" max="120" 
-								th:field="*{prepTime}" 
-								class="form-control"
-								th:errorclass="is-invalid"
-								placeholder="Preparation time (in minutes)" />
-						<ul th:if="${#fields.hasErrors('prepTime')}" class="alert alert-danger mb-0 py-2 invalid-feedback" role="alert">
-							<li th:each="err : ${#fields.errors('prepTime')}" th:text="${err}">Input is incorrect</li>
-						</ul> 
+				<div class="d-xs-block d-md-flex">
+					<div class="input-group input-group-sm p-2">
+						<label for="prepTime" class="input-group-text">Prep Time</label>
+						<input type="number" min="0" max="120" class="form-control" placeholder="Preparation time (in minutes)" id="prepTime" name="prepTime" value="10">
 					</div>
 					
-					<div class="col-lg-6 input-group input-group-sm p-2">
-						<div class="input-group-prepend">
-							<label for="cookTime" class="input-group-text" th:text="#{recipe.cookTime}">Cook Time</label>
-						</div>
-						<input type="number" min="0" max="120" 
-								th:field="*{cookTime}" 
-								class="form-control"
-								th:errorclass="is-invalid"
-								placeholder="Cooking time (in minutes)" />
-						<ul th:if="${#fields.hasErrors('cookTime')}" class="alert alert-danger mb-0 py-2 invalid-feedback" role="alert">
-							<li th:each="err : ${#fields.errors('cookTime')}" th:text="${err}">Input is incorrect</li>
-						</ul> 
+					<div class="input-group input-group-sm p-2">
+						<label for="cookTime" class="input-group-text">Cook Time</label>
+						<input type="number" min="0" max="120" class="form-control" placeholder="Cooking time (in minutes)" id="cookTime" name="cookTime" value="2">
 					</div>
 				</div>
 				
-				<div class="input-group">
-					<div class="col-lg-6 input-group input-group-sm p-2">
-						<div class="input-group-prepend">
-							<label for="difficulty" class="input-group-text" th:text="#{recipe.difficulty}">Difficulty</label>
-						</div>
+				<div class="d-xs-block d-md-flex">
+					<div class="input-group input-group-sm p-2">
+						<label for="difficulty" class="input-group-text w-10" th:text="#{recipe.difficulty}">Difficulty</label>
 						<select class="form-control" th:errorclass="is-invalid" th:field="*{difficulty}" >
 						    <option value="" selected>Select difficulty</option>
 						    <option th:each="diffValue : ${T(org.izce.recipe.model.Difficulty).values()}"
@@ -99,10 +77,8 @@
 						</ul> 
 					</div>
 					
-					<div class="col-lg-6 input-group input-group-sm p-2">
-						<div class="input-group-prepend">
-							<label for="servings" class="input-group-text" th:text="#{recipe.servings}">Servings</label>
-						</div>
+					<div class="input-group input-group-sm p-2">
+						<label for="servings" class="input-group-text" th:text="#{recipe.servings}">Servings</label>
 						<input type="number" min="1" max="10" 
 								th:field="*{servings}" 
 								class="form-control" 
@@ -116,9 +92,7 @@
 				
 				<div class="input-group">
 					<div class="col-lg-6 input-group input-group-sm p-2">
-						<div class="input-group-prepend">
-							<label for="source" class="input-group-text" th:text="#{recipe.source}">Source</label>
-						</div>
+						<label for="source" class="input-group-text" th:text="#{recipe.source}">Source</label>
 						<input type="text" 
 								th:field="*{source}" 
 								class="form-control" 
@@ -130,34 +104,29 @@
 					</div>
 					
 					<div class="col-lg-6 input-group input-group-sm p-2">
-						<div class="input-group-prepend">
-							<label for="url" class="input-group-text" th:text="#{recipe.url}">Source URL</label>
-						</div>
+						<label for="url" class="input-group-text" th:text="#{recipe.url}">Source URL</label>
 						<input type="url" class="form-control" th:field="*{url}" placeholder="Source address" />
 					</div>
 				</div>
 				
 				<div class="input-group input-group-sm p-2">
-					<div class="input-group-prepend">
-						<label for="imageUrl" class="input-group-text" th:text="#{recipe.imageUrl}">Image URL</label>
-					</div>
+					<label for="imageUrl" class="input-group-text" th:text="#{recipe.imageUrl}">Image URL</label>
 					<input type="url" 
 							th:field="*{imageUrl}" 
 							class="form-control" 
 							th:errorclass="is-invalid"
 							placeholder="Point to an image of this yummy recipe" />
 										
-					<div id="divImageUpload" class="input-group-append fa-2x pl-1">
-						<label for="image-file-input" role="button" class="m-0 py-0 px-1">
-	    					<i id="iconBrowse" class="fas fa-ellipsis-h text-primary"></i>
-	  					</label>
-	  					<input id="image-file-input" type="file" class="d-none" multiple="multiple" accept="image/png, image/jpeg" />
-	  					
-						<i id="iconSpinner" class="fas fa-spinner fa-pulse text-warning d-none"></i>
-						<i id="iconSuccess" class="far fa-check-circle text-success d-none"></i>
-						<i id="iconError" class="fas fa-exclamation-triangle text-danger d-none"></i>
-						<i id="iconImageUpload" class="fas fa-upload text-danger d-none"></i>
-					</div>
+						<label id="labelImageUpload" for="image-file-input" role="button" class="input-group-text">
+	    					<i id="iconBrowse" class="fa-2x mx-1 fas fa-ellipsis-h text-primary"></i>
+		  					<input id="image-file-input" type="file" class="d-none" multiple="multiple" accept="image/png, image/jpeg" />
+		  				</label>
+		  				<span id="spanImageUploadResult" class="input-group-text d-none">
+							<i id="iconSpinner" class="fa-2x mx-1 fas fa-spinner fa-pulse text-warning d-none"></i>
+							<i id="iconSuccess" class="fa-2x mx-1 far fa-check-circle text-success d-none"></i>
+							<i id="iconError" class="fa-2x mx-1 fas fa-exclamation-triangle text-danger d-none"></i>
+							<i id="iconImageUpload" class="fa-2x mx-1 fas fa-upload text-danger d-none"></i>
+						</span>
 				</div>
 				
 				<div class="card m-2 shadow border">
@@ -171,7 +140,7 @@
 				<div th:if="${recipe.id != null}" class="card input-group my-4 bg-transparent border border-primary">
 					<div class="card-header">
 						<span class="h6 text-primary" th:text="#{recipe.categories}">Categories</span>
-						<button type="button" class="btn text-primary float-right px-1 py-0 mr-n1 collapsed" data-toggle="collapse" data-target="#card1">
+						<button type="button" class="btn text-primary float-end px-1 py-0 mr-n1 collapsed" data-bs-toggle="collapse" data-bs-target="#card1">
 							<i class="fas fa-1x"></i>
 						</button>
 					</div>
@@ -206,9 +175,9 @@
 							<ul th:if="${#fields.hasErrors('categories')}" class="alert alert-danger mb-0 py-2 invalid-feedback" role="alert">
 								<li th:each="err : ${#fields.errors('categories')}" th:text="${err}">Input is incorrect</li>
 							</ul> 
-							<div class="input-group-append">
-								<a id="btn-add-category" class="btn btn-outline-primary ml-1" th:href="@{'/recipe/' + ${recipe.id} + '/category/add'}" title="Add"> <i class="fas fa-1x fa-plus"></i> </a> 
-							</div>
+							<a id="btn-add-category" class="btn btn-outline-primary ml-1" th:href="@{'/recipe/' + ${recipe.id} + '/category/add'}" title="Add"> 
+								<i class="fas fa-1x fa-plus"></i> 
+							</a> 
 						</div>
 					</div>
 				</div>
@@ -219,7 +188,7 @@
 				<div th:if="${recipe.id != null}" class="card input-group my-4 bg-transparent border border-warning">
 					<div class="card-header">
 						<span class="h6 text-warning" th:text="#{recipe.directions}">Directions</span>
-						<button type="button" class="btn text-warning float-right px-1 py-0 mr-n1 collapsed" data-toggle="collapse" data-target="#card2">
+						<button type="button" class="btn text-warning float-end px-1 py-0 mr-n1 collapsed" data-bs-toggle="collapse" data-bs-target="#card2">
 							<i class="fas fa-1x"></i>
 						</button>
 					</div>
@@ -228,7 +197,7 @@
 						<!-- START: TEMPLATE for adding new directions -->
 						<div id="direction-" class="direction alert alert-warning mx-2 my-1 px-2 py-1 font-sm d-none">
 							<span class="">Cook</span>
-							<a class="btn-outline-warning bg-transparent float-right" 
+							<a class="btn-outline-warning bg-transparent float-end" 
 								th:href="@{'/recipe/' + ${recipe.id} + '/direction/{direction.id}/delete'}">
 							<i class="far fa-times-circle"></i></a>
 						</div>
@@ -238,7 +207,7 @@
 						<div th:id="'direction-' + ${direction.id}" 
 							class="direction alert alert-warning mx-2 my-1 px-2 py-1 font-sm">
 							<span class="" th:text="${direction.direction}">Cook</span>
-							<a class="btn-outline-warning bg-transparent float-right" 
+							<a class="btn-outline-warning bg-transparent float-end" 
 								th:href="@{'/recipe/' + ${recipe.id} + '/direction/' + ${direction.id} + '/delete'}"
 								th:attr="data-id=${direction.id}" 
 								title="Delete">
@@ -252,11 +221,9 @@
 							<ul th:if="${#fields.hasErrors('directions')}" class="alert alert-danger mb-0 py-2 invalid-feedback" role="alert">
 								<li th:each="err : ${#fields.errors('directions')}" th:text="${err}">Input is incorrect</li>
 							</ul> 
-							<div class="input-group-append">
 								<a id="btn-add-direction" class="btn btn-outline-warning ml-1" 
 									th:href="@{'/recipe/' + ${recipe.id} + '/direction/add'}" title="Add" > 
 									<i class="fas fa-1x fa-plus"></i> </a> 
-							</div>
 						</div>
 					</div>
 				</div>			
@@ -266,7 +233,7 @@
 				<div th:if="${recipe.id != null}" class="card input-group my-4 bg-transparent border border-success">
 					<div class="card-header">
 						<span class="h6 text-success" th:text="#{recipe.ingredients}">Ingredients</span>
-						<button type="button" class="btn text-success float-right px-1 py-0 mr-n1 collapsed" data-toggle="collapse" data-target="#card3">
+						<button type="button" class="btn text-success float-end px-1 py-0 mr-n1 collapsed" data-bs-toggle="collapse" data-bs-target="#card3">
 							<i class="fas fa-1x"></i>
 						</button>
 					</div>
@@ -277,11 +244,11 @@
 							<span class="ingredient-text">1.5 Teaspoon Salt</span>
 							<!-- Note that recipe.id will be replaced with its actual value 
 								but {ingredient.id} is a placeholder for recipe.js to replace it. -->
-							<a class="btn-delete-ingredient btn-outline-success bg-transparent float-right" 
+							<a class="btn-delete-ingredient btn-outline-success bg-transparent float-end" 
 								th:href="@{'/recipe/' + ${recipe.id} + '/ingredient/{ingredient.id}/delete'}">
 							<i class="far fa-times-circle"></i>
 							</a>
-							<a class="btn-edit-ingredient btn-outline-success bg-transparent float-right" 
+							<a class="btn-edit-ingredient btn-outline-success bg-transparent float-end" 
 								th:href="@{'/recipe/' + ${recipe.id} + '/ingredient/{ingredient.id}/update'}">
 								<i class="mx-1 font-lg fas fa-pen-square"></i>
 							</a>
@@ -296,56 +263,50 @@
 								 th:attr="data-id=${ingredient.id}, data-amount=${ingredient.amount}, data-uomid=${ingredient.uom.id}, data-description=${ingredient.description}"
 								>1 Teaspoon Salt</span>
 							<a th:id="'btn-delete-ingredient-' + ${ingredient.id}" 
-								class="btn-delete-ingredient btn-outline-success bg-transparent float-right" 
+								class="btn-delete-ingredient btn-outline-success bg-transparent float-end" 
 								th:href="@{'/recipe/' + ${recipe.id} + '/ingredient/' + ${ingredient.id} + '/delete'}"
 								th:attr="data-id=${ingredient.id}"
 								title="Delete">
 								<i class="font-lg far fa-times-circle"></i>
 							</a>
 							<a th:id="'btn-edit-ingredient-' + ${ingredient.id}"
-								class="btn-edit-ingredient btn-outline-success bg-transparent float-right" 
+								class="btn-edit-ingredient btn-outline-success bg-transparent float-end" 
 								th:href="@{'/recipe/' + ${recipe.id} + '/ingredient/' + ${ingredient.id} + '/update'}" title="Edit">
 								<i class="mx-1 font-lg fas fa-pen-square"></i>
 							</a>
 						</div>
 						<!-- END: Current ingredients List -->
 						
-						<div id="ingredient-input-box" class="row mx-1 my-1 py-1 font-sm rounded">
-							<div class="input-group input-group-sm col-md-3 my-0 px-1">
-								<div class="input-group-prepend">
-									<label for="input-ingredient-amount" class="input-group-text" th:text="#{recipe.ingredients.amount}">Amount</label>
-								</div>
+						<div id="ingredient-input-box" class="d-flex px-2 font-sm rounded">
+							<span class="input-group input-group-sm pe-1 py-1 w-25">
+								<label for="input-ingredient-amount" class="input-group-text" th:text="#{recipe.ingredients.amount}">Amount</label>
 								<input type="number" step="0.1" id="input-ingredient-amount" class="form-control font-sm" value="1" />
-							</div>
-							<div class="input-group input-group-sm col-md-3 my-0 px-1">
-								<div class="input-group-prepend">
-									<label for="input-ingredient-uom" class="input-group-text" th:text="#{recipe.ingredients.unit}">Unit</label>
-								</div>
+							</span>
+							<span class="input-group input-group-sm py-1 w-25">
+								<label for="input-ingredient-uom" class="input-group-text" th:text="#{recipe.ingredients.unit}">Unit</label>
 								<select id="input-ingredient-uom" class="form-control font-sm" >
 								    <option th:each="uom : ${uomList}"
 								            th:value="${uom.id}"
 								            th:text="${#strings.toLowerCase(uom.uom)}">
 								    </option>
 								</select>
-							</div>
-							<div class="input-group input-group-sm col-md-6 my-0 px-1">
-								<div class="input-group-prepend">
-									<label for="input-ingredient-description" class="input-group-text" th:text="#{recipe.ingredients.ingredient}">Ingredient</label>
-								</div>
+							</span>
+							<span class="input-group input-group-sm ps-1 py-1 w-50">
+								<label for="input-ingredient-description" class="input-group-text" th:text="#{recipe.ingredients.ingredient}">Ingredient</label>
 								<input type="text" id="input-ingredient-description" class="form-control font-sm"/>
-								<div class="input-group-append">
-									<a id="btn-add-ingredient" class="btn btn-outline-success ml-1 font-sm" 
-										th:href="@{'/recipe/' + ${recipe.id} + '/ingredient/add'}" title="Add" > 
-										<i class="fas fa-1x fa-plus"></i> 
-									</a> 
-									<a id="btn-update-ingredient" class="d-none btn btn-outline-success ml-1 font-sm" title="Update"> 
-										<i class="fas fa-1x fa-pen"></i> 
-									</a> 
-									<a id="btn-cancel-update-ingredient" class="d-none btn btn-outline-success ml-1 font-sm" title="Cancel"> 
-										<i class="fas fa-1x fa-times"></i>
-									</a>
-								</div>
-							</div>
+							
+								<a id="btn-update-ingredient" class="d-none btn btn-outline-success ml-1 font-sm" title="Update"> 
+									<i class="fas fa-1x fa-pen"></i> 
+								</a> 
+								<a id="btn-cancel-update-ingredient" class="d-none btn btn-outline-success ml-1 font-sm" title="Cancel"> 
+									<i class="fas fa-1x fa-times"></i>
+								</a>
+								
+								<a id="btn-add-ingredient" class="btn btn-outline-success ml-1 font-sm" 
+									th:href="@{'/recipe/' + ${recipe.id} + '/ingredient/add'}" title="Add" > 
+									<i class="fas fa-1x fa-plus"></i> 
+								</a> 
+							</span>
 							
 							<!--  <input type="hidden" th:field="*{ingredients}" />  -->
 							<ul th:if="${#fields.hasErrors('ingredients')}" class="alert alert-danger mb-0 py-2 invalid-feedback" role="alert">
@@ -361,7 +322,7 @@
 				<div th:if="${recipe.id != null}" class="card input-group my-4 bg-transparent border border-info">
 					<div class="card-header">
 						<span class="h6 text-info" th:text="#{recipe.notes}">Notes</span>
-						<button type="button" class="btn text-info float-right px-1 py-0 mr-n1 collapsed" data-toggle="collapse" data-target="#card4">
+						<button type="button" class="btn text-info float-end px-1 py-0 mr-n1 collapsed" data-bs-toggle="collapse" data-bs-target="#card4">
 							<i class="fas fa-1x"></i>
 						</button>
 					</div>
@@ -370,7 +331,7 @@
 						<!--  START: TEMPLATE for adding new notes -->
 						<div id="note-" class="note alert alert-info mx-2 my-1 px-2 py-1 font-sm d-none">
 							<span class="">Cook</span>
-							<a class="btn-outline-info bg-transparent float-right" 
+							<a class="btn-outline-info bg-transparent float-end" 
 								th:href="@{'/recipe/' + ${recipe.id} + '/note/{note.id}/delete'}">
 							<i class="far fa-times-circle"></i></a>
 						</div>
@@ -380,7 +341,7 @@
 						<div th:id="'note-' + ${note.id}" 
 							class="note alert alert-info mx-2 my-1 px-2 py-1 font-sm">
 							<span class="" th:text="${note.note}">Cook</span>
-							<a class="btn-outline-info bg-transparent float-right" 
+							<a class="btn-outline-info bg-transparent float-end" 
 								th:href="@{'/recipe/' + ${recipe.id} + '/note/' + ${note.id} + '/delete'}"
 								th:attr="data-id=${note.id}"
 								title="Delete">
@@ -394,11 +355,9 @@
 							<ul th:if="${#fields.hasErrors('notes')}" class="alert alert-info mb-0 py-2 invalid-feedback" role="alert">
 								<li th:each="err : ${#fields.errors('notes')}" th:text="${err}">Input is incorrect</li>
 							</ul> 
-							<div class="input-group-append">
-								<a id="btn-add-note" class="btn btn-outline-info ml-1" 
-									th:href="@{'/recipe/' + ${recipe.id} + '/note/add'}" title="Add" > 
-									<i class="fas fa-1x fa-plus"></i> </a> 
-							</div>
+							<a id="btn-add-note" class="btn btn-outline-info ml-1" 
+								th:href="@{'/recipe/' + ${recipe.id} + '/note/add'}" title="Add" > 
+								<i class="fas fa-1x fa-plus"></i> </a> 
 						</div>
 					</div>
 				</div>	
@@ -421,16 +380,14 @@
 
 
 <footer th:replace="~{layout :: footer}">
-	<span>This is Index - Copyright &copy; 2019</span>
+	<span>This is Index - Copyright &copy; 2022</span>
 </footer>
 
 
 <th:block th:replace="~{layout :: scripts}"></th:block>
 
-<!-- recipe.js is not included in the layout. So add it explicitly here. -->
-<script type="text/javascript" 
-	th:src="@{/js/recipe.js}"
-	src="../../static/js/recipe.js"></script>
+	<script type="text/javascript"  th:src="@{/js/recipe-form.js}"
+		src="../../static/js/recipe-form.js"></script>
 	
 </body>
 </html>

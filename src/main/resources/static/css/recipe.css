@@ -26,9 +26,6 @@
   opacity: 0.9;
 }
 
-#divImageUpload label {
-	line-height: 0.8em;
-}
 
 .font-xxl { font-size: xx-large; }
 .font-xl { font-size: x-large; }
@@ -48,12 +45,12 @@
 }
 
 /*<i class="fas fa-chevron-up"></i>*/
-[data-toggle="collapse"] .fas:before {   
+[data-bs-toggle="collapse"] .fas:before {   
   content: "\f077";
 }
 
 /*<i class="fas fa-chevron-down"></i>*/
-[data-toggle="collapse"].collapsed .fas:before {
+[data-bs-toggle="collapse"].collapsed .fas:before {
   content: "\f078";
 }
 

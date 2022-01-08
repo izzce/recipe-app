@@ -83,10 +83,10 @@ function init() {
     document.addEventListener('resize', resize, false);
     resize();
     
-    var homeIcon = document.getElementById('home');
-    var pepper = document.getElementById('pepper');
-    var pizza = document.getElementById('pizza');
-    var ellipseBox = document.getElementById('ellipse-box');
+    const homeIcon = document.getElementById('home');
+    const pepper = document.getElementById('pepper');
+    const pizza = document.getElementById('pizza');
+    const ellipseBox = document.getElementById('ellipse-box');
             
     dragPoints.push(new DragPoint(homeIcon.offsetLeft, homeIcon.offsetTop));
     dragPoints.push(new DragPoint(pepper.offsetLeft, pepper.offsetTop));

@@ -13,7 +13,7 @@
 </nav>
 
 <div role="main" class="container">
-	<div class="jumbotron bg-dark text-light text-center">
+	<div class="container-fluid bg-dark text-light text-center p-5">
 		<h1 class="text-danger glow glow-red" th:text="#{error.404}">Error 404</h1> 
 		<h3 class="font-weight-smaller pt-5" th:text="${exception.getMessage()}">The recipe you requested was not found.</h3>
    </div>

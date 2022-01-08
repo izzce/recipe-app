@@ -433,18 +433,21 @@ function waitForImageUrlLoad(e) {
   	
 	const newImageUrl = this.value;
   	const $recipeImg = $("img#recipeImage");
-	const $imgDownload = $("div#divImageUpload");
+	const $imgDownload = $("label#labelImageUpload");
+	const $imgDownloadResult = $("span#spanImageUploadResult");
 	const $iconSpinner = $("i#iconSpinner");
 	const $iconSuccess = $("i#iconSuccess");
 	const $iconError = $("i#iconError");
 	
   	$imgDownload.removeClass("d-none");
+  	$imgDownloadResult.removeClass("d-none");
 	$iconSpinner.removeClass("d-none");
 	$iconSuccess.addClass("d-none");
 	$iconError.addClass("d-none");
   	
   	let myPromise = new Promise((resolve, reject) => {
 	  	$imgDownload.removeClass("d-none");
+	  	$imgDownloadResult.removeClass("d-none");
 		$iconSpinner.removeClass("d-none");
 		$iconSuccess.addClass("d-none");
 		$iconError.addClass("d-none");
@@ -479,7 +482,8 @@ async function waitForImageUpload(e) {
     }
   	
   	const $recipeImg = $("img#recipeImage");
-	const $imgDownload = $("div#divImageUpload");
+	const $imgDownload = $("label#labelImageUpload");
+	const $imgDownloadResult = $("span#spanImageUploadResult");
 	const $iconSpinner = $("i#iconSpinner");
 	const $iconSuccess = $("i#iconSuccess");
 	const $iconError = $("i#iconError");
@@ -487,6 +491,7 @@ async function waitForImageUpload(e) {
 	
   	$imgDownload.removeClass("d-none");
 	$iconSpinner.removeClass("d-none");
+	$imgDownloadResult.removeClass("d-none");
 	$iconSuccess.addClass("d-none");
 	$iconError.addClass("d-none");
   	$recipeImg.attr("src", "");
@@ -556,5 +561,3 @@ async function postData(url = "", data = {}, methodArg = "POST") {
   
 	return responseJson; 
 }
-
-
