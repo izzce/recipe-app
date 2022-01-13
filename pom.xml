@@ -113,7 +113,6 @@
                     <excludes>
                         <exclude>org/izce/recipe/model/*</exclude>
                         <exclude>org/izce/recipe/exceptions/*</exclude>
-                        <exclude>org/izce/recipe/model/*</exclude>
                     </excludes>
                 </configuration>
                 <executions>
