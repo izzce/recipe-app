@@ -1,13 +1,13 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-<head th:insert="~{layout :: header(title='New Recipe')}">
+<head th:insert="~{layout :: header(title='__${recipe.description ?: 'New Recipe'}__')}">
 	<title>This is New Recipe Form</title>
 </head>
 
 <body class="body-form">
 
-<nav th:replace="~{layout :: navbar(title='New Recipe')}">
+<nav th:replace="~{layout :: navbar(title='__${recipe.description ?: 'New Recipe'}__')}">
 	<span>This is New Recipe navbar</span>
 </nav>
 	
