@@ -5,33 +5,38 @@ import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Profile;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
 @EnableWebSecurity
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+@Profile({ "dev", "prod" })
+public class WebSecurityConfig_MariaDB extends WebSecurityConfigurerAdapter {
 	
 	@Autowired
 	DataSource dataSource;
 
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+	    return new BCryptPasswordEncoder();
+	}
+
 	@Override
 	public void configure(AuthenticationManagerBuilder builder) throws Exception {
-		PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
-		String encPwd = encoder.encode("password");
+		//PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+		//String encPwd = encoder.encode("pass");
 		builder
-			.jdbcAuthentication().dataSource(dataSource).withDefaultSchema()
+			.jdbcAuthentication().dataSource(dataSource);
+			/* .withDefaultSchema()
 			.withUser("izzet").password(encPwd).roles("USER").and()
 			.withUser("elif").password(encPwd).roles("USER").and()
 			.withUser("admin").password(encPwd).roles("ADMIN");
+			*/
 	}
 
 	
@@ -78,23 +83,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	}
 
-	@Bean
-	@Override
-	public UserDetailsService userDetailsService() {
-		//UserDetails user = User.withDefaultPasswordEncoder()
-		
-		//FIXME This seems to have no impact when this#configure(AuthenticationManagerBuilder builder)  
-		// is configured above. This maybe unnecessary. 
-		PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
-		String encPwd = encoder.encode("password");
-
-		UserDetails admin1 = User.withUsername("admin").password(encPwd).roles("ADMIN").build();
-
-		UserDetails user1 = User.withUsername("izzet").password(encPwd).roles("USER").build();
-
-		UserDetails user2 = User.withUsername("elif").password(encPwd).roles("USER").build();
-		
-		return new InMemoryUserDetailsManager(admin1, user1, user2);
-	}
+//	@Bean
+//	@Override
+//	public UserDetailsService userDetailsService() {
+//		//UserDetails user = User.withDefaultPasswordEncoder()
+//		
+//		//FIXME This seems to have no impact when this#configure(AuthenticationManagerBuilder builder)  
+//		// is configured above. This maybe unnecessary. 
+//		//PasswordEncoder encoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
+//		//String encPwd = encoder.encode("password");
+//
+//		//UserDetails admin1 = User.withUsername("admin").password(encPwd).roles("ADMIN").build();
+//		//UserDetails user1 = User.withUsername("izzet").password(encPwd).roles("USER").build();
+//		//UserDetails user2 = User.withUsername("elif").password(encPwd).roles("USER").build();
+//		//return new InMemoryUserDetailsManager(admin1, user1, user2);
+//		return new JdbcUserDetailsManager(dataSource);
+//	}
 
 }

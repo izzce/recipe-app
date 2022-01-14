@@ -67,11 +67,8 @@ public class RecipeCommandToRecipeTest {
         notes.setId(NOTES_ID);
         recipeCommand.getNotes().add(notes);
 
-        CategoryCommand category = new CategoryCommand();
-        category.setId(CAT_ID_1);
-
-        CategoryCommand category2 = new CategoryCommand();
-        category2.setId(CAT_ID2);
+        CategoryCommand category = new CategoryCommand(CAT_ID_1, "Italian");
+        CategoryCommand category2 = new CategoryCommand(CAT_ID2, "Turkish");
 
         recipeCommand.getCategories().add(category);
         recipeCommand.getCategories().add(category2);

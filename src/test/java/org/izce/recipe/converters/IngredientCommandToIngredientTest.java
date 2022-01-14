@@ -20,6 +20,7 @@ public class IngredientCommandToIngredientTest {
 	public static final String DESCRIPTION = "Cheeseburger";
 	public static final Long ID_VALUE = 1L;
 	public static final Long UOM_ID = 2L;
+	public static final String UOM_NAME = "Pinch";
 
 	IngredientCommandToIngredient converter;
 
@@ -45,8 +46,7 @@ public class IngredientCommandToIngredientTest {
 		command.setId(ID_VALUE);
 		command.setAmount(AMOUNT);
 		command.setDescription(DESCRIPTION);
-		UnitOfMeasureCommand unitOfMeasureCommand = new UnitOfMeasureCommand();
-		unitOfMeasureCommand.setId(UOM_ID);
+		UnitOfMeasureCommand unitOfMeasureCommand = new UnitOfMeasureCommand(UOM_ID, UOM_NAME);
 		command.setUom(unitOfMeasureCommand);
 
 		// when

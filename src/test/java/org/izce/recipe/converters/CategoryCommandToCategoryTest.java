@@ -27,7 +27,7 @@ public class CategoryCommandToCategoryTest {
 
     @Test
     public void testEmptyObject() throws Exception {
-        assertNotNull(converter.convert(new CategoryCommand()));
+        assertNotNull(converter.convert(new CategoryCommand("Turkish")));
     }
 
     @Test

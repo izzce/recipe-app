@@ -11,6 +11,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.izce.recipe.model.Recipe;
 import org.izce.recipe.service.RecipeService;
@@ -60,12 +61,10 @@ public class IndexControllerTest {
 		verify(model, times(1)).addAttribute(eq("recipes"), argumentCaptor.capture());
 		
 		Iterable<Recipe> recipesFromController = argumentCaptor.getValue();
-		int recipeCount = 0;
-		for(Recipe r : recipesFromController) {
-			recipeCount++;
-		}
+		AtomicInteger recipeCount = new AtomicInteger();
+		recipesFromController.forEach(e -> recipeCount.incrementAndGet());
 		
-		assertEquals(2, recipeCount);
+		assertEquals(2, recipeCount.get());
 	}
 	
 	@Test
